@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dona Rita Produção</title>
+    <style>
+        :root {
+            --bg: #06060c;
+            --bg-card: rgba(18, 18, 30, 0.75);
+            --bg-card2: rgba(22, 22, 38, 0.7);
+            --gold: #c89b5e;
+            --gold-light: #e0c28f;
+            --gold-dark: #8b6914;
+            --purple: #7c3aed;
+            --purple-light: #a78bfa;
+            --purple-dark: #4c1d95;
+            --green: #10b981;
+            --green-glow: rgba(16, 185, 129, 0.5);
+            --red: #ef4444;
+            --red-glow: rgba(239, 68, 68, 0.5);
+            --blue: #3b82f6;
+            --blue-glow: rgba(59, 130, 246, 0.5);
+            --text: #e2e2e8;
+            --text-muted: #9ca3af;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-gold: rgba(200, 155, 94, 0.3);
+            --shadow-gold: 0 0 30px rgba(200, 155, 94, 0.15);
+            --shadow-purple: 0 0 30px rgba(124, 58, 237, 0.2);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: 0.01em;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(ellipse at 20% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(200, 155, 94, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 10% 85%, rgba(239, 68, 68, 0.03) 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 10%, rgba(16, 185, 129, 0.04) 0%, transparent 40%);
+            animation: bgPulse 12s ease-in-out infinite;
+        }
+        @keyframes bgPulse {
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+            25% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+            75% {
+                opacity: 0.9;
+            }
+        }
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.7;
+            }
+            30% {
+                opacity: 0.4;
+            }
+            70% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.8);
+                opacity: 0;
+            }
+        }
+
+        /* ============ TELA DE LOGIN ============ */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(6, 6, 12, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .login-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .login-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius);
+            padding: 36px 32px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), var(--shadow-gold);
+            text-align: center;
+            animation: fadeSlideIn 0.5s ease-out;
+        }
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .login-box .login-icon {
+            font-size: 52px;
+            display: block;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 20px rgba(200, 155, 94, 0.6));
+            animation: crownBounce 2s ease-in-out infinite;
+        }
+        @keyframes crownBounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        .login-box h2 {
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #e0c28f;
+            letter-spacing: 0.03em;
+        }
+        .login-box .login-subtitle {
+            font-size: 0.78em;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .login-box label {
+            display: block;
+            text-align: left;
+            font-size: 0.75em;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            margin-top: 14px;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(10, 10, 20, 0.7);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: var(--transition);
+            letter-spacing: 0.02em;
+            outline: none;
+            text-align: center;
+        }
+        .login-box input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(200, 155, 94, 0.2);
+            background: rgba(14, 14, 28, 0.85);
+        }
+        .login-box input::placeholder {
+            color: #555;
+        }
+        .login-box .btn-login {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border-radius: 50px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9em;
+            transition: var(--transition);
+            font-family: inherit;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #c89b5e, #a0783c);
+            color: #1a1a10;
+            box-shadow: 0 4px 20px rgba(200, 155, 94, 0.3);
+        }
+        .login-box .btn-login:hover {
+            box-shadow: 0 6px 30px rgba(200, 155, 94, 0.5);
+            transform: translateY(-2px);
+        }
+        .login-error {
+            color: #f87171;
+            font-size: 0.8em;
+            margin-top: 8px;
+            min-height: 18px;
+            letter-spacing: 0.03em;
+            transition: all 0.3s;
+        }
+
+        /* ============ CONTAINER PRINCIPAL ============ */
+        .app-container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 24px 40px;
+        }
+        .header {
+            text-align: center;
+            padding: 30px 20px 20px;
+            position: relative;
+        }
+        .header .logo-icon {
+            font-size: 56px;
+            display: block;
+            margin-bottom: 6px;
+            animation: crownBounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(200, 155, 94, 0.5));
+        }
+        .header h1 {
+            font-size: 2.6em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e0c28f 0%, #c89b5e 30%, #f0d9a8 50%, #c89b5e 70%, #a0783c 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.03em;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
+        .header .subtitle {
+            font-size: 1em;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+        .header .divider {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 14px auto 0;
+            border-radius: 1px;
+        }
+        .header .user-info-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        .header .user-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(200, 155, 94, 0.12);
+            border: 1px solid var(--border-gold);
+            border-radius: 30px;
+            padding: 6px 14px;
+            font-size: 0.78em;
+            letter-spacing: 0.03em;
+            color: #e0c28f;
+        }
+        .header .btn-logout {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #f87171;
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.72em;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .header .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: #ef4444;
+            box-shadow: 0 0 15px var(--red-glow);
+        }
+
+        /* Navegação por abas */
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            margin: 20px 0 28px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+        .tab-btn {
+            padding: 13px 28px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            white-space: nowrap;
+        }
+        .tab-btn:hover {
+            border-color: var(--border-gold);
+            color: var(--text);
+            box-shadow: var(--shadow-gold);
+            transform: translateY(-2px);
+        }
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(200, 155, 94, 0.2), rgba(124, 58, 237, 0.15));
+            border-color: var(--gold);
+            color: #fff;
+            box-shadow: 0 0 25px rgba(200, 155, 94, 0.3), 0 0 50px rgba(124, 58, 237, 0.15);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            left: 20%;
+            width: 60%;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 1px;
+        }
+        .tab-icon {
+            margin-right: 6px;
+            font-size: 1.1em;
+        }
+
+        /* Painéis de abas */
+        .tab-panel {
+            display: none;
+            animation: fadeSlideIn 0.4s ease-out;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Grid */
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 900px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            border-color: var(--border-gold);
+            box-shadow: var(--shadow-gold);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+        .card-header {
+            font-weight: 700;
+            font-size: 1.1em;
+            letter-spacing: 0.04em;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            flex-wrap: wrap;
+        }
+        .card-header .icon {
+            font-size: 1.4em;
+        }
+        .card-gold-border {
+            border-color: var(--border-gold);
+            box-shadow: var(--shadow-gold);
+        }
+        .card-purple-border {
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: var(--shadow-purple);
+        }
+
+        /* Labels e inputs */
+        label {
+            display: block;
+            font-size: 0.82em;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+        input,
+        select {
+            width: 100%;
+            padding: 11px 14px;
+            background: rgba(10, 10, 20, 0.7);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: #fff;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: var(--transition);
+            letter-spacing: 0.02em;
+            outline: none;
+        }
+        input:focus,
+        select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(200, 155, 94, 0.2);
+            background: rgba(14, 14, 28, 0.85);
+        }
+        input::placeholder {
+            color: #555;
+        }
+        select {
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23c89b5e' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        select option {
+            background: #1a1a2e;
+            color: #fff;
+        }
+        input:read-only {
+            opacity: 0.65;
+            cursor: not-allowed;
+            background: rgba(10, 10, 20, 0.4);
+        }
+
+        /* Botões */
+        .btn {
+            padding: 11px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9em;
+            transition: var(--transition);
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #c89b5e, #a0783c);
+            color: #1a1a10;
+            box-shadow: 0 4px 20px rgba(200, 155, 94, 0.3);
+        }
+        .btn-gold:hover {
+            box-shadow: 0 6px 30px rgba(200, 155, 94, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold-light);
+        }
+        .btn-outline:hover {
+            background: rgba(200, 155, 94, 0.1);
+            box-shadow: 0 0 20px rgba(200, 155, 94, 0.2);
+            transform: translateY(-2px);
+        }
+        .btn-purple {
+            background: linear-gradient(135deg, #7c3aed, #5b21b6);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+        .btn-purple:hover {
+            box-shadow: 0 6px 30px rgba(124, 58, 237, 0.5);
+            transform: translateY(-2px);
+        }
+        .btn-sm {
+            padding: 7px 14px;
+            font-size: 0.7em;
+            border-radius: 30px;
+        }
+        .btn-danger-sm {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #f87171;
+            padding: 6px 12px;
+            font-size: 0.7em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.03em;
+            font-family: inherit;
+        }
+        .btn-danger-sm:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            box-shadow: 0 0 15px var(--red-glow);
+        }
+        .btn:disabled,
+        .btn.disabled {
+            opacity: 0.4;
+            pointer-events: none;
+            cursor: not-allowed;
+            filter: grayscale(40%);
+        }
+        .btn-search {
+            background: transparent;
+            border: 1px solid var(--border-gold);
+            color: var(--gold-light);
+            padding: 10px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: var(--transition);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .btn-search:hover {
+            background: rgba(200, 155, 94, 0.1);
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(200, 155, 94, 0.2);
+        }
+
+        /* Filtro por cliente (botões) */
+        .cliente-filter-btns {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .cliente-filter-btn {
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.78em;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            transition: var(--transition);
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .cliente-filter-btn:hover {
+            border-color: var(--border-gold);
+            color: #fff;
+        }
+        .cliente-filter-btn.active {
+            background: rgba(200, 155, 94, 0.15);
+            border-color: var(--gold);
+            color: var(--gold-light);
+            box-shadow: 0 0 12px rgba(200, 155, 94, 0.2);
+        }
+
+        /* Tabelas */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88em;
+            min-width: 400px;
+        }
+        table th,
+        table td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            white-space: nowrap;
+        }
+        table th {
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-size: 0.75em;
+            color: var(--gold-light);
+            position: sticky;
+            top: 0;
+        }
+        table tbody tr {
+            transition: var(--transition);
+        }
+        table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .badge-green {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .badge-red {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .badge-gold {
+            background: rgba(200, 155, 94, 0.2);
+            color: #e0c28f;
+            border: 1px solid rgba(200, 155, 94, 0.4);
+        }
+
+        /* Filtro / Busca */
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-row input {
+            flex: 1;
+            min-width: 140px;
+        }
+        .filter-row .btn-search {
+            flex-shrink: 0;
+        }
+        .filter-row-compare {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .filter-row-compare input {
+            max-width: 300px;
+            min-width: 180px;
+        }
+
+        /* Máquinas */
+        .live-indicators {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 700px) {
+            .live-indicators {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .live-card {
+            background: var(--bg-card2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .live-card.max {
+            border-color: rgba(239, 68, 68, 0.4);
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .live-card.med {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 20px var(--blue-glow);
+        }
+        .live-card.min {
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+        .live-card .live-label {
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .live-card .live-value {
+            font-size: 2.4em;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+        .live-card .live-sub {
+            font-size: 0.7em;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .live-card.max .live-value {
+            color: #f87171;
+            text-shadow: 0 0 20px var(--red-glow);
+        }
+        .live-card.med .live-value {
+            color: #60a5fa;
+            text-shadow: 0 0 20px var(--blue-glow);
+        }
+        .live-card.min .live-value {
+            color: #34d399;
+            text-shadow: 0 0 20px var(--green-glow);
+        }
+        .pulse-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        .pulse-dot.red {
+            background: #ef4444;
+            box-shadow: 0 0 8px #ef4444;
+        }
+        .pulse-dot.blue {
+            background: #3b82f6;
+            box-shadow: 0 0 8px #3b82f6;
+        }
+        .pulse-dot.green {
+            background: #10b981;
+            box-shadow: 0 0 8px #10b981;
+        }
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.8);
+                opacity: 0.5;
+            }
+        }
+        .machines-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+        @media (max-width: 1200px) {
+            .machines-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .machines-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .machines-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .machine-card {
+            background: var(--bg-card2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 14px;
+            backdrop-filter: blur(8px);
+            transition: var(--transition);
+            position: relative;
+        }
+        .machine-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+        }
+        .machine-card .machine-number {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            font-size: 0.65em;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.05em;
+        }
+        .machine-card input {
+            font-size: 0.82em;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .machine-card .machine-name-input {
+            font-weight: 700;
+            font-size: 0.9em;
+            text-align: center;
+            letter-spacing: 0.03em;
+        }
+        .machine-card .field-group {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .machine-card .field-group label {
+            font-size: 0.6em;
+            margin: 0;
+            white-space: nowrap;
+            min-width: 30px;
+            text-align: right;
+        }
+        .machine-card .field-group input {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        /* Comparação */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 16px;
+        }
+        @media (max-width: 800px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .comparison-col {
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .comparison-col.riva {
+            border-color: rgba(200, 155, 94, 0.5);
+            box-shadow: 0 0 20px rgba(200, 155, 94, 0.1);
+        }
+        .comparison-col.conc {
+            border-color: rgba(124, 58, 237, 0.5);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.1);
+        }
+        .comparison-col .col-title {
+            padding: 12px 16px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        .comparison-col.riva .col-title {
+            background: rgba(200, 155, 94, 0.15);
+            color: #e0c28f;
+        }
+        .comparison-col.conc .col-title {
+            background: rgba(124, 58, 237, 0.15);
+            color: #a78bfa;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            animation: slideInRight 0.4s ease-out, fadeOutRight 0.3s 2.5s forwards;
+            font-size: 0.85em;
+            backdrop-filter: blur(10px);
+            border: 1px solid;
+        }
+        .toast.success {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.5);
+            color: #34d399;
+        }
+        .toast.warning {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #f87171;
+        }
+        @keyframes slideInRight {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOutRight {
+            to {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            height: 4px;
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-style: italic;
+            letter-spacing: 0.03em;
+        }
+        .row-flex {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+        .row-flex .flex-1 {
+            flex: 1;
+            min-width: 100px;
+        }
+        .mt-3 {
+            margin-top: 12px;
+        }
+        .mt-4 {
+            margin-top: 16px;
+        }
+        .mb-3 {
+            margin-bottom: 12px;
+        }
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-sm {
+            font-size: 0.8em;
+        }
+        .gap-sm {
+            gap: 8px;
+        }
+        .hidden-permanently {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Partículas de fundo -->
+    <div class="particles" id="particlesContainer"></div>
+
+    <!-- Toast container -->
+    <div id="toastContainer"></div>
+
+    <!-- ============ TELA DE LOGIN ============ -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-box">
+            <span class="login-icon">👑</span>
+            <h2>Dona Rita</h2>
+            <p class="login-subtitle">Acesso Restrito</p>
+            <label for="loginUsuario">Usuário</label>
+            <input type="text" id="loginUsuario" placeholder="Digite seu usuário" autocomplete="off" spellcheck="false">
+            <label for="loginSenha">Senha</label>
+            <input type="password" id="loginSenha" placeholder="••••••••" autocomplete="off">
+            <button class="btn-login" onclick="efetuarLogin()">🔐 Entrar</button>
+            <div class="login-error" id="loginError"></div>
+        </div>
+    </div>
+
+    <!-- ============ APP PRINCIPAL ============ -->
+    <div class="app-container" id="appContainer" style="display:none;">
+        <!-- Header -->
+        <header class="header">
+            <span class="logo-icon">👑</span>
+            <h1>Dona Rita Produção</h1>
+            <p class="subtitle">Monitoramento &amp; Comparação de Produtos</p>
+            <div class="divider"></div>
+            <div class="user-info-bar">
+                <span class="user-badge" id="userBadge">👤 Usuário</span>
+                <button class="btn-logout" onclick="efetuarLogout()">🚪 Sair</button>
+            </div>
+        </header>
+
+        <!-- Abas -->
+        <nav class="tab-nav">
+            <button class="tab-btn active" data-tab="tab-produtos">
+                <span class="tab-icon">📦</span> Produtos &amp; Consulta
+            </button>
+            <button class="tab-btn" data-tab="tab-maquinas">
+                <span class="tab-icon">🏭</span> Máquinas Ao Vivo
+            </button>
+        </nav>
+
+        <!-- Painel: Produtos -->
+        <div class="tab-panel active" id="tab-produtos">
+            <div class="grid-2col">
+                <!-- Card de Cadastro (visível apenas para qualidade) -->
+                <div class="card card-gold-border" id="cardCadastro">
+                    <div class="card-header">
+                        <span class="icon">📝</span> Cadastrar Produto
+                    </div>
+                    <div class="row-flex mb-3">
+                        <div class="flex-1">
+                            <label>Cliente</label>
+                            <select id="clienteSelect">
+                                <option value="rita">👑 Dona Rita</option>
+                                <option value="concorrente">🏢 Concorrente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row-flex mb-3">
+                        <div class="flex-1">
+                            <label>Nome do Produto</label>
+                            <input type="text" id="nomeProduto" placeholder="Ex: Farinha de Trigo">
+                        </div>
+                    </div>
+                    <div class="row-flex gap-sm mb-3">
+                        <div class="flex-1">
+                            <label>Peso Mínimo (g)</label>
+                            <input type="number" id="pesoMin" placeholder="Mín" step="0.01" min="0">
+                        </div>
+                        <div class="flex-1">
+                            <label>Peso Médio (g)</label>
+                            <input type="number" id="pesoMed" placeholder="Médio" step="0.01" min="0">
+                        </div>
+                        <div class="flex-1">
+                            <label>Peso Máximo (g)</label>
+                            <input type="number" id="pesoMax" placeholder="Máx" step="0.01" min="0">
+                        </div>
+                    </div>
+                    <button class="btn btn-gold" id="btnAdicionarProduto" onclick="adicionarProduto()" style="width:100%;">
+                        ✨ Adicionar Produto
+                    </button>
+                </div>
+
+                <!-- Card de Visualização por Cliente (com filtros independentes) -->
+                <div class="card card-purple-border" id="cardListaCliente">
+                    <div class="card-header">
+                        <span class="icon">📋</span> Consulta de Produtos
+                    </div>
+                    <!-- Botões de filtro por cliente -->
+                    <div class="cliente-filter-btns">
+                        <button class="cliente-filter-btn active" data-cliente="rita" id="btnFiltroRita">
+                            👑 Dona Rita
+                        </button>
+                        <button class="cliente-filter-btn" data-cliente="concorrente" id="btnFiltroConc">
+                            🏢 Concorrente
+                        </button>
+                    </div>
+                    <!-- Filtro de busca por nome -->
+                    <div class="filter-row">
+                        <input type="text" id="filtroVisualizacao" placeholder="🔍 Filtrar por nome do produto..."
+                        oninput="aplicarFiltroVisualizacao()">
+                        <button class="btn-search" onclick="aplicarFiltroVisualizacao()" title="Buscar">🔍</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Peso Mín</th>
+                                    <th>Peso Méd</th>
+                                    <th>Peso Máx</th>
+                                    <th id="thAcoes">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaClienteVisualizacao">
+                                <tr><td colspan="5" class="empty-state">Nenhum produto cadastrado</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão de Comparação -->
+            <div class="text-center mt-4">
+                <button class="btn btn-purple" onclick="compararClientes()" style="font-size:0.9em; padding:14px 36px;">
+                    🔍 Comparar Dona Rita × Concorrente
+                </button>
+            </div>
+
+            <!-- Área de Comparação -->
+            <div class="filter-row-compare mt-4" id="filtroComparacaoRow" style="display:none;">
+                <input type="text" id="filtroComparacao" placeholder="🔍 Filtrar produtos na comparação..."
+                oninput="aplicarFiltroComparacao()">
+                <button class="btn-search" onclick="aplicarFiltroComparacao()" title="Buscar">🔍</button>
+            </div>
+            <div class="comparison-container mt-2" id="comparisonArea" style="display:none;">
+                <div class="comparison-col riva">
+                    <div class="col-title">👑 Dona Rita</div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Produto</th><th>Mín</th><th>Méd</th><th>Máx</th></tr></thead>
+                            <tbody id="tabelaComparacaoRita"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="comparison-col conc">
+                    <div class="col-title">🏢 Concorrente</div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Produto</th><th>Mín</th><th>Méd</th><th>Máx</th></tr></thead>
+                            <tbody id="tabelaComparacaoConc"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-3" id="resumoComparacao" style="display:none;"></div>
+        </div>
+
+        <!-- Painel: Máquinas Ao Vivo -->
+        <div class="tab-panel" id="tab-maquinas">
+            <div class="live-indicators" id="liveIndicatorsVel">
+                <div class="live-card max">
+                    <div class="live-label"><span class="pulse-dot red"></span> Velocidade Máxima</div>
+                    <div class="live-value" id="liveVelMax">0</div>
+                    <div class="live-sub">unidades/min</div>
+                </div>
+                <div class="live-card med">
+                    <div class="live-label"><span class="pulse-dot blue"></span> Velocidade Média</div>
+                    <div class="live-value" id="liveVelMed">0</div>
+                    <div class="live-sub">unidades/min</div>
+                </div>
+                <div class="live-card min">
+                    <div class="live-label"><span class="pulse-dot green"></span> Velocidade Mínima</div>
+                    <div class="live-value" id="liveVelMin">0</div>
+                    <div class="live-sub">unidades/min</div>
+                </div>
+            </div>
+            <div class="live-indicators" id="liveIndicatorsPes" style="margin-bottom:20px;">
+                <div class="live-card max">
+                    <div class="live-label"><span class="pulse-dot red"></span> Pessoas (Máx)</div>
+                    <div class="live-value" id="livePesMax">0</div>
+                    <div class="live-sub">operadores</div>
+                </div>
+                <div class="live-card med">
+                    <div class="live-label"><span class="pulse-dot blue"></span> Pessoas (Média)</div>
+                    <div class="live-value" id="livePesMed">0</div>
+                    <div class="live-sub">operadores</div>
+                </div>
+                <div class="live-card min">
+                    <div class="live-label"><span class="pulse-dot green"></span> Pessoas (Mín)</div>
+                    <div class="live-value" id="livePesMin">0</div>
+                    <div class="live-sub">operadores</div>
+                </div>
+            </div>
+            <div class="machines-grid" id="machinesGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ============ SISTEMA DE AUTENTICAÇÃO ============
+            const USUARIOS = {
+                'qualidade': { senha: 'rita2024', role: 'qualidade', nome: 'Qualidade' },
+                'consulta': { senha: 'consulta2024', role: 'consulta', nome: 'Consulta' }
+            };
+
+            let usuarioLogado = null; // { username, role, nome }
+
+            // ============ DADOS ============
+            let produtosRita = [];
+            let produtosConcorrente = [];
+            let maquinas = [];
+            const nomesPadraoMaquinas = [
+                'Máquina Alpha', 'Máquina Beta', 'Máquina Gamma', 'Máquina Delta', 'Máquina Épsilon',
+                'Máquina Zeta', 'Máquina Eta', 'Máquina Teta', 'Máquina Iota', 'Máquina Kappa'
+            ];
+
+            // Cliente selecionado na visualização (independente do cadastro)
+            let clienteVisualizacao = 'rita';
+
+            function inicializarMaquinas() {
+                maquinas = [];
+                for (let i = 0; i < 10; i++) {
+                    maquinas.push({
+                        nome: nomesPadraoMaquinas[i],
+                        velocidade: Math.floor(Math.random() * 80) + 20,
+                        pessoas: Math.floor(Math.random() * 5) + 1
+                    });
+                }
+            }
+
+            // ============ ELEMENTOS DOM ============
+            const loginOverlay = document.getElementById('loginOverlay');
+            const loginUsuarioInput = document.getElementById('loginUsuario');
+            const loginSenhaInput = document.getElementById('loginSenha');
+            const loginError = document.getElementById('loginError');
+            const appContainer = document.getElementById('appContainer');
+            const userBadge = document.getElementById('userBadge');
+            const cardCadastro = document.getElementById('cardCadastro');
+            const thAcoes = document.getElementById('thAcoes');
+            const btnAdicionarProduto = document.getElementById('btnAdicionarProduto');
+            const clienteSelect = document.getElementById('clienteSelect');
+            const nomeProdutoInput = document.getElementById('nomeProduto');
+            const pesoMinInput = document.getElementById('pesoMin');
+            const pesoMedInput = document.getElementById('pesoMed');
+            const pesoMaxInput = document.getElementById('pesoMax');
+            const tabelaClienteVisualizacao = document.getElementById('tabelaClienteVisualizacao');
+            const filtroVisualizacaoInput = document.getElementById('filtroVisualizacao');
+            const comparisonArea = document.getElementById('comparisonArea');
+            const filtroComparacaoRow = document.getElementById('filtroComparacaoRow');
+            const filtroComparacaoInput = document.getElementById('filtroComparacao');
+            const tabelaComparacaoRita = document.getElementById('tabelaComparacaoRita');
+            const tabelaComparacaoConc = document.getElementById('tabelaComparacaoConc');
+            const resumoComparacao = document.getElementById('resumoComparacao');
+            const machinesGrid = document.getElementById('machinesGrid');
+            const toastContainer = document.getElementById('toastContainer');
+            const particlesContainer = document.getElementById('particlesContainer');
+            const btnFiltroRita = document.getElementById('btnFiltroRita');
+            const btnFiltroConc = document.getElementById('btnFiltroConc');
+
+            // ============ PARTÍCULAS ============
+            function criarParticulas() {
+                const cores = ['#c89b5e', '#7c3aed', '#3b82f6', '#10b981', '#ef4444', '#e0c28f', '#a78bfa',
+                    '#f9a8d4'
+                ];
+                for (let i = 0; i < 35; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    const size = Math.random() * 4 + 1.5;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.backgroundColor = cores[Math.floor(Math.random() * cores.length)];
+                    particle.style.animationDuration = (Math.random() * 18 + 10) + 's';
+                    particle.style.animationDelay = (Math.random() * 15) + 's';
+                    particle.style.boxShadow = `0 0 ${size*3}px ${particle.style.backgroundColor}`;
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            criarParticulas();
+
+            // ============ TOAST ============
+            function showToast(msg, type = 'success') {
+                const toast = document.createElement('div');
+                toast.classList.add('toast', type);
+                toast.textContent = msg;
+                toastContainer.appendChild(toast);
+                setTimeout(() => {
+                    if (toast.parentNode) toast.parentNode.removeChild(toast);
+                }, 3000);
+            }
+
+            // ============ PERSISTÊNCIA (LocalStorage) ============
+            function salvarDados() {
+                localStorage.setItem('donaRita_produtosRita', JSON.stringify(produtosRita));
+                localStorage.setItem('donaRita_produtosConc', JSON.stringify(produtosConcorrente));
+                localStorage.setItem('donaRita_maquinas', JSON.stringify(maquinas));
+            }
+
+            function carregarDados() {
+                const r = localStorage.getItem('donaRita_produtosRita');
+                const c = localStorage.getItem('donaRita_produtosConc');
+                const m = localStorage.getItem('donaRita_maquinas');
+                if (r) try { produtosRita = JSON.parse(r); } catch (e) {}
+                if (c) try { produtosConcorrente = JSON.parse(c); } catch (e) {}
+                if (m) {
+                    try { maquinas = JSON.parse(m); } catch (e) {}
+                }
+                if (!maquinas || maquinas.length !== 10) {
+                    inicializarMaquinas();
+                    salvarDados();
+                }
+            }
+            carregarDados();
+
+            // ============ VERIFICAÇÃO DE PERMISSÃO ============
+            function isQualidade() {
+                return usuarioLogado && usuarioLogado.role === 'qualidade';
+            }
+
+            function atualizarUIComPermissoes() {
+                if (isQualidade()) {
+                    cardCadastro.style.display = '';
+                    thAcoes.style.display = '';
+                    btnAdicionarProduto.style.display = '';
+                } else {
+                    cardCadastro.style.display = 'none';
+                    thAcoes.style.display = 'none';
+                    btnAdicionarProduto.style.display = 'none';
+                }
+                atualizarTabelaVisualizacao();
+                renderizarMaquinas();
+            }
+
+            // ============ LOGIN / LOGOUT ============
+            window.efetuarLogin = function() {
+                const username = loginUsuarioInput.value.trim().toLowerCase();
+                const senha = loginSenhaInput.value;
+
+                if (!username || !senha) {
+                    loginError.textContent = '⚠️ Preencha usuário e senha.';
+                    return;
+                }
+
+                const userData = USUARIOS[username];
+                if (!userData || userData.senha !== senha) {
+                    loginError.textContent = '❌ Usuário ou senha inválidos.';
+                    loginSenhaInput.value = '';
+                    loginSenhaInput.focus();
+                    return;
+                }
+
+                usuarioLogado = {
+                    username: username,
+                    role: userData.role,
+                    nome: userData.nome
+                };
+                sessionStorage.setItem('donaRita_usuarioLogado', JSON.stringify(usuarioLogado));
+                loginError.textContent = '';
+                loginOverlay.classList.add('hidden');
+                appContainer.style.display = '';
+                userBadge.innerHTML =
+                    `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+                atualizarUIComPermissoes();
+                atualizarTabelaVisualizacao();
+                renderizarMaquinas();
+                atualizarIndicadoresAoVivo();
+                showToast('✅ Bem-vindo(a), ' + usuarioLogado.nome + '!');
+                setTimeout(() => {
+                    if (isQualidade()) {
+                        nomeProdutoInput.focus();
+                    }
+                }, 300);
+            };
+
+            window.efetuarLogout = function() {
+                usuarioLogado = null;
+                sessionStorage.removeItem('donaRita_usuarioLogado');
+                loginOverlay.classList.remove('hidden');
+                appContainer.style.display = 'none';
+                loginUsuarioInput.value = '';
+                loginSenhaInput.value = '';
+                loginError.textContent = '';
+                loginUsuarioInput.focus();
+                comparisonArea.style.display = 'none';
+                filtroComparacaoRow.style.display = 'none';
+                resumoComparacao.style.display = 'none';
+                filtroVisualizacaoInput.value = '';
+                filtroComparacaoInput.value = '';
+                cardCadastro.style.display = '';
+                thAcoes.style.display = '';
+                btnAdicionarProduto.style.display = '';
+                clienteVisualizacao = 'rita';
+                btnFiltroRita.classList.add('active');
+                btnFiltroConc.classList.remove('active');
+                showToast('👋 Sessão encerrada.', 'warning');
+            };
+
+            // Permitir login com Enter
+            loginSenhaInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    window.efetuarLogin();
+                }
+            });
+            loginUsuarioInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    loginSenhaInput.focus();
+                }
+            });
+
+            // Restaurar sessão
+            function restaurarSessao() {
+                const sessao = sessionStorage.getItem('donaRita_usuarioLogado');
+                if (sessao) {
+                    try {
+                        const data = JSON.parse(sessao);
+                        if (data && data.username && USUARIOS[data.username]) {
+                            usuarioLogado = data;
+                            loginOverlay.classList.add('hidden');
+                            appContainer.style.display = '';
+                            userBadge.innerHTML =
+                                `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+                            atualizarUIComPermissoes();
+                            atualizarTabelaVisualizacao();
+                            renderizarMaquinas();
+                            atualizarIndicadoresAoVivo();
+                            return;
+                        }
+                    } catch (e) {}
+                }
+                loginOverlay.classList.remove('hidden');
+                appContainer.style.display = 'none';
+                loginUsuarioInput.focus();
+            }
+            restaurarSessao();
+
+            // ============ FUNÇÕES AUXILIARES ============
+            function escapeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            function normalizar(str) {
+                return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+            }
+
+            // ============ FILTROS DE CLIENTE NA CONSULTA ============
+            btnFiltroRita.addEventListener('click', function() {
+                clienteVisualizacao = 'rita';
+                btnFiltroRita.classList.add('active');
+                btnFiltroConc.classList.remove('active');
+                atualizarTabelaVisualizacao();
+            });
+
+            btnFiltroConc.addEventListener('click', function() {
+                clienteVisualizacao = 'concorrente';
+                btnFiltroConc.classList.add('active');
+                btnFiltroRita.classList.remove('active');
+                atualizarTabelaVisualizacao();
+            });
+
+            // ============ ATUALIZAR TABELA DE VISUALIZAÇÃO ============
+            function atualizarTabelaVisualizacao() {
+                if (!usuarioLogado) return;
+                const lista = clienteVisualizacao === 'rita' ? produtosRita : produtosConcorrente;
+
+                const termo = normalizar(filtroVisualizacaoInput.value || '');
+                let listaFiltrada = lista;
+                if (termo) {
+                    listaFiltrada = lista.filter(p => normalizar(p.nome).includes(termo));
+                }
+
+                const colspan = isQualidade() ? 5 : 4;
+                if (listaFiltrada.length === 0) {
+                    tabelaClienteVisualizacao.innerHTML =
+                        `<tr><td colspan="${colspan}" class="empty-state">${termo ? 'Nenhum produto encontrado para este filtro' : 'Nenhum produto cadastrado'}</td></tr>`;
+                } else {
+                    tabelaClienteVisualizacao.innerHTML = listaFiltrada.map((p) => {
+                        const idxReal = lista.indexOf(p);
+                        let acaoCol = '';
+                        if (isQualidade()) {
+                            acaoCol =
+                                `<td><button class="btn-danger-sm" onclick="removerProduto('${clienteVisualizacao}', ${idxReal})" title="Remover">🗑</button></td>`;
+                        }
+                        return `
+                                <tr>
+                                    <td><strong>${escapeHTML(p.nome)}</strong></td>
+                                    <td>${p.pesoMin.toFixed(2)} g</td>
+                                    <td>${p.pesoMed.toFixed(2)} g</td>
+                                    <td>${p.pesoMax.toFixed(2)} g</td>
+                                    ${acaoCol}
+                                </tr>
+                            `;
+                    }).join('');
+                }
+
+                if (!isQualidade()) {
+                    thAcoes.style.display = 'none';
+                } else {
+                    thAcoes.style.display = '';
+                }
+            }
+
+            window.aplicarFiltroVisualizacao = function() {
+                atualizarTabelaVisualizacao();
+            };
+
+            // ============ ADICIONAR PRODUTO ============
+            window.adicionarProduto = function() {
+                if (!isQualidade()) {
+                    showToast('⛔ Acesso negado. Apenas usuários de qualidade podem adicionar produtos.', 'warning');
+                    return;
+                }
+                const nome = nomeProdutoInput.value.trim();
+                const pesoMin = parseFloat(pesoMinInput.value);
+                const pesoMed = parseFloat(pesoMedInput.value);
+                const pesoMax = parseFloat(pesoMaxInput.value);
+
+                if (!nome) { showToast('⚠️ Informe o nome do produto.', 'warning'); return; }
+                if (isNaN(pesoMin) || isNaN(pesoMed) || isNaN(pesoMax)) {
+                    showToast('⚠️ Preencha todos os pesos corretamente.', 'warning');
+                    return;
+                }
+                if (pesoMin > pesoMed || pesoMed > pesoMax) {
+                    showToast('⚠️ Os pesos devem ser: Mín ≤ Méd ≤ Máx.', 'warning');
+                    return;
+                }
+                if (pesoMin < 0 || pesoMed < 0 || pesoMax < 0) {
+                    showToast('⚠️ Os pesos não podem ser negativos.', 'warning');
+                    return;
+                }
+
+                const produto = {
+                    nome: nome,
+                    pesoMin: pesoMin,
+                    pesoMed: pesoMed,
+                    pesoMax: pesoMax
+                };
+
+                const cliente = clienteSelect.value;
+                if (cliente === 'rita') {
+                    produtosRita.push(produto);
+                } else {
+                    produtosConcorrente.push(produto);
+                }
+
+                salvarDados();
+                atualizarTabelaVisualizacao();
+                nomeProdutoInput.value = '';
+                pesoMinInput.value = '';
+                pesoMedInput.value = '';
+                pesoMaxInput.value = '';
+                nomeProdutoInput.focus();
+                if (comparisonArea.style.display !== 'none') {
+                    window.compararClientes();
+                }
+                showToast('✅ Produto adicionado com sucesso!');
+            };
+
+            // ============ REMOVER PRODUTO ============
+            window.removerProduto = function(cliente, idx) {
+                if (!isQualidade()) {
+                    showToast('⛔ Acesso negado.', 'warning');
+                    return;
+                }
+                if (cliente === 'rita') {
+                    if (idx >= 0 && idx < produtosRita.length) {
+                        produtosRita.splice(idx, 1);
+                    }
+                } else {
+                    if (idx >= 0 && idx < produtosConcorrente.length) {
+                        produtosConcorrente.splice(idx, 1);
+                    }
+                }
+                salvarDados();
+                atualizarTabelaVisualizacao();
+                if (comparisonArea.style.display !== 'none') {
+                    window.compararClientes();
+                }
+                showToast('🗑 Produto removido.');
+            };
+
+            // ============ COMPARAR CLIENTES ============
+            window.compararClientes = function() {
+                if (!usuarioLogado) return;
+                if (produtosRita.length === 0 && produtosConcorrente.length === 0) {
+                    comparisonArea.style.display = 'none';
+                    filtroComparacaoRow.style.display = 'none';
+                    resumoComparacao.style.display = 'none';
+                    showToast('ℹ️ Nenhum produto cadastrado para comparar.', 'warning');
+                    return;
+                }
+
+                comparisonArea.style.display = 'grid';
+                filtroComparacaoRow.style.display = 'flex';
+                resumoComparacao.style.display = 'block';
+                aplicarFiltroComparacao();
+            };
+
+            window.aplicarFiltroComparacao = function() {
+                if (comparisonArea.style.display === 'none') return;
+                const termo = normalizar(filtroComparacaoInput.value || '');
+
+                const filtrar = (lista) => {
+                    if (!termo) return lista;
+                    return lista.filter(p => normalizar(p.nome).includes(termo));
+                };
+
+                const ritaFiltrada = filtrar(produtosRita);
+                const concFiltrada = filtrar(produtosConcorrente);
+
+                if (ritaFiltrada.length === 0) {
+                    tabelaComparacaoRita.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>';
+                } else {
+                    tabelaComparacaoRita.innerHTML = ritaFiltrada.map(p => `
+                            <tr>
+                                <td><strong>${escapeHTML(p.nome)}</strong></td>
+                                <td>${p.pesoMin.toFixed(2)}</td>
+                                <td>${p.pesoMed.toFixed(2)}</td>
+                                <td>${p.pesoMax.toFixed(2)}</td>
+                            </tr>
+                        `).join('');
+                }
+
+                if (concFiltrada.length === 0) {
+                    tabelaComparacaoConc.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>';
+                } else {
+                    tabelaComparacaoConc.innerHTML = concFiltrada.map(p => `
+                            <tr>
+                                <td><strong>${escapeHTML(p.nome)}</strong></td>
+                                <td>${p.pesoMin.toFixed(2)}</td>
+                                <td>${p.pesoMed.toFixed(2)}</td>
+                                <td>${p.pesoMax.toFixed(2)}</td>
+                            </tr>
+                        `).join('');
+                }
+
+                const nomesRita = new Set(produtosRita.map(p => p.nome.toLowerCase()));
+                const nomesConc = new Set(produtosConcorrente.map(p => p.nome.toLowerCase()));
+                const produtosEmComum = [];
+                const apenasRita = [];
+                const apenasConc = [];
+
+                produtosRita.forEach(p => {
+                    if (nomesConc.has(p.nome.toLowerCase())) {
+                        produtosEmComum.push(p.nome);
+                    } else {
+                        apenasRita.push(p.nome);
+                    }
+                });
+                produtosConcorrente.forEach(p => {
+                    if (!nomesRita.has(p.nome.toLowerCase())) {
+                        apenasConc.push(p.nome);
+                    }
+                });
+
+                let batem = 0;
+                let naoBatem = 0;
+                produtosEmComum.forEach(nome => {
+                    const r = produtosRita.find(p => p.nome.toLowerCase() === nome.toLowerCase());
+                    const c = produtosConcorrente.find(p => p.nome.toLowerCase() === nome.toLowerCase());
+                    if (r && c) {
+                        if (r.pesoMin === c.pesoMin && r.pesoMed === c.pesoMed && r.pesoMax === c.pesoMax) {
+                            batem++;
+                        } else {
+                            naoBatem++;
+                        }
+                    }
+                });
+
+                let resumoHTML = '';
+                if (produtosEmComum.length > 0) {
+                    resumoHTML +=
+                        `<span class="badge badge-gold" style="margin:4px;">🔗 ${produtosEmComum.length} produto(s) em comum</span> `;
+                    if (batem > 0)
+                        resumoHTML +=
+                        `<span class="badge badge-green" style="margin:4px;">✅ ${batem} com pesos idênticos</span> `;
+                    if (naoBatem > 0)
+                        resumoHTML +=
+                        `<span class="badge badge-red" style="margin:4px;">⚠️ ${naoBatem} com pesos diferentes</span> `;
+                }
+                if (apenasRita.length > 0)
+                    resumoHTML +=
+                    `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">👑 Só Dona Rita: ${apenasRita.join(', ')}</span> `;
+                if (apenasConc.length > 0)
+                    resumoHTML +=
+                    `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">🏢 Só Concorrente: ${apenasConc.join(', ')}</span> `;
+                if (produtosEmComum.length === 0 && apenasRita.length === 0 && apenasConc.length === 0)
+                    resumoHTML = '<span style="color:var(--text-muted);">Nenhum dado para comparar.</span>';
+
+                resumoComparacao.innerHTML = resumoHTML;
+            };
+
+            // ============ MÁQUINAS ============
+            function renderizarMaquinas() {
+                if (!usuarioLogado) return;
+                const readonlyAttr = isQualidade() ? '' : 'readonly';
+                machinesGrid.innerHTML = maquinas.map((m, i) => `
+                        <div class="machine-card">
+                            <span class="machine-number">#${i + 1}</span>
+                            <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
+                                   onchange="atualizarMaquina(${i}, 'nome', this.value)"
+                                   placeholder="Nome da máquina" ${readonlyAttr}>
+                            <div class="field-group">
+                                <label>⚡ Vel.</label>
+                                <input type="number" value="${m.velocidade}" min="0" step="0.1"
+                                       oninput="atualizarMaquina(${i}, 'velocidade', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                                       ${readonlyAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>👥 Pessoas</label>
+                                <input type="number" value="${m.pessoas}" min="0" step="1"
+                                       oninput="atualizarMaquina(${i}, 'pessoas', parseInt(this.value) || 0); atualizarIndicadoresAoVivo();"
+                                       ${readonlyAttr}>
+                            </div>
+                        </div>
+                    `).join('');
+            }
+
+            window.atualizarMaquina = function(index, campo, valor) {
+                if (!isQualidade()) {
+                    showToast('⛔ Apenas usuários de qualidade podem editar máquinas.', 'warning');
+                    renderizarMaquinas();
+                    return;
+                }
+                if (campo === 'nome') {
+                    maquinas[index].nome = valor;
+                } else if (campo === 'velocidade') {
+                    maquinas[index].velocidade = Math.max(0, valor);
+                } else if (campo === 'pessoas') {
+                    maquinas[index].pessoas = Math.max(0, Math.floor(valor));
+                }
+                salvarDados();
+                atualizarIndicadoresAoVivo();
+            };
+
+            function atualizarIndicadoresAoVivo() {
+                const velocidades = maquinas.map(m => m.velocidade).filter(v => !isNaN(v));
+                const pessoasArr = maquinas.map(m => m.pessoas).filter(p => !isNaN(p));
+
+                if (velocidades.length > 0) {
+                    document.getElementById('liveVelMax').textContent = Math.max(...velocidades).toFixed(1);
+                    document.getElementById('liveVelMed').textContent = (velocidades.reduce((a, b) => a + b, 0) /
+                        velocidades.length).toFixed(1);
+                    document.getElementById('liveVelMin').textContent = Math.min(...velocidades).toFixed(1);
+                } else {
+                    document.getElementById('liveVelMax').textContent = '0';
+                    document.getElementById('liveVelMed').textContent = '0';
+                    document.getElementById('liveVelMin').textContent = '0';
+                }
+                if (pessoasArr.length > 0) {
+                    document.getElementById('livePesMax').textContent = Math.max(...pessoasArr);
+                    document.getElementById('livePesMed').textContent = Math.round(pessoasArr.reduce((a, b) => a + b,
+                        0) / pessoasArr.length);
+                    document.getElementById('livePesMin').textContent = Math.min(...pessoasArr);
+                } else {
+                    document.getElementById('livePesMax').textContent = '0';
+                    document.getElementById('livePesMed').textContent = '0';
+                    document.getElementById('livePesMin').textContent = '0';
+                }
+            }
+
+            // ============ NAVEGAÇÃO POR ABAS ============
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-tab');
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    tabPanels.forEach(panel => panel.classList.remove('active'));
+                    const targetPanel = document.getElementById(targetId);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                        if (targetId === 'tab-maquinas') {
+                            atualizarIndicadoresAoVivo();
+                        }
+                    }
+                });
+            });
+
+            // ============ INICIALIZAÇÃO (após login) ============
+            if (usuarioLogado) {
+                atualizarUIComPermissoes();
+                atualizarTabelaVisualizacao();
+                renderizarMaquinas();
+                atualizarIndicadoresAoVivo();
+            }
+
+            // Atualizar indicadores periodicamente
+            setInterval(() => {
+                if (usuarioLogado && document.getElementById('tab-maquinas').classList.contains('active')) {
+                    atualizarIndicadoresAoVivo();
+                }
+            }, 3000);
+
+            // Expor funções globais necessárias
+            window.atualizarIndicadoresAoVivo = atualizarIndicadoresAoVivo;
+            window.aplicarFiltroVisualizacao = window.aplicarFiltroVisualizacao;
+            window.aplicarFiltroComparacao = window.aplicarFiltroComparacao;
+            window.efetuarLogin = window.efetuarLogin;
+            window.efetuarLogout = window.efetuarLogout;
+            window.adicionarProduto = window.adicionarProduto;
+            window.removerProduto = window.removerProduto;
+            window.compararClientes = window.compararClientes;
+            window.atualizarMaquina = window.atualizarMaquina;
+
+            console.log('👑 Dona Rita Produção - Sistema iniciado!');
+            console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
+        })();
+    </script>
+</body>
+</html>
