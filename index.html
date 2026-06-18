@@ -21,6 +21,8 @@
             --red-glow: rgba(239, 68, 68, 0.5);
             --blue: #3b82f6;
             --blue-glow: rgba(59, 130, 246, 0.5);
+            --orange: #f59e0b;
+            --orange-glow: rgba(245, 158, 11, 0.5);
             --text: #e2e2e8;
             --text-muted: #9ca3af;
             --border: rgba(255, 255, 255, 0.08);
@@ -1219,7 +1221,7 @@
                     <div class="live-sub">unidades/min</div>
                 </div>
             </div>
-            <div class="live-indicators" id="liveIndicatorsPes" style="margin-bottom:20px;">
+            <div class="live-indicators" id="liveIndicatorsPes">
                 <div class="live-card max">
                     <div class="live-label"><span class="pulse-dot red"></span> Pessoas (Máx)</div>
                     <div class="live-value" id="livePesMax">0</div>
@@ -1234,6 +1236,23 @@
                     <div class="live-label"><span class="pulse-dot green"></span> Pessoas (Mín)</div>
                     <div class="live-value" id="livePesMin">0</div>
                     <div class="live-sub">operadores</div>
+                </div>
+            </div>
+            <div class="live-indicators" id="liveIndicatorsWeight">
+                <div class="live-card max">
+                    <div class="live-label"><span class="pulse-dot red"></span> Peso Máximo</div>
+                    <div class="live-value" id="liveWeightMax">0</div>
+                    <div class="live-sub">gramas</div>
+                </div>
+                <div class="live-card med">
+                    <div class="live-label"><span class="pulse-dot blue"></span> Peso Médio</div>
+                    <div class="live-value" id="liveWeightMed">0</div>
+                    <div class="live-sub">gramas</div>
+                </div>
+                <div class="live-card min">
+                    <div class="live-label"><span class="pulse-dot green"></span> Peso Mínimo</div>
+                    <div class="live-value" id="liveWeightMin">0</div>
+                    <div class="live-sub">gramas</div>
                 </div>
             </div>
             <div class="machines-grid" id="machinesGrid"></div>
@@ -1265,10 +1284,17 @@
             function inicializarMaquinas() {
                 maquinas = [];
                 for (let i = 0; i < 10; i++) {
+                    const pesoBase = Math.floor(Math.random() * 800) + 200; // 200-1000g
+                    const pesoMin = pesoBase - Math.floor(Math.random() * 50);
+                    const pesoMed = pesoBase;
+                    const pesoMax = pesoBase + Math.floor(Math.random() * 50);
                     maquinas.push({
                         nome: nomesPadraoMaquinas[i],
                         velocidade: Math.floor(Math.random() * 80) + 20,
-                        pessoas: Math.floor(Math.random() * 5) + 1
+                        pessoas: Math.floor(Math.random() * 5) + 1,
+                        pesoMin: pesoMin,
+                        pesoMed: pesoMed,
+                        pesoMax: pesoMax
                     });
                 }
             }
@@ -1341,6 +1367,22 @@
                 localStorage.setItem('donaRita_maquinas', JSON.stringify(maquinas));
             }
 
+            function migrarMaquinasAntigas(lista) {
+                // Garante que máquinas antigas (sem pesos) recebam valores padrão
+                for (let i = 0; i < lista.length; i++) {
+                    if (lista[i].pesoMin === undefined || lista[i].pesoMin === null) {
+                        lista[i].pesoMin = 200;
+                    }
+                    if (lista[i].pesoMed === undefined || lista[i].pesoMed === null) {
+                        lista[i].pesoMed = 250;
+                    }
+                    if (lista[i].pesoMax === undefined || lista[i].pesoMax === null) {
+                        lista[i].pesoMax = 300;
+                    }
+                }
+                return lista;
+            }
+
             function carregarDados() {
                 const r = localStorage.getItem('donaRita_produtosRita');
                 const c = localStorage.getItem('donaRita_produtosConc');
@@ -1349,6 +1391,7 @@
                 if (c) try { produtosConcorrente = JSON.parse(c); } catch (e) {}
                 if (m) {
                     try { maquinas = JSON.parse(m); } catch (e) {}
+                    maquinas = migrarMaquinasAntigas(maquinas);
                 }
                 if (!maquinas || maquinas.length !== 10) {
                     inicializarMaquinas();
@@ -1753,9 +1796,27 @@
                                        ${readonlyAttr}>
                             </div>
                             <div class="field-group">
-                                <label>👥 Pessoas</label>
+                                <label>👥 Pes.</label>
                                 <input type="number" value="${m.pessoas}" min="0" step="1"
                                        oninput="atualizarMaquina(${i}, 'pessoas', parseInt(this.value) || 0); atualizarIndicadoresAoVivo();"
+                                       ${readonlyAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>⚖️ Mín</label>
+                                <input type="number" value="${m.pesoMin}" min="0" step="0.01"
+                                       oninput="atualizarMaquina(${i}, 'pesoMin', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                                       ${readonlyAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>⚖️ Méd</label>
+                                <input type="number" value="${m.pesoMed}" min="0" step="0.01"
+                                       oninput="atualizarMaquina(${i}, 'pesoMed', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                                       ${readonlyAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>⚖️ Máx</label>
+                                <input type="number" value="${m.pesoMax}" min="0" step="0.01"
+                                       oninput="atualizarMaquina(${i}, 'pesoMax', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
                                        ${readonlyAttr}>
                             </div>
                         </div>
@@ -1774,6 +1835,12 @@
                     maquinas[index].velocidade = Math.max(0, valor);
                 } else if (campo === 'pessoas') {
                     maquinas[index].pessoas = Math.max(0, Math.floor(valor));
+                } else if (campo === 'pesoMin') {
+                    maquinas[index].pesoMin = Math.max(0, valor);
+                } else if (campo === 'pesoMed') {
+                    maquinas[index].pesoMed = Math.max(0, valor);
+                } else if (campo === 'pesoMax') {
+                    maquinas[index].pesoMax = Math.max(0, valor);
                 }
                 salvarDados();
                 atualizarIndicadoresAoVivo();
@@ -1782,7 +1849,11 @@
             function atualizarIndicadoresAoVivo() {
                 const velocidades = maquinas.map(m => m.velocidade).filter(v => !isNaN(v));
                 const pessoasArr = maquinas.map(m => m.pessoas).filter(p => !isNaN(p));
+                const pesosMinArr = maquinas.map(m => m.pesoMin).filter(p => !isNaN(p));
+                const pesosMedArr = maquinas.map(m => m.pesoMed).filter(p => !isNaN(p));
+                const pesosMaxArr = maquinas.map(m => m.pesoMax).filter(p => !isNaN(p));
 
+                // Velocidade
                 if (velocidades.length > 0) {
                     document.getElementById('liveVelMax').textContent = Math.max(...velocidades).toFixed(1);
                     document.getElementById('liveVelMed').textContent = (velocidades.reduce((a, b) => a + b, 0) /
@@ -1793,6 +1864,7 @@
                     document.getElementById('liveVelMed').textContent = '0';
                     document.getElementById('liveVelMin').textContent = '0';
                 }
+                // Pessoas
                 if (pessoasArr.length > 0) {
                     document.getElementById('livePesMax').textContent = Math.max(...pessoasArr);
                     document.getElementById('livePesMed').textContent = Math.round(pessoasArr.reduce((a, b) => a + b,
@@ -1802,6 +1874,17 @@
                     document.getElementById('livePesMax').textContent = '0';
                     document.getElementById('livePesMed').textContent = '0';
                     document.getElementById('livePesMin').textContent = '0';
+                }
+                // Pesos
+                if (pesosMinArr.length > 0) {
+                    document.getElementById('liveWeightMax').textContent = Math.max(...pesosMinArr).toFixed(2);
+                    document.getElementById('liveWeightMed').textContent = (pesosMedArr.reduce((a, b) => a + b, 0) /
+                        pesosMedArr.length).toFixed(2);
+                    document.getElementById('liveWeightMin').textContent = Math.min(...pesosMaxArr).toFixed(2);
+                } else {
+                    document.getElementById('liveWeightMax').textContent = '0';
+                    document.getElementById('liveWeightMed').textContent = '0';
+                    document.getElementById('liveWeightMin').textContent = '0';
                 }
             }
 
