@@ -1259,380 +1259,513 @@
         </div>
     </div>
 
-    <script>
-        (function() {
-            // ============ SISTEMA DE AUTENTICAÇÃO ============
-            const USUARIOS = {
-                'qualidade': { senha: 'rita2024', role: 'qualidade', nome: 'Qualidade' },
-                'consulta': { senha: 'consulta2024', role: 'consulta', nome: 'Consulta' }
-            };
+    <!-- ============ SCRIPTS ============ -->
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-            let usuarioLogado = null; // { username, role, nome }
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwONgjmSWUPHCXyiJFAMRCJ-GfZrA-UKE",
+            authDomain: "produ-82cd5.firebaseapp.com",
+            projectId: "produ-82cd5",
+            storageBucket: "produ-82cd5.firebasestorage.app",
+            messagingSenderId: "962423584455",
+            appId: "1:962423584455:web:3cbe7796f5375f8cddb0e2",
+            measurementId: "G-SCKVCTGC2J"
+        };
 
-            // ============ DADOS ============
-            let produtosRita = [];
-            let produtosConcorrente = [];
-            let maquinas = [];
-            const nomesPadraoMaquinas = [
-                'Máquina Alpha', 'Máquina Beta', 'Máquina Gamma', 'Máquina Delta', 'Máquina Épsilon',
-                'Máquina Zeta', 'Máquina Eta', 'Máquina Teta', 'Máquina Iota', 'Máquina Kappa'
-            ];
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-            // Cliente selecionado na visualização (independente do cadastro)
-            let clienteVisualizacao = 'rita';
+        // ============ SISTEMA DE AUTENTICAÇÃO ============
+        const USUARIOS = {
+            'qualidade': { senha: 'rita2024', role: 'qualidade', nome: 'Qualidade' },
+            'consulta': { senha: 'consulta2024', role: 'consulta', nome: 'Consulta' }
+        };
 
-            function inicializarMaquinas() {
-                maquinas = [];
-                for (let i = 0; i < 10; i++) {
-                    const pesoBase = Math.floor(Math.random() * 800) + 200; // 200-1000g
-                    const pesoMin = pesoBase - Math.floor(Math.random() * 50);
-                    const pesoMed = pesoBase;
-                    const pesoMax = pesoBase + Math.floor(Math.random() * 50);
-                    maquinas.push({
-                        nome: nomesPadraoMaquinas[i],
-                        velocidade: Math.floor(Math.random() * 80) + 20,
-                        pessoas: Math.floor(Math.random() * 5) + 1,
-                        pesoMin: pesoMin,
-                        pesoMed: pesoMed,
-                        pesoMax: pesoMax
-                    });
-                }
-            }
+        let usuarioLogado = null;
+        let produtosRita = [];
+        let produtosConcorrente = [];
+        let maquinas = [];
+        const nomesPadraoMaquinas = [
+            'Máquina Alpha', 'Máquina Beta', 'Máquina Gamma', 'Máquina Delta', 'Máquina Épsilon',
+            'Máquina Zeta', 'Máquina Eta', 'Máquina Teta', 'Máquina Iota', 'Máquina Kappa'
+        ];
 
-            // ============ ELEMENTOS DOM ============
-            const loginOverlay = document.getElementById('loginOverlay');
-            const loginUsuarioInput = document.getElementById('loginUsuario');
-            const loginSenhaInput = document.getElementById('loginSenha');
-            const loginError = document.getElementById('loginError');
-            const appContainer = document.getElementById('appContainer');
-            const userBadge = document.getElementById('userBadge');
-            const cardCadastro = document.getElementById('cardCadastro');
-            const thAcoes = document.getElementById('thAcoes');
-            const btnAdicionarProduto = document.getElementById('btnAdicionarProduto');
-            const clienteSelect = document.getElementById('clienteSelect');
-            const nomeProdutoInput = document.getElementById('nomeProduto');
-            const pesoMinInput = document.getElementById('pesoMin');
-            const pesoMedInput = document.getElementById('pesoMed');
-            const pesoMaxInput = document.getElementById('pesoMax');
-            const tabelaClienteVisualizacao = document.getElementById('tabelaClienteVisualizacao');
-            const filtroVisualizacaoInput = document.getElementById('filtroVisualizacao');
-            const comparisonArea = document.getElementById('comparisonArea');
-            const filtroComparacaoRow = document.getElementById('filtroComparacaoRow');
-            const filtroComparacaoInput = document.getElementById('filtroComparacao');
-            const tabelaComparacaoRita = document.getElementById('tabelaComparacaoRita');
-            const tabelaComparacaoConc = document.getElementById('tabelaComparacaoConc');
-            const resumoComparacao = document.getElementById('resumoComparacao');
-            const machinesGrid = document.getElementById('machinesGrid');
-            const toastContainer = document.getElementById('toastContainer');
-            const particlesContainer = document.getElementById('particlesContainer');
-            const btnFiltroRita = document.getElementById('btnFiltroRita');
-            const btnFiltroConc = document.getElementById('btnFiltroConc');
+        let clienteVisualizacao = 'rita';
 
-            // ============ PARTÍCULAS ============
-            function criarParticulas() {
-                const cores = ['#c89b5e', '#7c3aed', '#3b82f6', '#10b981', '#ef4444', '#e0c28f', '#a78bfa',
-                    '#f9a8d4'
-                ];
-                for (let i = 0; i < 35; i++) {
-                    const particle = document.createElement('div');
-                    particle.classList.add('particle');
-                    const size = Math.random() * 4 + 1.5;
-                    particle.style.width = size + 'px';
-                    particle.style.height = size + 'px';
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.backgroundColor = cores[Math.floor(Math.random() * cores.length)];
-                    particle.style.animationDuration = (Math.random() * 18 + 10) + 's';
-                    particle.style.animationDelay = (Math.random() * 15) + 's';
-                    particle.style.boxShadow = `0 0 ${size*3}px ${particle.style.backgroundColor}`;
-                    particlesContainer.appendChild(particle);
-                }
-            }
-            criarParticulas();
-
-            // ============ TOAST ============
-            function showToast(msg, type = 'success') {
-                const toast = document.createElement('div');
-                toast.classList.add('toast', type);
-                toast.textContent = msg;
-                toastContainer.appendChild(toast);
-                setTimeout(() => {
-                    if (toast.parentNode) toast.parentNode.removeChild(toast);
-                }, 3000);
-            }
-
-            // ============ PERSISTÊNCIA (LocalStorage) ============
-            function salvarDados() {
-                localStorage.setItem('donaRita_produtosRita', JSON.stringify(produtosRita));
-                localStorage.setItem('donaRita_produtosConc', JSON.stringify(produtosConcorrente));
-                localStorage.setItem('donaRita_maquinas', JSON.stringify(maquinas));
-            }
-
-            function migrarMaquinasAntigas(lista) {
-                // Garante que máquinas antigas (sem pesos) recebam valores padrão
-                for (let i = 0; i < lista.length; i++) {
-                    if (lista[i].pesoMin === undefined || lista[i].pesoMin === null) {
-                        lista[i].pesoMin = 200;
+        // ============ FIREBASE CRUD ============
+        async function carregarProdutosDoFirestore() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "produtos"));
+                produtosRita = [];
+                produtosConcorrente = [];
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const produto = {
+                        id: docSnap.id,
+                        nome: data.nome,
+                        pesoMin: data.pesoMin,
+                        pesoMed: data.pesoMed,
+                        pesoMax: data.pesoMax
+                    };
+                    if (data.cliente === 'rita') {
+                        produtosRita.push(produto);
+                    } else if (data.cliente === 'concorrente') {
+                        produtosConcorrente.push(produto);
                     }
-                    if (lista[i].pesoMed === undefined || lista[i].pesoMed === null) {
-                        lista[i].pesoMed = 250;
-                    }
-                    if (lista[i].pesoMax === undefined || lista[i].pesoMax === null) {
-                        lista[i].pesoMax = 300;
-                    }
-                }
-                return lista;
+                });
+            } catch (e) {
+                console.error("Erro ao carregar produtos:", e);
+                // fallback para localStorage se existir
+                carregarDoLocalStorage();
             }
+        }
 
-            function carregarDados() {
+        function carregarDoLocalStorage() {
+            try {
                 const r = localStorage.getItem('donaRita_produtosRita');
                 const c = localStorage.getItem('donaRita_produtosConc');
-                const m = localStorage.getItem('donaRita_maquinas');
-                if (r) try { produtosRita = JSON.parse(r); } catch (e) {}
-                if (c) try { produtosConcorrente = JSON.parse(c); } catch (e) {}
-                if (m) {
-                    try { maquinas = JSON.parse(m); } catch (e) {}
-                    maquinas = migrarMaquinasAntigas(maquinas);
+                if (r) produtosRita = JSON.parse(r);
+                if (c) produtosConcorrente = JSON.parse(c);
+                // Migrar para Firestore
+                migrarProdutosParaFirestore();
+            } catch (e) {}
+        }
+
+        async function migrarProdutosParaFirestore() {
+            if (produtosRita.length === 0 && produtosConcorrente.length === 0) return;
+            try {
+                for (let p of produtosRita) {
+                    await addDoc(collection(db, "produtos"), {
+                        cliente: 'rita',
+                        nome: p.nome,
+                        pesoMin: p.pesoMin,
+                        pesoMed: p.pesoMed,
+                        pesoMax: p.pesoMax
+                    });
                 }
-                if (!maquinas || maquinas.length !== 10) {
-                    inicializarMaquinas();
-                    salvarDados();
+                for (let p of produtosConcorrente) {
+                    await addDoc(collection(db, "produtos"), {
+                        cliente: 'concorrente',
+                        nome: p.nome,
+                        pesoMin: p.pesoMin,
+                        pesoMed: p.pesoMed,
+                        pesoMax: p.pesoMax
+                    });
                 }
+                localStorage.removeItem('donaRita_produtosRita');
+                localStorage.removeItem('donaRita_produtosConc');
+                // Recarregar do Firestore para obter IDs
+                await carregarProdutosDoFirestore();
+            } catch (e) {
+                console.error("Erro na migração:", e);
             }
-            carregarDados();
+        }
 
-            // ============ VERIFICAÇÃO DE PERMISSÃO ============
-            function isQualidade() {
-                return usuarioLogado && usuarioLogado.role === 'qualidade';
+        async function salvarProdutoNoFirestore(produto, cliente) {
+            try {
+                const docRef = await addDoc(collection(db, "produtos"), {
+                    cliente: cliente,
+                    nome: produto.nome,
+                    pesoMin: produto.pesoMin,
+                    pesoMed: produto.pesoMed,
+                    pesoMax: produto.pesoMax
+                });
+                produto.id = docRef.id;
+            } catch (e) {
+                console.error("Erro ao salvar produto:", e);
+                throw e;
             }
+        }
 
-            function atualizarUIComPermissoes() {
-                if (isQualidade()) {
-                    cardCadastro.style.display = '';
-                    thAcoes.style.display = '';
-                    btnAdicionarProduto.style.display = '';
-                } else {
-                    cardCadastro.style.display = 'none';
-                    thAcoes.style.display = 'none';
-                    btnAdicionarProduto.style.display = 'none';
-                }
-                atualizarTabelaVisualizacao();
-                renderizarMaquinas();
+        async function deletarProdutoDoFirestore(id) {
+            try {
+                await deleteDoc(doc(db, "produtos", id));
+            } catch (e) {
+                console.error("Erro ao deletar produto:", e);
+                throw e;
             }
+        }
 
-            // ============ LOGIN / LOGOUT ============
-            window.efetuarLogin = function() {
-                const username = loginUsuarioInput.value.trim().toLowerCase();
-                const senha = loginSenhaInput.value;
-
-                if (!username || !senha) {
-                    loginError.textContent = '⚠️ Preencha usuário e senha.';
+        // Máquinas
+        async function carregarMaquinasDoFirestore() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "maquinas"));
+                if (querySnapshot.empty) {
+                    // Inicializar com valores padrão e salvar
+                    inicializarMaquinasLocal();
+                    await salvarTodasMaquinasNoFirestore();
                     return;
                 }
-
-                const userData = USUARIOS[username];
-                if (!userData || userData.senha !== senha) {
-                    loginError.textContent = '❌ Usuário ou senha inválidos.';
-                    loginSenhaInput.value = '';
-                    loginSenhaInput.focus();
-                    return;
-                }
-
-                usuarioLogado = {
-                    username: username,
-                    role: userData.role,
-                    nome: userData.nome
-                };
-                sessionStorage.setItem('donaRita_usuarioLogado', JSON.stringify(usuarioLogado));
-                loginError.textContent = '';
-                loginOverlay.classList.add('hidden');
-                appContainer.style.display = '';
-                userBadge.innerHTML =
-                    `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
-                atualizarUIComPermissoes();
-                atualizarTabelaVisualizacao();
-                renderizarMaquinas();
-                atualizarIndicadoresAoVivo();
-                showToast('✅ Bem-vindo(a), ' + usuarioLogado.nome + '!');
-                setTimeout(() => {
-                    if (isQualidade()) {
-                        nomeProdutoInput.focus();
-                    }
-                }, 300);
-            };
-
-            window.efetuarLogout = function() {
-                usuarioLogado = null;
-                sessionStorage.removeItem('donaRita_usuarioLogado');
-                loginOverlay.classList.remove('hidden');
-                appContainer.style.display = 'none';
-                loginUsuarioInput.value = '';
-                loginSenhaInput.value = '';
-                loginError.textContent = '';
-                loginUsuarioInput.focus();
-                comparisonArea.style.display = 'none';
-                filtroComparacaoRow.style.display = 'none';
-                resumoComparacao.style.display = 'none';
-                filtroVisualizacaoInput.value = '';
-                filtroComparacaoInput.value = '';
-                cardCadastro.style.display = '';
-                thAcoes.style.display = '';
-                btnAdicionarProduto.style.display = '';
-                clienteVisualizacao = 'rita';
-                btnFiltroRita.classList.add('active');
-                btnFiltroConc.classList.remove('active');
-                showToast('👋 Sessão encerrada.', 'warning');
-            };
-
-            // Permitir login com Enter
-            loginSenhaInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    window.efetuarLogin();
-                }
-            });
-            loginUsuarioInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    loginSenhaInput.focus();
-                }
-            });
-
-            // Restaurar sessão
-            function restaurarSessao() {
-                const sessao = sessionStorage.getItem('donaRita_usuarioLogado');
-                if (sessao) {
-                    try {
-                        const data = JSON.parse(sessao);
-                        if (data && data.username && USUARIOS[data.username]) {
-                            usuarioLogado = data;
-                            loginOverlay.classList.add('hidden');
-                            appContainer.style.display = '';
-                            userBadge.innerHTML =
-                                `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
-                            atualizarUIComPermissoes();
-                            atualizarTabelaVisualizacao();
-                            renderizarMaquinas();
-                            atualizarIndicadoresAoVivo();
-                            return;
-                        }
-                    } catch (e) {}
-                }
-                loginOverlay.classList.remove('hidden');
-                appContainer.style.display = 'none';
-                loginUsuarioInput.focus();
+                maquinas = [];
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    maquinas.push({
+                        id: docSnap.id,
+                        nome: data.nome,
+                        velocidade: data.velocidade,
+                        pessoas: data.pessoas,
+                        pesoMin: data.pesoMin,
+                        pesoMed: data.pesoMed,
+                        pesoMax: data.pesoMax
+                    });
+                });
+                // Ordenar por ID (maq0, maq1...)
+                maquinas.sort((a, b) => a.id.localeCompare(b.id));
+            } catch (e) {
+                console.error("Erro ao carregar máquinas:", e);
+                inicializarMaquinasLocal();
             }
-            restaurarSessao();
+        }
 
-            // ============ FUNÇÕES AUXILIARES ============
-            function escapeHTML(str) {
-                const div = document.createElement('div');
-                div.textContent = str;
-                return div.innerHTML;
-            }
-
-            function normalizar(str) {
-                return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
-            }
-
-            // ============ FILTROS DE CLIENTE NA CONSULTA ============
-            btnFiltroRita.addEventListener('click', function() {
-                clienteVisualizacao = 'rita';
-                btnFiltroRita.classList.add('active');
-                btnFiltroConc.classList.remove('active');
-                atualizarTabelaVisualizacao();
-            });
-
-            btnFiltroConc.addEventListener('click', function() {
-                clienteVisualizacao = 'concorrente';
-                btnFiltroConc.classList.add('active');
-                btnFiltroRita.classList.remove('active');
-                atualizarTabelaVisualizacao();
-            });
-
-            // ============ ATUALIZAR TABELA DE VISUALIZAÇÃO ============
-            function atualizarTabelaVisualizacao() {
-                if (!usuarioLogado) return;
-                const lista = clienteVisualizacao === 'rita' ? produtosRita : produtosConcorrente;
-
-                const termo = normalizar(filtroVisualizacaoInput.value || '');
-                let listaFiltrada = lista;
-                if (termo) {
-                    listaFiltrada = lista.filter(p => normalizar(p.nome).includes(termo));
-                }
-
-                const colspan = isQualidade() ? 5 : 4;
-                if (listaFiltrada.length === 0) {
-                    tabelaClienteVisualizacao.innerHTML =
-                        `<tr><td colspan="${colspan}" class="empty-state">${termo ? 'Nenhum produto encontrado para este filtro' : 'Nenhum produto cadastrado'}</td></tr>`;
-                } else {
-                    tabelaClienteVisualizacao.innerHTML = listaFiltrada.map((p) => {
-                        const idxReal = lista.indexOf(p);
-                        let acaoCol = '';
-                        if (isQualidade()) {
-                            acaoCol =
-                                `<td><button class="btn-danger-sm" onclick="removerProduto('${clienteVisualizacao}', ${idxReal})" title="Remover">🗑</button></td>`;
-                        }
-                        return `
-                                <tr>
-                                    <td><strong>${escapeHTML(p.nome)}</strong></td>
-                                    <td>${p.pesoMin.toFixed(2)} g</td>
-                                    <td>${p.pesoMed.toFixed(2)} g</td>
-                                    <td>${p.pesoMax.toFixed(2)} g</td>
-                                    ${acaoCol}
-                                </tr>
-                            `;
-                    }).join('');
-                }
-
-                if (!isQualidade()) {
-                    thAcoes.style.display = 'none';
-                } else {
-                    thAcoes.style.display = '';
-                }
-            }
-
-            window.aplicarFiltroVisualizacao = function() {
-                atualizarTabelaVisualizacao();
-            };
-
-            // ============ ADICIONAR PRODUTO ============
-            window.adicionarProduto = function() {
-                if (!isQualidade()) {
-                    showToast('⛔ Acesso negado. Apenas usuários de qualidade podem adicionar produtos.', 'warning');
-                    return;
-                }
-                const nome = nomeProdutoInput.value.trim();
-                const pesoMin = parseFloat(pesoMinInput.value);
-                const pesoMed = parseFloat(pesoMedInput.value);
-                const pesoMax = parseFloat(pesoMaxInput.value);
-
-                if (!nome) { showToast('⚠️ Informe o nome do produto.', 'warning'); return; }
-                if (isNaN(pesoMin) || isNaN(pesoMed) || isNaN(pesoMax)) {
-                    showToast('⚠️ Preencha todos os pesos corretamente.', 'warning');
-                    return;
-                }
-                if (pesoMin > pesoMed || pesoMed > pesoMax) {
-                    showToast('⚠️ Os pesos devem ser: Mín ≤ Méd ≤ Máx.', 'warning');
-                    return;
-                }
-                if (pesoMin < 0 || pesoMed < 0 || pesoMax < 0) {
-                    showToast('⚠️ Os pesos não podem ser negativos.', 'warning');
-                    return;
-                }
-
-                const produto = {
-                    nome: nome,
+        function inicializarMaquinasLocal() {
+            maquinas = [];
+            for (let i = 0; i < 10; i++) {
+                const pesoBase = Math.floor(Math.random() * 800) + 200;
+                const pesoMin = pesoBase - Math.floor(Math.random() * 50);
+                const pesoMed = pesoBase;
+                const pesoMax = pesoBase + Math.floor(Math.random() * 50);
+                maquinas.push({
+                    id: `maq${i}`,
+                    nome: nomesPadraoMaquinas[i],
+                    velocidade: Math.floor(Math.random() * 80) + 20,
+                    pessoas: Math.floor(Math.random() * 5) + 1,
                     pesoMin: pesoMin,
                     pesoMed: pesoMed,
                     pesoMax: pesoMax
-                };
+                });
+            }
+        }
 
-                const cliente = clienteSelect.value;
+        async function salvarTodasMaquinasNoFirestore() {
+            try {
+                for (let m of maquinas) {
+                    await setDoc(doc(db, "maquinas", m.id), {
+                        nome: m.nome,
+                        velocidade: m.velocidade,
+                        pessoas: m.pessoas,
+                        pesoMin: m.pesoMin,
+                        pesoMed: m.pesoMed,
+                        pesoMax: m.pesoMax
+                    }, { merge: true });
+                }
+            } catch (e) {
+                console.error("Erro ao salvar máquinas:", e);
+            }
+        }
+
+        async function atualizarMaquinaNoFirestore(maquina) {
+            try {
+                await setDoc(doc(db, "maquinas", maquina.id), {
+                    nome: maquina.nome,
+                    velocidade: maquina.velocidade,
+                    pessoas: maquina.pessoas,
+                    pesoMin: maquina.pesoMin,
+                    pesoMed: maquina.pesoMed,
+                    pesoMax: maquina.pesoMax
+                }, { merge: true });
+            } catch (e) {
+                console.error("Erro ao atualizar máquina:", e);
+            }
+        }
+
+        // ============ ELEMENTOS DOM ============
+        const loginOverlay = document.getElementById('loginOverlay');
+        const loginUsuarioInput = document.getElementById('loginUsuario');
+        const loginSenhaInput = document.getElementById('loginSenha');
+        const loginError = document.getElementById('loginError');
+        const appContainer = document.getElementById('appContainer');
+        const userBadge = document.getElementById('userBadge');
+        const cardCadastro = document.getElementById('cardCadastro');
+        const thAcoes = document.getElementById('thAcoes');
+        const btnAdicionarProduto = document.getElementById('btnAdicionarProduto');
+        const clienteSelect = document.getElementById('clienteSelect');
+        const nomeProdutoInput = document.getElementById('nomeProduto');
+        const pesoMinInput = document.getElementById('pesoMin');
+        const pesoMedInput = document.getElementById('pesoMed');
+        const pesoMaxInput = document.getElementById('pesoMax');
+        const tabelaClienteVisualizacao = document.getElementById('tabelaClienteVisualizacao');
+        const filtroVisualizacaoInput = document.getElementById('filtroVisualizacao');
+        const comparisonArea = document.getElementById('comparisonArea');
+        const filtroComparacaoRow = document.getElementById('filtroComparacaoRow');
+        const filtroComparacaoInput = document.getElementById('filtroComparacao');
+        const tabelaComparacaoRita = document.getElementById('tabelaComparacaoRita');
+        const tabelaComparacaoConc = document.getElementById('tabelaComparacaoConc');
+        const resumoComparacao = document.getElementById('resumoComparacao');
+        const machinesGrid = document.getElementById('machinesGrid');
+        const toastContainer = document.getElementById('toastContainer');
+        const particlesContainer = document.getElementById('particlesContainer');
+        const btnFiltroRita = document.getElementById('btnFiltroRita');
+        const btnFiltroConc = document.getElementById('btnFiltroConc');
+
+        // ============ PARTÍCULAS ============
+        function criarParticulas() {
+            const cores = ['#c89b5e', '#7c3aed', '#3b82f6', '#10b981', '#ef4444', '#e0c28f', '#a78bfa', '#f9a8d4'];
+            for (let i = 0; i < 35; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 4 + 1.5;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.backgroundColor = cores[Math.floor(Math.random() * cores.length)];
+                particle.style.animationDuration = (Math.random() * 18 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 15) + 's';
+                particle.style.boxShadow = `0 0 ${size*3}px ${particle.style.backgroundColor}`;
+                particlesContainer.appendChild(particle);
+            }
+        }
+        criarParticulas();
+
+        // ============ TOAST ============
+        function showToast(msg, type = 'success') {
+            const toast = document.createElement('div');
+            toast.classList.add('toast', type);
+            toast.textContent = msg;
+            toastContainer.appendChild(toast);
+            setTimeout(() => {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 3000);
+        }
+
+        // ============ VERIFICAÇÃO DE PERMISSÃO ============
+        function isQualidade() {
+            return usuarioLogado && usuarioLogado.role === 'qualidade';
+        }
+
+        function atualizarUIComPermissoes() {
+            if (isQualidade()) {
+                cardCadastro.style.display = '';
+                thAcoes.style.display = '';
+                btnAdicionarProduto.style.display = '';
+            } else {
+                cardCadastro.style.display = 'none';
+                thAcoes.style.display = 'none';
+                btnAdicionarProduto.style.display = 'none';
+            }
+            atualizarTabelaVisualizacao();
+            renderizarMaquinas();
+        }
+
+        // ============ LOGIN / LOGOUT ============
+        window.efetuarLogin = async function() {
+            const username = loginUsuarioInput.value.trim().toLowerCase();
+            const senha = loginSenhaInput.value;
+
+            if (!username || !senha) {
+                loginError.textContent = '⚠️ Preencha usuário e senha.';
+                return;
+            }
+
+            const userData = USUARIOS[username];
+            if (!userData || userData.senha !== senha) {
+                loginError.textContent = '❌ Usuário ou senha inválidos.';
+                loginSenhaInput.value = '';
+                loginSenhaInput.focus();
+                return;
+            }
+
+            usuarioLogado = {
+                username: username,
+                role: userData.role,
+                nome: userData.nome
+            };
+            sessionStorage.setItem('donaRita_usuarioLogado', JSON.stringify(usuarioLogado));
+            loginError.textContent = '';
+            loginOverlay.classList.add('hidden');
+            appContainer.style.display = '';
+
+            // Carregar dados do Firestore
+            await carregarProdutosDoFirestore();
+            await carregarMaquinasDoFirestore();
+
+            userBadge.innerHTML = `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+            atualizarUIComPermissoes();
+            atualizarTabelaVisualizacao();
+            renderizarMaquinas();
+            atualizarIndicadoresAoVivo();
+            showToast('✅ Bem-vindo(a), ' + usuarioLogado.nome + '!');
+            setTimeout(() => {
+                if (isQualidade()) {
+                    nomeProdutoInput.focus();
+                }
+            }, 300);
+        };
+
+        window.efetuarLogout = function() {
+            usuarioLogado = null;
+            sessionStorage.removeItem('donaRita_usuarioLogado');
+            loginOverlay.classList.remove('hidden');
+            appContainer.style.display = 'none';
+            loginUsuarioInput.value = '';
+            loginSenhaInput.value = '';
+            loginError.textContent = '';
+            loginUsuarioInput.focus();
+            comparisonArea.style.display = 'none';
+            filtroComparacaoRow.style.display = 'none';
+            resumoComparacao.style.display = 'none';
+            filtroVisualizacaoInput.value = '';
+            filtroComparacaoInput.value = '';
+            cardCadastro.style.display = '';
+            thAcoes.style.display = '';
+            btnAdicionarProduto.style.display = '';
+            clienteVisualizacao = 'rita';
+            btnFiltroRita.classList.add('active');
+            btnFiltroConc.classList.remove('active');
+            showToast('👋 Sessão encerrada.', 'warning');
+        };
+
+        // Permitir login com Enter
+        loginSenhaInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                window.efetuarLogin();
+            }
+        });
+        loginUsuarioInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                loginSenhaInput.focus();
+            }
+        });
+
+        // Restaurar sessão
+        async function restaurarSessao() {
+            const sessao = sessionStorage.getItem('donaRita_usuarioLogado');
+            if (sessao) {
+                try {
+                    const data = JSON.parse(sessao);
+                    if (data && data.username && USUARIOS[data.username]) {
+                        usuarioLogado = data;
+                        loginOverlay.classList.add('hidden');
+                        appContainer.style.display = '';
+                        userBadge.innerHTML = `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+                        // Carregar dados do Firestore
+                        await carregarProdutosDoFirestore();
+                        await carregarMaquinasDoFirestore();
+                        atualizarUIComPermissoes();
+                        atualizarTabelaVisualizacao();
+                        renderizarMaquinas();
+                        atualizarIndicadoresAoVivo();
+                        return;
+                    }
+                } catch (e) {}
+            }
+            loginOverlay.classList.remove('hidden');
+            appContainer.style.display = 'none';
+            loginUsuarioInput.focus();
+        }
+        restaurarSessao();
+
+        // ============ FUNÇÕES AUXILIARES ============
+        function escapeHTML(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function normalizar(str) {
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        }
+
+        // ============ FILTROS DE CLIENTE NA CONSULTA ============
+        btnFiltroRita.addEventListener('click', function() {
+            clienteVisualizacao = 'rita';
+            btnFiltroRita.classList.add('active');
+            btnFiltroConc.classList.remove('active');
+            atualizarTabelaVisualizacao();
+        });
+
+        btnFiltroConc.addEventListener('click', function() {
+            clienteVisualizacao = 'concorrente';
+            btnFiltroConc.classList.add('active');
+            btnFiltroRita.classList.remove('active');
+            atualizarTabelaVisualizacao();
+        });
+
+        // ============ ATUALIZAR TABELA DE VISUALIZAÇÃO ============
+        function atualizarTabelaVisualizacao() {
+            if (!usuarioLogado) return;
+            const lista = clienteVisualizacao === 'rita' ? produtosRita : produtosConcorrente;
+
+            const termo = normalizar(filtroVisualizacaoInput.value || '');
+            let listaFiltrada = lista;
+            if (termo) {
+                listaFiltrada = lista.filter(p => normalizar(p.nome).includes(termo));
+            }
+
+            const colspan = isQualidade() ? 5 : 4;
+            if (listaFiltrada.length === 0) {
+                tabelaClienteVisualizacao.innerHTML = `<tr><td colspan="${colspan}" class="empty-state">${termo ? 'Nenhum produto encontrado para este filtro' : 'Nenhum produto cadastrado'}</td></tr>`;
+            } else {
+                tabelaClienteVisualizacao.innerHTML = listaFiltrada.map((p) => {
+                    let acaoCol = '';
+                    if (isQualidade()) {
+                        acaoCol = `<td><button class="btn-danger-sm" onclick="removerProduto('${p.id}')" title="Remover">🗑</button></td>`;
+                    }
+                    return `
+                        <tr>
+                            <td><strong>${escapeHTML(p.nome)}</strong></td>
+                            <td>${p.pesoMin.toFixed(2)} g</td>
+                            <td>${p.pesoMed.toFixed(2)} g</td>
+                            <td>${p.pesoMax.toFixed(2)} g</td>
+                            ${acaoCol}
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            if (!isQualidade()) {
+                thAcoes.style.display = 'none';
+            } else {
+                thAcoes.style.display = '';
+            }
+        }
+
+        window.aplicarFiltroVisualizacao = function() {
+            atualizarTabelaVisualizacao();
+        };
+
+        // ============ ADICIONAR PRODUTO ============
+        window.adicionarProduto = async function() {
+            if (!isQualidade()) {
+                showToast('⛔ Acesso negado. Apenas usuários de qualidade podem adicionar produtos.', 'warning');
+                return;
+            }
+            const nome = nomeProdutoInput.value.trim();
+            const pesoMin = parseFloat(pesoMinInput.value);
+            const pesoMed = parseFloat(pesoMedInput.value);
+            const pesoMax = parseFloat(pesoMaxInput.value);
+
+            if (!nome) { showToast('⚠️ Informe o nome do produto.', 'warning'); return; }
+            if (isNaN(pesoMin) || isNaN(pesoMed) || isNaN(pesoMax)) {
+                showToast('⚠️ Preencha todos os pesos corretamente.', 'warning');
+                return;
+            }
+            if (pesoMin > pesoMed || pesoMed > pesoMax) {
+                showToast('⚠️ Os pesos devem ser: Mín ≤ Méd ≤ Máx.', 'warning');
+                return;
+            }
+            if (pesoMin < 0 || pesoMed < 0 || pesoMax < 0) {
+                showToast('⚠️ Os pesos não podem ser negativos.', 'warning');
+                return;
+            }
+
+            const produto = {
+                nome: nome,
+                pesoMin: pesoMin,
+                pesoMed: pesoMed,
+                pesoMax: pesoMax
+            };
+
+            const cliente = clienteSelect.value;
+            try {
+                await salvarProdutoNoFirestore(produto, cliente);
                 if (cliente === 'rita') {
                     produtosRita.push(produto);
                 } else {
                     produtosConcorrente.push(produto);
                 }
-
-                salvarDados();
                 atualizarTabelaVisualizacao();
                 nomeProdutoInput.value = '';
                 pesoMinInput.value = '';
@@ -1643,300 +1776,284 @@
                     window.compararClientes();
                 }
                 showToast('✅ Produto adicionado com sucesso!');
-            };
+            } catch (e) {
+                showToast('❌ Erro ao salvar produto no servidor.', 'warning');
+            }
+        };
 
-            // ============ REMOVER PRODUTO ============
-            window.removerProduto = function(cliente, idx) {
-                if (!isQualidade()) {
-                    showToast('⛔ Acesso negado.', 'warning');
-                    return;
-                }
-                if (cliente === 'rita') {
-                    if (idx >= 0 && idx < produtosRita.length) {
-                        produtosRita.splice(idx, 1);
-                    }
-                } else {
-                    if (idx >= 0 && idx < produtosConcorrente.length) {
-                        produtosConcorrente.splice(idx, 1);
-                    }
-                }
-                salvarDados();
+        // ============ REMOVER PRODUTO ============
+        window.removerProduto = async function(id) {
+            if (!isQualidade()) {
+                showToast('⛔ Acesso negado.', 'warning');
+                return;
+            }
+            try {
+                await deletarProdutoDoFirestore(id);
+                // Remover do array local
+                produtosRita = produtosRita.filter(p => p.id !== id);
+                produtosConcorrente = produtosConcorrente.filter(p => p.id !== id);
                 atualizarTabelaVisualizacao();
                 if (comparisonArea.style.display !== 'none') {
                     window.compararClientes();
                 }
                 showToast('🗑 Produto removido.');
-            };
+            } catch (e) {
+                showToast('❌ Erro ao remover produto.', 'warning');
+            }
+        };
 
-            // ============ COMPARAR CLIENTES ============
-            window.compararClientes = function() {
-                if (!usuarioLogado) return;
-                if (produtosRita.length === 0 && produtosConcorrente.length === 0) {
-                    comparisonArea.style.display = 'none';
-                    filtroComparacaoRow.style.display = 'none';
-                    resumoComparacao.style.display = 'none';
-                    showToast('ℹ️ Nenhum produto cadastrado para comparar.', 'warning');
-                    return;
-                }
-
-                comparisonArea.style.display = 'grid';
-                filtroComparacaoRow.style.display = 'flex';
-                resumoComparacao.style.display = 'block';
-                aplicarFiltroComparacao();
-            };
-
-            window.aplicarFiltroComparacao = function() {
-                if (comparisonArea.style.display === 'none') return;
-                const termo = normalizar(filtroComparacaoInput.value || '');
-
-                const filtrar = (lista) => {
-                    if (!termo) return lista;
-                    return lista.filter(p => normalizar(p.nome).includes(termo));
-                };
-
-                const ritaFiltrada = filtrar(produtosRita);
-                const concFiltrada = filtrar(produtosConcorrente);
-
-                if (ritaFiltrada.length === 0) {
-                    tabelaComparacaoRita.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>';
-                } else {
-                    tabelaComparacaoRita.innerHTML = ritaFiltrada.map(p => `
-                            <tr>
-                                <td><strong>${escapeHTML(p.nome)}</strong></td>
-                                <td>${p.pesoMin.toFixed(2)}</td>
-                                <td>${p.pesoMed.toFixed(2)}</td>
-                                <td>${p.pesoMax.toFixed(2)}</td>
-                            </tr>
-                        `).join('');
-                }
-
-                if (concFiltrada.length === 0) {
-                    tabelaComparacaoConc.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>';
-                } else {
-                    tabelaComparacaoConc.innerHTML = concFiltrada.map(p => `
-                            <tr>
-                                <td><strong>${escapeHTML(p.nome)}</strong></td>
-                                <td>${p.pesoMin.toFixed(2)}</td>
-                                <td>${p.pesoMed.toFixed(2)}</td>
-                                <td>${p.pesoMax.toFixed(2)}</td>
-                            </tr>
-                        `).join('');
-                }
-
-                const nomesRita = new Set(produtosRita.map(p => p.nome.toLowerCase()));
-                const nomesConc = new Set(produtosConcorrente.map(p => p.nome.toLowerCase()));
-                const produtosEmComum = [];
-                const apenasRita = [];
-                const apenasConc = [];
-
-                produtosRita.forEach(p => {
-                    if (nomesConc.has(p.nome.toLowerCase())) {
-                        produtosEmComum.push(p.nome);
-                    } else {
-                        apenasRita.push(p.nome);
-                    }
-                });
-                produtosConcorrente.forEach(p => {
-                    if (!nomesRita.has(p.nome.toLowerCase())) {
-                        apenasConc.push(p.nome);
-                    }
-                });
-
-                let batem = 0;
-                let naoBatem = 0;
-                produtosEmComum.forEach(nome => {
-                    const r = produtosRita.find(p => p.nome.toLowerCase() === nome.toLowerCase());
-                    const c = produtosConcorrente.find(p => p.nome.toLowerCase() === nome.toLowerCase());
-                    if (r && c) {
-                        if (r.pesoMin === c.pesoMin && r.pesoMed === c.pesoMed && r.pesoMax === c.pesoMax) {
-                            batem++;
-                        } else {
-                            naoBatem++;
-                        }
-                    }
-                });
-
-                let resumoHTML = '';
-                if (produtosEmComum.length > 0) {
-                    resumoHTML +=
-                        `<span class="badge badge-gold" style="margin:4px;">🔗 ${produtosEmComum.length} produto(s) em comum</span> `;
-                    if (batem > 0)
-                        resumoHTML +=
-                        `<span class="badge badge-green" style="margin:4px;">✅ ${batem} com pesos idênticos</span> `;
-                    if (naoBatem > 0)
-                        resumoHTML +=
-                        `<span class="badge badge-red" style="margin:4px;">⚠️ ${naoBatem} com pesos diferentes</span> `;
-                }
-                if (apenasRita.length > 0)
-                    resumoHTML +=
-                    `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">👑 Só Dona Rita: ${apenasRita.join(', ')}</span> `;
-                if (apenasConc.length > 0)
-                    resumoHTML +=
-                    `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">🏢 Só Concorrente: ${apenasConc.join(', ')}</span> `;
-                if (produtosEmComum.length === 0 && apenasRita.length === 0 && apenasConc.length === 0)
-                    resumoHTML = '<span style="color:var(--text-muted);">Nenhum dado para comparar.</span>';
-
-                resumoComparacao.innerHTML = resumoHTML;
-            };
-
-            // ============ MÁQUINAS ============
-            function renderizarMaquinas() {
-                if (!usuarioLogado) return;
-                const readonlyAttr = isQualidade() ? '' : 'readonly';
-                machinesGrid.innerHTML = maquinas.map((m, i) => `
-                        <div class="machine-card">
-                            <span class="machine-number">#${i + 1}</span>
-                            <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
-                                   onchange="atualizarMaquina(${i}, 'nome', this.value)"
-                                   placeholder="Nome da máquina" ${readonlyAttr}>
-                            <div class="field-group">
-                                <label>⚡ Vel.</label>
-                                <input type="number" value="${m.velocidade}" min="0" step="0.1"
-                                       oninput="atualizarMaquina(${i}, 'velocidade', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
-                                       ${readonlyAttr}>
-                            </div>
-                            <div class="field-group">
-                                <label>👥 Pes.</label>
-                                <input type="number" value="${m.pessoas}" min="0" step="1"
-                                       oninput="atualizarMaquina(${i}, 'pessoas', parseInt(this.value) || 0); atualizarIndicadoresAoVivo();"
-                                       ${readonlyAttr}>
-                            </div>
-                            <div class="field-group">
-                                <label>⚖️ Mín</label>
-                                <input type="number" value="${m.pesoMin}" min="0" step="0.01"
-                                       oninput="atualizarMaquina(${i}, 'pesoMin', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
-                                       ${readonlyAttr}>
-                            </div>
-                            <div class="field-group">
-                                <label>⚖️ Méd</label>
-                                <input type="number" value="${m.pesoMed}" min="0" step="0.01"
-                                       oninput="atualizarMaquina(${i}, 'pesoMed', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
-                                       ${readonlyAttr}>
-                            </div>
-                            <div class="field-group">
-                                <label>⚖️ Máx</label>
-                                <input type="number" value="${m.pesoMax}" min="0" step="0.01"
-                                       oninput="atualizarMaquina(${i}, 'pesoMax', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
-                                       ${readonlyAttr}>
-                            </div>
-                        </div>
-                    `).join('');
+        // ============ COMPARAR CLIENTES ============
+        window.compararClientes = function() {
+            if (!usuarioLogado) return;
+            if (produtosRita.length === 0 && produtosConcorrente.length === 0) {
+                comparisonArea.style.display = 'none';
+                filtroComparacaoRow.style.display = 'none';
+                resumoComparacao.style.display = 'none';
+                showToast('ℹ️ Nenhum produto cadastrado para comparar.', 'warning');
+                return;
             }
 
-            window.atualizarMaquina = function(index, campo, valor) {
-                if (!isQualidade()) {
-                    showToast('⛔ Apenas usuários de qualidade podem editar máquinas.', 'warning');
-                    renderizarMaquinas();
-                    return;
-                }
-                if (campo === 'nome') {
-                    maquinas[index].nome = valor;
-                } else if (campo === 'velocidade') {
-                    maquinas[index].velocidade = Math.max(0, valor);
-                } else if (campo === 'pessoas') {
-                    maquinas[index].pessoas = Math.max(0, Math.floor(valor));
-                } else if (campo === 'pesoMin') {
-                    maquinas[index].pesoMin = Math.max(0, valor);
-                } else if (campo === 'pesoMed') {
-                    maquinas[index].pesoMed = Math.max(0, valor);
-                } else if (campo === 'pesoMax') {
-                    maquinas[index].pesoMax = Math.max(0, valor);
-                }
-                salvarDados();
-                atualizarIndicadoresAoVivo();
+            comparisonArea.style.display = 'grid';
+            filtroComparacaoRow.style.display = 'flex';
+            resumoComparacao.style.display = 'block';
+            aplicarFiltroComparacao();
+        };
+
+        window.aplicarFiltroComparacao = function() {
+            if (comparisonArea.style.display === 'none') return;
+            const termo = normalizar(filtroComparacaoInput.value || '');
+
+            const filtrar = (lista) => {
+                if (!termo) return lista;
+                return lista.filter(p => normalizar(p.nome).includes(termo));
             };
 
-            function atualizarIndicadoresAoVivo() {
-                const velocidades = maquinas.map(m => m.velocidade).filter(v => !isNaN(v));
-                const pessoasArr = maquinas.map(m => m.pessoas).filter(p => !isNaN(p));
-                const pesosMinArr = maquinas.map(m => m.pesoMin).filter(p => !isNaN(p));
-                const pesosMedArr = maquinas.map(m => m.pesoMed).filter(p => !isNaN(p));
-                const pesosMaxArr = maquinas.map(m => m.pesoMax).filter(p => !isNaN(p));
+            const ritaFiltrada = filtrar(produtosRita);
+            const concFiltrada = filtrar(produtosConcorrente);
 
-                // Velocidade
-                if (velocidades.length > 0) {
-                    document.getElementById('liveVelMax').textContent = Math.max(...velocidades).toFixed(1);
-                    document.getElementById('liveVelMed').textContent = (velocidades.reduce((a, b) => a + b, 0) /
-                        velocidades.length).toFixed(1);
-                    document.getElementById('liveVelMin').textContent = Math.min(...velocidades).toFixed(1);
-                } else {
-                    document.getElementById('liveVelMax').textContent = '0';
-                    document.getElementById('liveVelMed').textContent = '0';
-                    document.getElementById('liveVelMin').textContent = '0';
-                }
-                // Pessoas
-                if (pessoasArr.length > 0) {
-                    document.getElementById('livePesMax').textContent = Math.max(...pessoasArr);
-                    document.getElementById('livePesMed').textContent = Math.round(pessoasArr.reduce((a, b) => a + b,
-                        0) / pessoasArr.length);
-                    document.getElementById('livePesMin').textContent = Math.min(...pessoasArr);
-                } else {
-                    document.getElementById('livePesMax').textContent = '0';
-                    document.getElementById('livePesMed').textContent = '0';
-                    document.getElementById('livePesMin').textContent = '0';
-                }
-                // Pesos
-                if (pesosMinArr.length > 0) {
-                    document.getElementById('liveWeightMax').textContent = Math.max(...pesosMinArr).toFixed(2);
-                    document.getElementById('liveWeightMed').textContent = (pesosMedArr.reduce((a, b) => a + b, 0) /
-                        pesosMedArr.length).toFixed(2);
-                    document.getElementById('liveWeightMin').textContent = Math.min(...pesosMaxArr).toFixed(2);
-                } else {
-                    document.getElementById('liveWeightMax').textContent = '0';
-                    document.getElementById('liveWeightMed').textContent = '0';
-                    document.getElementById('liveWeightMin').textContent = '0';
-                }
+            if (ritaFiltrada.length === 0) {
+                tabelaComparacaoRita.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>';
+            } else {
+                tabelaComparacaoRita.innerHTML = ritaFiltrada.map(p => `
+                    <tr>
+                        <td><strong>${escapeHTML(p.nome)}</strong></td>
+                        <td>${p.pesoMin.toFixed(2)}</td>
+                        <td>${p.pesoMed.toFixed(2)}</td>
+                        <td>${p.pesoMax.toFixed(2)}</td>
+                    </tr>
+                `).join('');
             }
 
-            // ============ NAVEGAÇÃO POR ABAS ============
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabPanels = document.querySelectorAll('.tab-panel');
+            if (concFiltrada.length === 0) {
+                tabelaComparacaoConc.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>';
+            } else {
+                tabelaComparacaoConc.innerHTML = concFiltrada.map(p => `
+                    <tr>
+                        <td><strong>${escapeHTML(p.nome)}</strong></td>
+                        <td>${p.pesoMin.toFixed(2)}</td>
+                        <td>${p.pesoMed.toFixed(2)}</td>
+                        <td>${p.pesoMax.toFixed(2)}</td>
+                    </tr>
+                `).join('');
+            }
 
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const targetId = btn.getAttribute('data-tab');
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    tabPanels.forEach(panel => panel.classList.remove('active'));
-                    const targetPanel = document.getElementById(targetId);
-                    if (targetPanel) {
-                        targetPanel.classList.add('active');
-                        if (targetId === 'tab-maquinas') {
-                            atualizarIndicadoresAoVivo();
-                        }
-                    }
-                });
+            const nomesRita = new Set(produtosRita.map(p => p.nome.toLowerCase()));
+            const nomesConc = new Set(produtosConcorrente.map(p => p.nome.toLowerCase()));
+            const produtosEmComum = [];
+            const apenasRita = [];
+            const apenasConc = [];
+
+            produtosRita.forEach(p => {
+                if (nomesConc.has(p.nome.toLowerCase())) {
+                    produtosEmComum.push(p.nome);
+                } else {
+                    apenasRita.push(p.nome);
+                }
+            });
+            produtosConcorrente.forEach(p => {
+                if (!nomesRita.has(p.nome.toLowerCase())) {
+                    apenasConc.push(p.nome);
+                }
             });
 
-            // ============ INICIALIZAÇÃO (após login) ============
-            if (usuarioLogado) {
-                atualizarUIComPermissoes();
-                atualizarTabelaVisualizacao();
+            let batem = 0;
+            let naoBatem = 0;
+            produtosEmComum.forEach(nome => {
+                const r = produtosRita.find(p => p.nome.toLowerCase() === nome.toLowerCase());
+                const c = produtosConcorrente.find(p => p.nome.toLowerCase() === nome.toLowerCase());
+                if (r && c) {
+                    if (r.pesoMin === c.pesoMin && r.pesoMed === c.pesoMed && r.pesoMax === c.pesoMax) {
+                        batem++;
+                    } else {
+                        naoBatem++;
+                    }
+                }
+            });
+
+            let resumoHTML = '';
+            if (produtosEmComum.length > 0) {
+                resumoHTML += `<span class="badge badge-gold" style="margin:4px;">🔗 ${produtosEmComum.length} produto(s) em comum</span> `;
+                if (batem > 0) resumoHTML += `<span class="badge badge-green" style="margin:4px;">✅ ${batem} com pesos idênticos</span> `;
+                if (naoBatem > 0) resumoHTML += `<span class="badge badge-red" style="margin:4px;">⚠️ ${naoBatem} com pesos diferentes</span> `;
+            }
+            if (apenasRita.length > 0) resumoHTML += `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">👑 Só Dona Rita: ${apenasRita.join(', ')}</span> `;
+            if (apenasConc.length > 0) resumoHTML += `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">🏢 Só Concorrente: ${apenasConc.join(', ')}</span> `;
+            if (produtosEmComum.length === 0 && apenasRita.length === 0 && apenasConc.length === 0) resumoHTML = '<span style="color:var(--text-muted);">Nenhum dado para comparar.</span>';
+
+            resumoComparacao.innerHTML = resumoHTML;
+        };
+
+        // ============ MÁQUINAS ============
+        function renderizarMaquinas() {
+            if (!usuarioLogado) return;
+            const readonlyAttr = isQualidade() ? '' : 'readonly';
+            machinesGrid.innerHTML = maquinas.map((m, i) => `
+                <div class="machine-card">
+                    <span class="machine-number">#${i + 1}</span>
+                    <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
+                           onchange="atualizarMaquina('${m.id}', 'nome', this.value)"
+                           placeholder="Nome da máquina" ${readonlyAttr}>
+                    <div class="field-group">
+                        <label>⚡ Vel.</label>
+                        <input type="number" value="${m.velocidade}" min="0" step="0.1"
+                               oninput="atualizarMaquina('${m.id}', 'velocidade', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>👥 Pes.</label>
+                        <input type="number" value="${m.pessoas}" min="0" step="1"
+                               oninput="atualizarMaquina('${m.id}', 'pessoas', parseInt(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>⚖️ Mín</label>
+                        <input type="number" value="${m.pesoMin}" min="0" step="0.01"
+                               oninput="atualizarMaquina('${m.id}', 'pesoMin', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>⚖️ Méd</label>
+                        <input type="number" value="${m.pesoMed}" min="0" step="0.01"
+                               oninput="atualizarMaquina('${m.id}', 'pesoMed', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>⚖️ Máx</label>
+                        <input type="number" value="${m.pesoMax}" min="0" step="0.01"
+                               oninput="atualizarMaquina('${m.id}', 'pesoMax', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               ${readonlyAttr}>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.atualizarMaquina = async function(id, campo, valor) {
+            if (!isQualidade()) {
+                showToast('⛔ Apenas usuários de qualidade podem editar máquinas.', 'warning');
                 renderizarMaquinas();
-                atualizarIndicadoresAoVivo();
+                return;
+            }
+            const maquina = maquinas.find(m => m.id === id);
+            if (!maquina) return;
+
+            if (campo === 'nome') {
+                maquina.nome = valor;
+            } else if (campo === 'velocidade') {
+                maquina.velocidade = Math.max(0, valor);
+            } else if (campo === 'pessoas') {
+                maquina.pessoas = Math.max(0, Math.floor(valor));
+            } else if (campo === 'pesoMin') {
+                maquina.pesoMin = Math.max(0, valor);
+            } else if (campo === 'pesoMed') {
+                maquina.pesoMed = Math.max(0, valor);
+            } else if (campo === 'pesoMax') {
+                maquina.pesoMax = Math.max(0, valor);
             }
 
-            // Atualizar indicadores periodicamente
-            setInterval(() => {
-                if (usuarioLogado && document.getElementById('tab-maquinas').classList.contains('active')) {
-                    atualizarIndicadoresAoVivo();
+            try {
+                await atualizarMaquinaNoFirestore(maquina);
+            } catch (e) {
+                showToast('❌ Erro ao salvar alteração.', 'warning');
+            }
+            atualizarIndicadoresAoVivo();
+        };
+
+        function atualizarIndicadoresAoVivo() {
+            const velocidades = maquinas.map(m => m.velocidade).filter(v => !isNaN(v));
+            const pessoasArr = maquinas.map(m => m.pessoas).filter(p => !isNaN(p));
+            const pesosMinArr = maquinas.map(m => m.pesoMin).filter(p => !isNaN(p));
+            const pesosMedArr = maquinas.map(m => m.pesoMed).filter(p => !isNaN(p));
+            const pesosMaxArr = maquinas.map(m => m.pesoMax).filter(p => !isNaN(p));
+
+            if (velocidades.length > 0) {
+                document.getElementById('liveVelMax').textContent = Math.max(...velocidades).toFixed(1);
+                document.getElementById('liveVelMed').textContent = (velocidades.reduce((a, b) => a + b, 0) / velocidades.length).toFixed(1);
+                document.getElementById('liveVelMin').textContent = Math.min(...velocidades).toFixed(1);
+            } else {
+                document.getElementById('liveVelMax').textContent = '0';
+                document.getElementById('liveVelMed').textContent = '0';
+                document.getElementById('liveVelMin').textContent = '0';
+            }
+            if (pessoasArr.length > 0) {
+                document.getElementById('livePesMax').textContent = Math.max(...pessoasArr);
+                document.getElementById('livePesMed').textContent = Math.round(pessoasArr.reduce((a, b) => a + b, 0) / pessoasArr.length);
+                document.getElementById('livePesMin').textContent = Math.min(...pessoasArr);
+            } else {
+                document.getElementById('livePesMax').textContent = '0';
+                document.getElementById('livePesMed').textContent = '0';
+                document.getElementById('livePesMin').textContent = '0';
+            }
+            if (pesosMinArr.length > 0) {
+                document.getElementById('liveWeightMax').textContent = Math.max(...pesosMinArr).toFixed(2);
+                document.getElementById('liveWeightMed').textContent = (pesosMedArr.reduce((a, b) => a + b, 0) / pesosMedArr.length).toFixed(2);
+                document.getElementById('liveWeightMin').textContent = Math.min(...pesosMaxArr).toFixed(2);
+            } else {
+                document.getElementById('liveWeightMax').textContent = '0';
+                document.getElementById('liveWeightMed').textContent = '0';
+                document.getElementById('liveWeightMin').textContent = '0';
+            }
+        }
+
+        // ============ NAVEGAÇÃO POR ABAS ============
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-tab');
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                tabPanels.forEach(panel => panel.classList.remove('active'));
+                const targetPanel = document.getElementById(targetId);
+                if (targetPanel) {
+                    targetPanel.classList.add('active');
+                    if (targetId === 'tab-maquinas') {
+                        atualizarIndicadoresAoVivo();
+                    }
                 }
-            }, 3000);
+            });
+        });
 
-            // Expor funções globais necessárias
-            window.atualizarIndicadoresAoVivo = atualizarIndicadoresAoVivo;
-            window.aplicarFiltroVisualizacao = window.aplicarFiltroVisualizacao;
-            window.aplicarFiltroComparacao = window.aplicarFiltroComparacao;
-            window.efetuarLogin = window.efetuarLogin;
-            window.efetuarLogout = window.efetuarLogout;
-            window.adicionarProduto = window.adicionarProduto;
-            window.removerProduto = window.removerProduto;
-            window.compararClientes = window.compararClientes;
-            window.atualizarMaquina = window.atualizarMaquina;
+        // Atualizar indicadores periodicamente
+        setInterval(() => {
+            if (usuarioLogado && document.getElementById('tab-maquinas').classList.contains('active')) {
+                atualizarIndicadoresAoVivo();
+            }
+        }, 3000);
 
-            console.log('👑 Dona Rita Produção - Sistema iniciado!');
-            console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
-        })();
+        // Expor funções globais necessárias
+        window.atualizarIndicadoresAoVivo = atualizarIndicadoresAoVivo;
+        window.aplicarFiltroVisualizacao = window.aplicarFiltroVisualizacao;
+        window.aplicarFiltroComparacao = window.aplicarFiltroComparacao;
+        window.efetuarLogin = window.efetuarLogin;
+        window.efetuarLogout = window.efetuarLogout;
+        window.adicionarProduto = window.adicionarProduto;
+        window.removerProduto = window.removerProduto;
+        window.compararClientes = window.compararClientes;
+        window.atualizarMaquina = window.atualizarMaquina;
+
+        console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
+        console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
     </script>
 </body>
 </html>
