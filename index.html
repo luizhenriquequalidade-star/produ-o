@@ -605,6 +605,18 @@
             border-color: var(--gold);
             box-shadow: 0 0 15px rgba(200, 155, 94, 0.2);
         }
+        .btn-save-machines {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+            padding: 14px 36px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .btn-save-machines:hover {
+            box-shadow: 0 6px 30px rgba(16, 185, 129, 0.5);
+            transform: translateY(-2px);
+        }
 
         /* Filtro por cliente (botões) */
         .cliente-filter-btns {
@@ -1036,6 +1048,13 @@
         .hidden-permanently {
             display: none !important;
         }
+
+        /* Área do botão salvar máquinas */
+        .save-machines-area {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -1256,6 +1275,9 @@
                 </div>
             </div>
             <div class="machines-grid" id="machinesGrid"></div>
+            <div class="save-machines-area">
+                <button class="btn btn-save-machines" onclick="salvarMaquinas()">💾 Salvar Máquinas</button>
+            </div>
         </div>
     </div>
 
@@ -1263,7 +1285,7 @@
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDwONgjmSWUPHCXyiJFAMRCJ-GfZrA-UKE",
@@ -1911,43 +1933,44 @@
                 <div class="machine-card">
                     <span class="machine-number">#${i + 1}</span>
                     <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
-                           onchange="atualizarMaquina('${m.id}', 'nome', this.value)"
+                           onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
                            placeholder="Nome da máquina" ${readonlyAttr}>
                     <div class="field-group">
                         <label>⚡ Vel.</label>
                         <input type="number" value="${m.velocidade}" min="0" step="0.1"
-                               oninput="atualizarMaquina('${m.id}', 'velocidade', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>👥 Pes.</label>
                         <input type="number" value="${m.pessoas}" min="0" step="1"
-                               oninput="atualizarMaquina('${m.id}', 'pessoas', parseInt(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); atualizarIndicadoresAoVivo();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>⚖️ Mín</label>
                         <input type="number" value="${m.pesoMin}" min="0" step="0.01"
-                               oninput="atualizarMaquina('${m.id}', 'pesoMin', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMin', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>⚖️ Méd</label>
                         <input type="number" value="${m.pesoMed}" min="0" step="0.01"
-                               oninput="atualizarMaquina('${m.id}', 'pesoMed', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMed', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>⚖️ Máx</label>
                         <input type="number" value="${m.pesoMax}" min="0" step="0.01"
-                               oninput="atualizarMaquina('${m.id}', 'pesoMax', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMax', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
                                ${readonlyAttr}>
                     </div>
                 </div>
             `).join('');
         }
 
-        window.atualizarMaquina = async function(id, campo, valor) {
+        // Atualiza apenas o array local e os indicadores, sem salvar no Firestore
+        window.atualizarMaquinaLocal = function(id, campo, valor) {
             if (!isQualidade()) {
                 showToast('⛔ Apenas usuários de qualidade podem editar máquinas.', 'warning');
                 renderizarMaquinas();
@@ -1969,13 +1992,26 @@
             } else if (campo === 'pesoMax') {
                 maquina.pesoMax = Math.max(0, valor);
             }
-
-            try {
-                await atualizarMaquinaNoFirestore(maquina);
-            } catch (e) {
-                showToast('❌ Erro ao salvar alteração.', 'warning');
-            }
+            // Não salva no Firestore aqui
             atualizarIndicadoresAoVivo();
+        };
+
+        // Salva todas as máquinas no Firestore
+        window.salvarMaquinas = async function() {
+            if (!isQualidade()) {
+                showToast('⛔ Apenas usuários de qualidade podem salvar alterações.', 'warning');
+                return;
+            }
+            try {
+                // Atualizar cada máquina no Firestore
+                for (let m of maquinas) {
+                    await atualizarMaquinaNoFirestore(m);
+                }
+                showToast('✅ Todas as máquinas foram salvas com sucesso!');
+            } catch (e) {
+                showToast('❌ Erro ao salvar máquinas.', 'warning');
+                console.error(e);
+            }
         };
 
         function atualizarIndicadoresAoVivo() {
@@ -2050,10 +2086,13 @@
         window.adicionarProduto = window.adicionarProduto;
         window.removerProduto = window.removerProduto;
         window.compararClientes = window.compararClientes;
-        window.atualizarMaquina = window.atualizarMaquina;
+        window.atualizarMaquinaLocal = window.atualizarMaquinaLocal;
+        window.salvarMaquinas = window.salvarMaquinas;
 
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
+        console.log('📦 Coleções: produtos e maquinas');
+        console.log('💾 Máquinas: edite e clique em "Salvar Máquinas" para persistir.');
     </script>
 </body>
 </html>
