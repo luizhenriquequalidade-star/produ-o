@@ -1910,7 +1910,7 @@
                            onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
                            placeholder="Nome da máquina" ${readonlyAttr}>
                     <div class="field-group">
-                        <label>📦 V.Prod.</label>
+                        <label>📦Prod.</label>
                         <input type="text" value="${escapeHTML(m.velProduto || '')}"
                                oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', this.value); renderizarResumoMaquinas();"
                                placeholder="Nome do produto" ${readonlyAttr}>
@@ -2027,7 +2027,7 @@
                             <span class="pulse-dot ${dotColor}"></span> ${escapeHTML(m.nome)}
                         </div>
                         <div class="ms-row">
-                            <span class="ms-label">📦 V.Prod.</span>
+                            <span class="ms-label"> Prod.</span>
                             <span class="ms-value">${escapeHTML(m.velProduto || '—')}</span>
                         </div>
                         <div class="ms-row">
