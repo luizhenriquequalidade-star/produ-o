@@ -689,6 +689,27 @@
         table tbody tr:hover {
             background: rgba(255, 255, 255, 0.02);
         }
+        table td input {
+            width: 100%;
+            padding: 6px 8px;
+            background: rgba(10, 10, 20, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.85em;
+            transition: var(--transition);
+            outline: none;
+            min-width: 70px;
+            max-width: 120px;
+        }
+        table td input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(200, 155, 94, 0.15);
+        }
+        table td input:read-only {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
         .badge {
             display: inline-block;
             padding: 4px 10px;
@@ -956,9 +977,17 @@
         }
         .machine-card .motivo-parada-input {
             display: none;
+            animation: fadeSlideIn 0.3s ease-out;
         }
         .machine-card .motivo-parada-input.visible {
-            display: block;
+            display: flex;
+        }
+        .machine-card .motivo-teste-input {
+            display: none;
+            animation: fadeSlideIn 0.3s ease-out;
+        }
+        .machine-card .motivo-teste-input.visible {
+            display: flex;
         }
 
         /* Comparação */
@@ -1163,6 +1192,31 @@
         }
         .status-indicator .status-label.yellow {
             color: #facc15;
+        }
+
+        .btn-edit-sm {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.03em;
+        }
+        .btn-edit-sm:hover {
+            background: rgba(200, 155, 94, 0.15);
+            box-shadow: 0 0 15px rgba(200, 155, 94, 0.2);
+        }
+        .btn-edit-sm.editing {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #34d399;
+            color: #34d399;
+        }
+        .btn-edit-sm.editing:hover {
+            background: rgba(16, 185, 129, 0.3);
         }
     </style>
 </head>
@@ -1458,6 +1512,15 @@
             }
         }
 
+        async function atualizarProdutoNoFirestore(id, dados) {
+            try {
+                await setDoc(doc(db, "produtos", id), dados, { merge: true });
+            } catch (e) {
+                console.error("Erro ao atualizar produto:", e);
+                throw e;
+            }
+        }
+
         async function deletarProdutoDoFirestore(id) {
             try {
                 await deleteDoc(doc(db, "produtos", id));
@@ -1490,7 +1553,8 @@
                         pesoMed: data.pesoMed,
                         pesoMax: data.pesoMax,
                         status: data.status || 'produzindo',
-                        motivoParada: data.motivoParada || ''
+                        motivoParada: data.motivoParada || '',
+                        motivoTeste: data.motivoTeste || ''
                     });
                 });
                 maquinas.sort((a, b) => a.id.localeCompare(b.id));
@@ -1509,6 +1573,10 @@
                 '', '', '', '', '', '',
                 'Falta de matéria-prima', 'Manutenção corretiva', '', ''
             ];
+            const motivosTeste = [
+                '', '', '', '', '', '',
+                '', '', 'Teste de novo produto', 'Ajuste de configuração'
+            ];
             for (let i = 0; i < 10; i++) {
                 const pesoBase = Math.floor(Math.random() * 800) + 200;
                 const pesoMin = pesoBase - Math.floor(Math.random() * 50);
@@ -1525,7 +1593,8 @@
                     pesoMed: pesoMed,
                     pesoMax: pesoMax,
                     status: st,
-                    motivoParada: motivosParada[i] || ''
+                    motivoParada: motivosParada[i] || '',
+                    motivoTeste: motivosTeste[i] || ''
                 });
             }
         }
@@ -1542,7 +1611,8 @@
                         pesoMed: m.pesoMed,
                         pesoMax: m.pesoMax,
                         status: m.status,
-                        motivoParada: m.motivoParada
+                        motivoParada: m.motivoParada,
+                        motivoTeste: m.motivoTeste
                     }, { merge: true });
                 }
             } catch (e) {
@@ -1561,7 +1631,8 @@
                     pesoMed: maquina.pesoMed,
                     pesoMax: maquina.pesoMax,
                     status: maquina.status,
-                    motivoParada: maquina.motivoParada
+                    motivoParada: maquina.motivoParada,
+                    motivoTeste: maquina.motivoTeste
                 }, { merge: true });
             } catch (e) {
                 console.error("Erro ao atualizar máquina:", e);
@@ -1631,6 +1702,10 @@
         // ============ VERIFICAÇÃO DE PERMISSÃO ============
         function isQualidade() {
             return usuarioLogado && usuarioLogado.role === 'qualidade';
+        }
+
+        function isConsulta() {
+            return usuarioLogado && usuarioLogado.role === 'consulta';
         }
 
         function atualizarUIComPermissoes() {
@@ -1792,22 +1867,42 @@
             }
 
             const colspan = isQualidade() ? 5 : 4;
+            const podeEditar = isQualidade();
+
             if (listaFiltrada.length === 0) {
                 tabelaClienteVisualizacao.innerHTML =
                     `<tr><td colspan="${colspan}" class="empty-state">${termo ? 'Nenhum produto encontrado para este filtro' : 'Nenhum produto cadastrado'}</td></tr>`;
             } else {
                 tabelaClienteVisualizacao.innerHTML = listaFiltrada.map((p) => {
                     let acaoCol = '';
-                    if (isQualidade()) {
-                        acaoCol =
-                            `<td><button class="btn-danger-sm" onclick="removerProduto('${p.id}')" title="Remover">🗑</button></td>`;
+                    if (podeEditar) {
+                        acaoCol = `
+                            <td>
+                                <button class="btn-edit-sm" onclick="editarProduto('${p.id}')" id="btnEdit_${p.id}">
+                                    ✏️ Editar
+                                </button>
+                                <button class="btn-danger-sm" onclick="removerProduto('${p.id}')" title="Remover">🗑</button>
+                            </td>
+                        `;
                     }
                     return `
-                        <tr>
-                            <td><strong>${escapeHTML(p.nome)}</strong></td>
-                            <td>${p.pesoMin.toFixed(2)} g</td>
-                            <td>${p.pesoMed.toFixed(2)} g</td>
-                            <td>${p.pesoMax.toFixed(2)} g</td>
+                        <tr id="row_${p.id}">
+                            <td>
+                                <span id="view_nome_${p.id}">${escapeHTML(p.nome)}</span>
+                                <input type="text" id="edit_nome_${p.id}" value="${escapeHTML(p.nome)}" style="display:none;max-width:140px;">
+                            </td>
+                            <td>
+                                <span id="view_min_${p.id}">${p.pesoMin.toFixed(2)} g</span>
+                                <input type="number" id="edit_min_${p.id}" value="${p.pesoMin}" step="0.01" min="0" style="display:none;max-width:90px;">
+                            </td>
+                            <td>
+                                <span id="view_med_${p.id}">${p.pesoMed.toFixed(2)} g</span>
+                                <input type="number" id="edit_med_${p.id}" value="${p.pesoMed}" step="0.01" min="0" style="display:none;max-width:90px;">
+                            </td>
+                            <td>
+                                <span id="view_max_${p.id}">${p.pesoMax.toFixed(2)} g</span>
+                                <input type="number" id="edit_max_${p.id}" value="${p.pesoMax}" step="0.01" min="0" style="display:none;max-width:90px;">
+                            </td>
                             ${acaoCol}
                         </tr>
                     `;
@@ -1821,8 +1916,131 @@
             }
         }
 
-        window.aplicarFiltroVisualizacao = function() {
-            atualizarTabelaVisualizacao();
+        // ============ EDITAR PRODUTO ============
+        window.editarProduto = function(id) {
+            if (!isQualidade()) {
+                showToast('⛔ Acesso negado. Apenas usuários de qualidade podem editar.', 'warning');
+                return;
+            }
+
+            const btn = document.getElementById(`btnEdit_${id}`);
+            const isEditing = btn.classList.contains('editing');
+
+            // Se estiver editando, salva as alterações
+            if (isEditing) {
+                const nomeInput = document.getElementById(`edit_nome_${id}`);
+                const minInput = document.getElementById(`edit_min_${id}`);
+                const medInput = document.getElementById(`edit_med_${id}`);
+                const maxInput = document.getElementById(`edit_max_${id}`);
+
+                const nome = nomeInput.value.trim();
+                const pesoMin = parseFloat(minInput.value);
+                const pesoMed = parseFloat(medInput.value);
+                const pesoMax = parseFloat(maxInput.value);
+
+                if (!nome) { showToast('⚠️ O nome do produto não pode ficar vazio.', 'warning'); return; }
+                if (isNaN(pesoMin) || isNaN(pesoMed) || isNaN(pesoMax)) {
+                    showToast('⚠️ Preencha todos os pesos corretamente.', 'warning');
+                    return;
+                }
+                if (pesoMin > pesoMed || pesoMed > pesoMax) {
+                    showToast('⚠️ Os pesos devem ser: Mín ≤ Méd ≤ Máx.', 'warning');
+                    return;
+                }
+                if (pesoMin < 0 || pesoMed < 0 || pesoMax < 0) {
+                    showToast('⚠️ Os pesos não podem ser negativos.', 'warning');
+                    return;
+                }
+
+                // Encontra o produto e atualiza
+                let produtoEncontrado = null;
+                let lista = clienteVisualizacao === 'rita' ? produtosRita : produtosConcorrente;
+                produtoEncontrado = lista.find(p => p.id === id);
+                if (!produtoEncontrado) {
+                    // tenta na outra lista
+                    const outraLista = clienteVisualizacao === 'rita' ? produtosConcorrente : produtosRita;
+                    produtoEncontrado = outraLista.find(p => p.id === id);
+                    if (produtoEncontrado) {
+                        lista = outraLista;
+                    }
+                }
+                if (!produtoEncontrado) {
+                    showToast('❌ Produto não encontrado.', 'warning');
+                    return;
+                }
+
+                const dadosAntigos = {
+                    nome: produtoEncontrado.nome,
+                    pesoMin: produtoEncontrado.pesoMin,
+                    pesoMed: produtoEncontrado.pesoMed,
+                    pesoMax: produtoEncontrado.pesoMax
+                };
+
+                produtoEncontrado.nome = nome;
+                produtoEncontrado.pesoMin = pesoMin;
+                produtoEncontrado.pesoMed = pesoMed;
+                produtoEncontrado.pesoMax = pesoMax;
+
+                // Salva no Firebase
+                atualizarProdutoNoFirestore(id, {
+                    cliente: clienteVisualizacao === 'rita' ? 'rita' : 'concorrente',
+                    nome: nome,
+                    pesoMin: pesoMin,
+                    pesoMed: pesoMed,
+                    pesoMax: pesoMax
+                }).then(() => {
+                    // Atualiza a visualização
+                    document.getElementById(`view_nome_${id}`).textContent = nome;
+                    document.getElementById(`view_min_${id}`).textContent = pesoMin.toFixed(2) + ' g';
+                    document.getElementById(`view_med_${id}`).textContent = pesoMed.toFixed(2) + ' g';
+                    document.getElementById(`view_max_${id}`).textContent = pesoMax.toFixed(2) + ' g';
+
+                    // Esconde inputs, mostra spans
+                    document.getElementById(`view_nome_${id}`).style.display = '';
+                    document.getElementById(`view_min_${id}`).style.display = '';
+                    document.getElementById(`view_med_${id}`).style.display = '';
+                    document.getElementById(`view_max_${id}`).style.display = '';
+                    document.getElementById(`edit_nome_${id}`).style.display = 'none';
+                    document.getElementById(`edit_min_${id}`).style.display = 'none';
+                    document.getElementById(`edit_med_${id}`).style.display = 'none';
+                    document.getElementById(`edit_max_${id}`).style.display = 'none';
+
+                    btn.textContent = '✏️ Editar';
+                    btn.classList.remove('editing');
+
+                    // Atualiza comparação se estiver aberta
+                    if (comparisonArea.style.display !== 'none') {
+                        window.compararClientes();
+                    }
+                    showToast('✅ Produto atualizado com sucesso!');
+                }).catch((err) => {
+                    // Reverte mudanças em caso de erro
+                    produtoEncontrado.nome = dadosAntigos.nome;
+                    produtoEncontrado.pesoMin = dadosAntigos.pesoMin;
+                    produtoEncontrado.pesoMed = dadosAntigos.pesoMed;
+                    produtoEncontrado.pesoMax = dadosAntigos.pesoMax;
+                    showToast('❌ Erro ao salvar alterações.', 'warning');
+                    console.error(err);
+                });
+                return;
+            }
+
+            // Modo de edição: mostra inputs, esconde spans
+            document.getElementById(`view_nome_${id}`).style.display = 'none';
+            document.getElementById(`view_min_${id}`).style.display = 'none';
+            document.getElementById(`view_med_${id}`).style.display = 'none';
+            document.getElementById(`view_max_${id}`).style.display = 'none';
+            document.getElementById(`edit_nome_${id}`).style.display = '';
+            document.getElementById(`edit_min_${id}`).style.display = '';
+            document.getElementById(`edit_med_${id}`).style.display = '';
+            document.getElementById(`edit_max_${id}`).style.display = '';
+
+            btn.textContent = '💾 Salvar';
+            btn.classList.add('editing');
+
+            // Foco no primeiro campo
+            document.getElementById(`edit_nome_${id}`).focus();
+            document.getElementById(`edit_nome_${id}`).select();
         };
 
         // ============ ADICIONAR PRODUTO ============
@@ -2046,6 +2264,14 @@
                                placeholder="Motivo da parada..." ${readonlyAttr}>
                     </div>
                     
+                    <!-- Campo motivo do teste (visível apenas quando status = teste) -->
+                    <div class="field-group motivo-teste-input ${m.status === 'teste' ? 'visible' : ''}" id="motivoTesteGroup_${m.id}">
+                        <label>🟡 Motivo</label>
+                        <input type="text" value="${escapeHTML(m.motivoTeste || '')}"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'motivoTeste', this.value)"
+                               placeholder="Motivo do teste..." ${readonlyAttr}>
+                    </div>
+                    
                     <div class="field-group">
                         <label>📦 Prod</label>
                         <input type="text" value="${escapeHTML(m.velProduto || '')}"
@@ -2096,9 +2322,15 @@
             const maquina = maquinas.find(m => m.id === id);
             if (!maquina) return;
 
+            const statusAntigo = maquina.status;
             maquina.status = novoStatus;
-            if (novoStatus !== 'parado') {
+            
+            // Limpa os motivos quando muda de status
+            if (novoStatus !== 'parado' && statusAntigo === 'parado') {
                 maquina.motivoParada = '';
+            }
+            if (novoStatus !== 'teste' && statusAntigo === 'teste') {
+                maquina.motivoTeste = '';
             }
 
             renderizarMaquinas();
@@ -2131,6 +2363,8 @@
                 maquina.pesoMax = Math.max(0, valor);
             } else if (campo === 'motivoParada') {
                 maquina.motivoParada = valor;
+            } else if (campo === 'motivoTeste') {
+                maquina.motivoTeste = valor;
             }
             renderizarResumoMaquinas();
         };
@@ -2179,6 +2413,9 @@
                     statusClass = 'status-teste';
                     dotColor = 'yellow';
                     statusText = '🟡 Em Teste';
+                    if (m.motivoTeste && m.motivoTeste.trim() !== '') {
+                        motivoHTML = `<div class="ms-motivo-parada" style="color: #facc15;">📝 ${escapeHTML(m.motivoTeste)}</div>`;
+                    }
                 }
 
                 return `
@@ -2229,6 +2466,19 @@
             });
         });
 
+        // ============ Pressionar Enter no filtro de visualização ============
+        filtroVisualizacaoInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                aplicarFiltroVisualizacao();
+            }
+        });
+
+        filtroComparacaoInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                aplicarFiltroComparacao();
+            }
+        });
+
         // Expor funções globais
         window.renderizarResumoMaquinas = renderizarResumoMaquinas;
         window.aplicarFiltroVisualizacao = window.aplicarFiltroVisualizacao;
@@ -2241,12 +2491,14 @@
         window.atualizarMaquinaLocal = window.atualizarMaquinaLocal;
         window.atualizarStatusMaquina = window.atualizarStatusMaquina;
         window.salvarMaquinas = window.salvarMaquinas;
+        window.editarProduto = window.editarProduto;
 
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
-        console.log('🏭 Status das máquinas: 🟢 Em Produção | 🔴 Parado (com motivo) | 🟡 Em Teste');
+        console.log('🏭 Status das máquinas: 🟢 Em Produção | 🔴 Parado (com motivo) | 🟡 Em Teste (com motivo)');
         console.log('📝 Campos renomeados: 📦 Prod e ⚡ Ciclo');
         console.log('💾 Máquinas: edite e clique em "Salvar Máquinas" para persistir.');
+        console.log('✏️ Produtos: clique em "Editar" para alterar nome e pesos, depois "Salvar" para persistir.');
     </script>
 </body>
 </html>
