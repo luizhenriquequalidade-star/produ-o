@@ -1849,11 +1849,13 @@
 
         const nomesPadraoMaquinas = [
             'Máquina Alpha', 'Máquina Beta', 'Máquina Gamma', 'Máquina Delta', 'Máquina Épsilon',
-            'Máquina Zeta', 'Máquina Eta', 'Máquina Teta', 'Máquina Iota', 'Máquina Kappa'
+            'Máquina Zeta', 'Máquina Eta', 'Máquina Teta', 'Máquina Iota', 'Máquina Kappa',
+            'Máquina Lambda', 'Máquina Mi', 'Máquina Ni'
         ];
         const nomesProdutosIniciais = [
             'Farinha de Trigo', 'Farinha de Milho', 'Farinha de Rosca', 'Farinha de Mandioca',
-            'Farinha de Arroz', 'Fubá', 'Amido de Milho', 'Polvilho', 'Fécula', 'Farinha Integral'
+            'Farinha de Arroz', 'Fubá', 'Amido de Milho', 'Polvilho', 'Fécula', 'Farinha Integral',
+            'Farinha de Aveia', 'Farinha de Centeio', 'Farelo de Trigo'
         ];
 
         let clienteVisualizacao = 'rita';
@@ -1995,12 +1997,22 @@
 
         function inicializarMaquinasLocal() {
             maquinas = [];
-            const statusOptions = ['produzindo', 'produzindo', 'produzindo', 'produzindo', 'produzindo', 'produzindo',
-                'parado', 'parado', 'teste', 'teste'
+            const statusOptions = [
+                'produzindo', 'produzindo', 'produzindo', 'produzindo', 'produzindo',
+                'produzindo', 'parado', 'parado', 'teste', 'teste',
+                'produzindo', 'parado', 'teste'
             ];
-            const motivosParada = ['', '', '', '', '', '', 'Falta de matéria-prima', 'Manutenção corretiva', '', ''];
-            const motivosTeste = ['', '', '', '', '', '', '', '', 'Teste de novo produto', 'Ajuste de configuração'];
-            for (let i = 0; i < 10; i++) {
+            const motivosParada = [
+                '', '', '', '', '', '',
+                'Falta de matéria-prima', 'Manutenção corretiva', '', '',
+                '', 'Falta de energia', ''
+            ];
+            const motivosTeste = [
+                '', '', '', '', '', '',
+                '', '', 'Teste de novo produto', 'Ajuste de configuração',
+                '', '', 'Teste de validação'
+            ];
+            for (let i = 0; i < 13; i++) {
                 const pesoBase = Math.floor(Math.random() * 800) + 200;
                 const pesoMin = pesoBase - Math.floor(Math.random() * 50);
                 const pesoMed = pesoBase;
@@ -3429,6 +3441,7 @@
         console.log('🗑 Exclusão de histórico: disponível para usuários de qualidade');
         console.log('📈 Dashboard de Paradas: ranking de máquinas, distribuição de motivos, métricas em tempo real');
         console.log('💾 Coleção "historicoParadas" criada automaticamente no Firestore');
+        console.log('🏭 Total de máquinas: 13 (Alpha a Ni)');
     </script>
 </body>
 </html>
