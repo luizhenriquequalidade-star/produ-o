@@ -739,7 +739,7 @@
             min-width: 180px;
         }
 
-        /* Máquinas */
+        /* Máquinas - Indicadores agregados */
         .live-indicators {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -791,6 +791,15 @@
             color: var(--text-muted);
             margin-top: 2px;
         }
+        .live-card .live-machine {
+            font-size: 0.68em;
+            color: #aaa;
+            margin-top: 3px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            min-height: 16px;
+            opacity: 0.85;
+        }
         .live-card.max .live-value {
             color: #f87171;
             text-shadow: 0 0 20px var(--red-glow);
@@ -834,6 +843,90 @@
                 opacity: 0.5;
             }
         }
+
+        /* Grid de resumo de máquinas (cards coloridos individuais) */
+        .machines-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 1200px) {
+            .machines-summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .machines-summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .machines-summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .machine-summary-card {
+            background: var(--bg-card2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 12px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            transition: var(--transition);
+            position: relative;
+        }
+        .machine-summary-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+        .machine-summary-card.max {
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+        .machine-summary-card.med {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 20px var(--blue-glow);
+        }
+        .machine-summary-card.min {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+        .machine-summary-card .ms-name {
+            font-weight: 700;
+            font-size: 0.85em;
+            letter-spacing: 0.03em;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .machine-summary-card .ms-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7em;
+            padding: 2px 0;
+            letter-spacing: 0.03em;
+        }
+        .machine-summary-card .ms-row .ms-label {
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        .machine-summary-card .ms-row .ms-value {
+            font-weight: 700;
+        }
+        .machine-summary-card.max .ms-name {
+            color: #f87171;
+        }
+        .machine-summary-card.med .ms-name {
+            color: #60a5fa;
+        }
+        .machine-summary-card.min .ms-name {
+            color: #34d399;
+        }
+
+        /* Grid editável de máquinas */
         .machines-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -1107,7 +1200,6 @@
         <!-- Painel: Produtos -->
         <div class="tab-panel active" id="tab-produtos">
             <div class="grid-2col">
-                <!-- Card de Cadastro (visível apenas para qualidade) -->
                 <div class="card card-gold-border" id="cardCadastro">
                     <div class="card-header">
                         <span class="icon">📝</span> Cadastrar Produto
@@ -1146,12 +1238,10 @@
                     </button>
                 </div>
 
-                <!-- Card de Visualização por Cliente (com filtros independentes) -->
                 <div class="card card-purple-border" id="cardListaCliente">
                     <div class="card-header">
                         <span class="icon">📋</span> Consulta de Produtos
                     </div>
-                    <!-- Botões de filtro por cliente -->
                     <div class="cliente-filter-btns">
                         <button class="cliente-filter-btn active" data-cliente="rita" id="btnFiltroRita">
                             👑 Dona Rita
@@ -1160,7 +1250,6 @@
                             🏢 Concorrente
                         </button>
                     </div>
-                    <!-- Filtro de busca por nome -->
                     <div class="filter-row">
                         <input type="text" id="filtroVisualizacao" placeholder="🔍 Filtrar por nome do produto..."
                         oninput="aplicarFiltroVisualizacao()">
@@ -1185,14 +1274,12 @@
                 </div>
             </div>
 
-            <!-- Botão de Comparação -->
             <div class="text-center mt-4">
                 <button class="btn btn-purple" onclick="compararClientes()" style="font-size:0.9em; padding:14px 36px;">
                     🔍 Comparar Dona Rita × Concorrente
                 </button>
             </div>
 
-            <!-- Área de Comparação -->
             <div class="filter-row-compare mt-4" id="filtroComparacaoRow" style="display:none;">
                 <input type="text" id="filtroComparacao" placeholder="🔍 Filtrar produtos na comparação..."
                 oninput="aplicarFiltroComparacao()">
@@ -1223,75 +1310,95 @@
 
         <!-- Painel: Máquinas Ao Vivo -->
         <div class="tab-panel" id="tab-maquinas">
-            <!-- NOVO: Velocidade Produto (acima de Velocidade) -->
+            <!-- Indicadores agregados: Velocidade Produto -->
             <div class="live-indicators" id="liveIndicatorsVelProduto">
                 <div class="live-card max">
                     <div class="live-label"><span class="pulse-dot red"></span> Vel. Produto Máx</div>
                     <div class="live-value" id="liveVelProdMax">0</div>
                     <div class="live-sub">unidades/min</div>
+                    <div class="live-machine" id="liveVelProdMaxMachine"></div>
                 </div>
                 <div class="live-card med">
                     <div class="live-label"><span class="pulse-dot blue"></span> Vel. Produto Méd</div>
                     <div class="live-value" id="liveVelProdMed">0</div>
                     <div class="live-sub">unidades/min</div>
+                    <div class="live-machine" id="liveVelProdMedMachine">Média geral</div>
                 </div>
                 <div class="live-card min">
                     <div class="live-label"><span class="pulse-dot green"></span> Vel. Produto Mín</div>
                     <div class="live-value" id="liveVelProdMin">0</div>
                     <div class="live-sub">unidades/min</div>
+                    <div class="live-machine" id="liveVelProdMinMachine"></div>
                 </div>
             </div>
+            <!-- Indicadores agregados: Velocidade -->
             <div class="live-indicators" id="liveIndicatorsVel">
                 <div class="live-card max">
                     <div class="live-label"><span class="pulse-dot red"></span> Velocidade Máxima</div>
                     <div class="live-value" id="liveVelMax">0</div>
                     <div class="live-sub">unidades/min</div>
+                    <div class="live-machine" id="liveVelMaxMachine"></div>
                 </div>
                 <div class="live-card med">
                     <div class="live-label"><span class="pulse-dot blue"></span> Velocidade Média</div>
                     <div class="live-value" id="liveVelMed">0</div>
                     <div class="live-sub">unidades/min</div>
+                    <div class="live-machine" id="liveVelMedMachine">Média geral</div>
                 </div>
                 <div class="live-card min">
                     <div class="live-label"><span class="pulse-dot green"></span> Velocidade Mínima</div>
                     <div class="live-value" id="liveVelMin">0</div>
                     <div class="live-sub">unidades/min</div>
+                    <div class="live-machine" id="liveVelMinMachine"></div>
                 </div>
             </div>
+            <!-- Indicadores agregados: Pessoas -->
             <div class="live-indicators" id="liveIndicatorsPes">
                 <div class="live-card max">
                     <div class="live-label"><span class="pulse-dot red"></span> Pessoas (Máx)</div>
                     <div class="live-value" id="livePesMax">0</div>
                     <div class="live-sub">operadores</div>
+                    <div class="live-machine" id="livePesMaxMachine"></div>
                 </div>
                 <div class="live-card med">
                     <div class="live-label"><span class="pulse-dot blue"></span> Pessoas (Média)</div>
                     <div class="live-value" id="livePesMed">0</div>
                     <div class="live-sub">operadores</div>
+                    <div class="live-machine" id="livePesMedMachine">Média geral</div>
                 </div>
                 <div class="live-card min">
                     <div class="live-label"><span class="pulse-dot green"></span> Pessoas (Mín)</div>
                     <div class="live-value" id="livePesMin">0</div>
                     <div class="live-sub">operadores</div>
+                    <div class="live-machine" id="livePesMinMachine"></div>
                 </div>
             </div>
+            <!-- Indicadores agregados: Peso -->
             <div class="live-indicators" id="liveIndicatorsWeight">
                 <div class="live-card max">
                     <div class="live-label"><span class="pulse-dot red"></span> Peso Máximo</div>
                     <div class="live-value" id="liveWeightMax">0</div>
                     <div class="live-sub">gramas</div>
+                    <div class="live-machine" id="liveWeightMaxMachine"></div>
                 </div>
                 <div class="live-card med">
                     <div class="live-label"><span class="pulse-dot blue"></span> Peso Médio</div>
                     <div class="live-value" id="liveWeightMed">0</div>
                     <div class="live-sub">gramas</div>
+                    <div class="live-machine" id="liveWeightMedMachine">Média geral</div>
                 </div>
                 <div class="live-card min">
                     <div class="live-label"><span class="pulse-dot green"></span> Peso Mínimo</div>
                     <div class="live-value" id="liveWeightMin">0</div>
                     <div class="live-sub">gramas</div>
+                    <div class="live-machine" id="liveWeightMinMachine"></div>
                 </div>
             </div>
+
+            <!-- NOVO: Cards-resumo individuais por máquina (coloridos) -->
+            <div class="machines-summary-grid" id="machinesSummaryGrid"></div>
+
+            <!-- Grid editável de máquinas (original) -->
             <div class="machines-grid" id="machinesGrid"></div>
             <div class="save-machines-area">
                 <button class="btn btn-save-machines" onclick="salvarMaquinas()">💾 Salvar Máquinas</button>
@@ -1300,7 +1407,6 @@
     </div>
 
     <!-- ============ SCRIPTS ============ -->
-    <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
@@ -1534,6 +1640,7 @@
         const tabelaComparacaoConc = document.getElementById('tabelaComparacaoConc');
         const resumoComparacao = document.getElementById('resumoComparacao');
         const machinesGrid = document.getElementById('machinesGrid');
+        const machinesSummaryGrid = document.getElementById('machinesSummaryGrid');
         const toastContainer = document.getElementById('toastContainer');
         const particlesContainer = document.getElementById('particlesContainer');
         const btnFiltroRita = document.getElementById('btnFiltroRita');
@@ -1586,6 +1693,8 @@
             }
             atualizarTabelaVisualizacao();
             renderizarMaquinas();
+            renderizarResumoMaquinas();
+            atualizarIndicadoresAoVivo();
         }
 
         // ============ LOGIN / LOGOUT ============
@@ -1623,6 +1732,7 @@
             atualizarUIComPermissoes();
             atualizarTabelaVisualizacao();
             renderizarMaquinas();
+            renderizarResumoMaquinas();
             atualizarIndicadoresAoVivo();
             showToast('✅ Bem-vindo(a), ' + usuarioLogado.nome + '!');
             setTimeout(() => {
@@ -1652,6 +1762,7 @@
             clienteVisualizacao = 'rita';
             btnFiltroRita.classList.add('active');
             btnFiltroConc.classList.remove('active');
+            machinesSummaryGrid.innerHTML = '';
             showToast('👋 Sessão encerrada.', 'warning');
         };
 
@@ -1681,6 +1792,7 @@
                         atualizarUIComPermissoes();
                         atualizarTabelaVisualizacao();
                         renderizarMaquinas();
+                        renderizarResumoMaquinas();
                         atualizarIndicadoresAoVivo();
                         return;
                     }
@@ -1937,7 +2049,7 @@
             resumoComparacao.innerHTML = resumoHTML;
         };
 
-        // ============ MÁQUINAS ============
+        // ============ MÁQUINAS: GRID EDITÁVEL ============
         function renderizarMaquinas() {
             if (!usuarioLogado) return;
             const readonlyAttr = isQualidade() ? '' : 'readonly';
@@ -1950,37 +2062,37 @@
                     <div class="field-group">
                         <label>⚡ V.Prod.</label>
                         <input type="number" value="${m.velProduto}" min="0" step="0.1"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo(); renderizarResumoMaquinas();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>⚡ Vel.</label>
                         <input type="number" value="${m.velocidade}" min="0" step="0.1"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo(); renderizarResumoMaquinas();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>👥 Pes.</label>
                         <input type="number" value="${m.pessoas}" min="0" step="1"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); atualizarIndicadoresAoVivo(); renderizarResumoMaquinas();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>⚖️ Mín</label>
                         <input type="number" value="${m.pesoMin}" min="0" step="0.01"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMin', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMin', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo(); renderizarResumoMaquinas();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>⚖️ Méd</label>
                         <input type="number" value="${m.pesoMed}" min="0" step="0.01"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMed', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMed', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo(); renderizarResumoMaquinas();"
                                ${readonlyAttr}>
                     </div>
                     <div class="field-group">
                         <label>⚖️ Máx</label>
                         <input type="number" value="${m.pesoMax}" min="0" step="0.01"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMax', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMax', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo(); renderizarResumoMaquinas();"
                                ${readonlyAttr}>
                     </div>
                 </div>
@@ -1991,6 +2103,7 @@
             if (!isQualidade()) {
                 showToast('⛔ Apenas usuários de qualidade podem editar máquinas.', 'warning');
                 renderizarMaquinas();
+                renderizarResumoMaquinas();
                 return;
             }
             const maquina = maquinas.find(m => m.id === id);
@@ -2012,6 +2125,7 @@
                 maquina.pesoMax = Math.max(0, valor);
             }
             atualizarIndicadoresAoVivo();
+            renderizarResumoMaquinas();
         };
 
         window.salvarMaquinas = async function() {
@@ -2030,7 +2144,13 @@
             }
         };
 
+        // ============ INDICADORES AO VIVO (agregados + nomes das máquinas) ============
         function atualizarIndicadoresAoVivo() {
+            if (!usuarioLogado || maquinas.length === 0) {
+                zerarIndicadores();
+                return;
+            }
+
             const velProdutoArr = maquinas.map(m => m.velProduto).filter(v => !isNaN(v));
             const velocidades = maquinas.map(m => m.velocidade).filter(v => !isNaN(v));
             const pessoasArr = maquinas.map(m => m.pessoas).filter(p => !isNaN(p));
@@ -2038,46 +2158,166 @@
             const pesosMedArr = maquinas.map(m => m.pesoMed).filter(p => !isNaN(p));
             const pesosMaxArr = maquinas.map(m => m.pesoMax).filter(p => !isNaN(p));
 
-            // Velocidade Produto
+            // Função auxiliar para encontrar máquina pelo valor do campo
+            function findMachineByField(field, value) {
+                return maquinas.find(m => m[field] === value) || null;
+            }
+
+            // ---- Velocidade Produto ----
             if (velProdutoArr.length > 0) {
-                document.getElementById('liveVelProdMax').textContent = Math.max(...velProdutoArr).toFixed(1);
-                document.getElementById('liveVelProdMed').textContent = (velProdutoArr.reduce((a, b) => a + b, 0) / velProdutoArr.length).toFixed(1);
-                document.getElementById('liveVelProdMin').textContent = Math.min(...velProdutoArr).toFixed(1);
+                const maxVP = Math.max(...velProdutoArr);
+                const minVP = Math.min(...velProdutoArr);
+                const medVP = velProdutoArr.reduce((a, b) => a + b, 0) / velProdutoArr.length;
+                document.getElementById('liveVelProdMax').textContent = maxVP.toFixed(1);
+                document.getElementById('liveVelProdMed').textContent = medVP.toFixed(1);
+                document.getElementById('liveVelProdMin').textContent = minVP.toFixed(1);
+                const maqMax = findMachineByField('velProduto', maxVP);
+                const maqMin = findMachineByField('velProduto', minVP);
+                document.getElementById('liveVelProdMaxMachine').textContent = maqMax ? maqMax.nome : '';
+                document.getElementById('liveVelProdMinMachine').textContent = maqMin ? maqMin.nome : '';
             } else {
                 document.getElementById('liveVelProdMax').textContent = '0';
                 document.getElementById('liveVelProdMed').textContent = '0';
                 document.getElementById('liveVelProdMin').textContent = '0';
+                document.getElementById('liveVelProdMaxMachine').textContent = '';
+                document.getElementById('liveVelProdMinMachine').textContent = '';
             }
-            // Velocidade
+
+            // ---- Velocidade ----
             if (velocidades.length > 0) {
-                document.getElementById('liveVelMax').textContent = Math.max(...velocidades).toFixed(1);
-                document.getElementById('liveVelMed').textContent = (velocidades.reduce((a, b) => a + b, 0) / velocidades.length).toFixed(1);
-                document.getElementById('liveVelMin').textContent = Math.min(...velocidades).toFixed(1);
+                const maxV = Math.max(...velocidades);
+                const minV = Math.min(...velocidades);
+                const medV = velocidades.reduce((a, b) => a + b, 0) / velocidades.length;
+                document.getElementById('liveVelMax').textContent = maxV.toFixed(1);
+                document.getElementById('liveVelMed').textContent = medV.toFixed(1);
+                document.getElementById('liveVelMin').textContent = minV.toFixed(1);
+                const maqMax = findMachineByField('velocidade', maxV);
+                const maqMin = findMachineByField('velocidade', minV);
+                document.getElementById('liveVelMaxMachine').textContent = maqMax ? maqMax.nome : '';
+                document.getElementById('liveVelMinMachine').textContent = maqMin ? maqMin.nome : '';
             } else {
                 document.getElementById('liveVelMax').textContent = '0';
                 document.getElementById('liveVelMed').textContent = '0';
                 document.getElementById('liveVelMin').textContent = '0';
+                document.getElementById('liveVelMaxMachine').textContent = '';
+                document.getElementById('liveVelMinMachine').textContent = '';
             }
-            // Pessoas
+
+            // ---- Pessoas ----
             if (pessoasArr.length > 0) {
-                document.getElementById('livePesMax').textContent = Math.max(...pessoasArr);
-                document.getElementById('livePesMed').textContent = Math.round(pessoasArr.reduce((a, b) => a + b, 0) / pessoasArr.length);
-                document.getElementById('livePesMin').textContent = Math.min(...pessoasArr);
+                const maxP = Math.max(...pessoasArr);
+                const minP = Math.min(...pessoasArr);
+                const medP = Math.round(pessoasArr.reduce((a, b) => a + b, 0) / pessoasArr.length);
+                document.getElementById('livePesMax').textContent = maxP;
+                document.getElementById('livePesMed').textContent = medP;
+                document.getElementById('livePesMin').textContent = minP;
+                const maqMax = findMachineByField('pessoas', maxP);
+                const maqMin = findMachineByField('pessoas', minP);
+                document.getElementById('livePesMaxMachine').textContent = maqMax ? maqMax.nome : '';
+                document.getElementById('livePesMinMachine').textContent = maqMin ? maqMin.nome : '';
             } else {
                 document.getElementById('livePesMax').textContent = '0';
                 document.getElementById('livePesMed').textContent = '0';
                 document.getElementById('livePesMin').textContent = '0';
+                document.getElementById('livePesMaxMachine').textContent = '';
+                document.getElementById('livePesMinMachine').textContent = '';
             }
-            // Peso
-            if (pesosMinArr.length > 0) {
-                document.getElementById('liveWeightMax').textContent = Math.max(...pesosMinArr).toFixed(2);
-                document.getElementById('liveWeightMed').textContent = (pesosMedArr.reduce((a, b) => a + b, 0) / pesosMedArr.length).toFixed(2);
-                document.getElementById('liveWeightMin').textContent = Math.min(...pesosMaxArr).toFixed(2);
+
+            // ---- Peso (CORRIGIDO: máx usa pesosMaxArr, mín usa pesosMinArr) ----
+            if (pesosMaxArr.length > 0 && pesosMedArr.length > 0 && pesosMinArr.length > 0) {
+                const maxW = Math.max(...pesosMaxArr);
+                const minW = Math.min(...pesosMinArr);
+                const medW = pesosMedArr.reduce((a, b) => a + b, 0) / pesosMedArr.length;
+                document.getElementById('liveWeightMax').textContent = maxW.toFixed(2);
+                document.getElementById('liveWeightMed').textContent = medW.toFixed(2);
+                document.getElementById('liveWeightMin').textContent = minW.toFixed(2);
+                const maqMax = findMachineByField('pesoMax', maxW);
+                const maqMin = findMachineByField('pesoMin', minW);
+                document.getElementById('liveWeightMaxMachine').textContent = maqMax ? maqMax.nome : '';
+                document.getElementById('liveWeightMinMachine').textContent = maqMin ? maqMin.nome : '';
             } else {
                 document.getElementById('liveWeightMax').textContent = '0';
                 document.getElementById('liveWeightMed').textContent = '0';
                 document.getElementById('liveWeightMin').textContent = '0';
+                document.getElementById('liveWeightMaxMachine').textContent = '';
+                document.getElementById('liveWeightMinMachine').textContent = '';
             }
+        }
+
+        function zerarIndicadores() {
+            const ids = [
+                'liveVelProdMax', 'liveVelProdMed', 'liveVelProdMin',
+                'liveVelMax', 'liveVelMed', 'liveVelMin',
+                'livePesMax', 'livePesMed', 'livePesMin',
+                'liveWeightMax', 'liveWeightMed', 'liveWeightMin'
+            ];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = '0';
+            });
+            const machineSpans = [
+                'liveVelProdMaxMachine', 'liveVelProdMinMachine',
+                'liveVelMaxMachine', 'liveVelMinMachine',
+                'livePesMaxMachine', 'livePesMinMachine',
+                'liveWeightMaxMachine', 'liveWeightMinMachine'
+            ];
+            machineSpans.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = '';
+            });
+        }
+
+        // ============ CARDS-RESUMO INDIVIDUAIS POR MÁQUINA (COLORIDOS) ============
+        function renderizarResumoMaquinas() {
+            if (!usuarioLogado || maquinas.length === 0) {
+                machinesSummaryGrid.innerHTML = '';
+                return;
+            }
+
+            // Ordenar por velocidade para definir as cores
+            const sortedByVel = [...maquinas].sort((a, b) => b.velocidade - a.velocidade);
+            const total = maquinas.length;
+            const terc = Math.ceil(total / 3);
+
+            // Mapear cada máquina para sua classe de cor
+            const classeMap = {};
+            sortedByVel.forEach((m, index) => {
+                if (index < terc) {
+                    classeMap[m.id] = 'max';
+                } else if (index < total - terc) {
+                    classeMap[m.id] = 'med';
+                } else {
+                    classeMap[m.id] = 'min';
+                }
+            });
+
+            machinesSummaryGrid.innerHTML = maquinas.map((m, i) => {
+                const classe = classeMap[m.id] || 'med';
+                const dotColor = classe === 'max' ? 'red' : (classe === 'min' ? 'green' : 'blue');
+                return `
+                    <div class="machine-summary-card ${classe}">
+                        <div class="ms-name">
+                            <span class="pulse-dot ${dotColor}"></span> ${escapeHTML(m.nome)}
+                        </div>
+                        <div class="ms-row">
+                            <span class="ms-label">⚡ V.Prod.</span>
+                            <span class="ms-value">${m.velProduto.toFixed(1)}</span>
+                        </div>
+                        <div class="ms-row">
+                            <span class="ms-label">⚡ Vel.</span>
+                            <span class="ms-value">${m.velocidade.toFixed(1)}</span>
+                        </div>
+                        <div class="ms-row">
+                            <span class="ms-label">👥 Pes.</span>
+                            <span class="ms-value">${m.pessoas}</span>
+                        </div>
+                        <div class="ms-row">
+                            <span class="ms-label">⚖️ Peso Méd</span>
+                            <span class="ms-value">${m.pesoMed.toFixed(2)} g</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // ============ NAVEGAÇÃO POR ABAS ============
@@ -2095,11 +2335,13 @@
                     targetPanel.classList.add('active');
                     if (targetId === 'tab-maquinas') {
                         atualizarIndicadoresAoVivo();
+                        renderizarResumoMaquinas();
                     }
                 }
             });
         });
 
+        // Atualização periódica (a cada 3s) apenas quando a aba de máquinas está ativa
         setInterval(() => {
             if (usuarioLogado && document.getElementById('tab-maquinas').classList.contains('active')) {
                 atualizarIndicadoresAoVivo();
@@ -2108,6 +2350,7 @@
 
         // Expor funções globais
         window.atualizarIndicadoresAoVivo = atualizarIndicadoresAoVivo;
+        window.renderizarResumoMaquinas = renderizarResumoMaquinas;
         window.aplicarFiltroVisualizacao = window.aplicarFiltroVisualizacao;
         window.aplicarFiltroComparacao = window.aplicarFiltroComparacao;
         window.efetuarLogin = window.efetuarLogin;
@@ -2121,7 +2364,7 @@
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
         console.log('📦 Coleções: produtos e maquinas');
-        console.log('⚡ Novo campo: velProduto adicionado às máquinas.');
+        console.log('⚡ Cards de resumo individuais por máquina adicionados com cores!');
         console.log('💾 Máquinas: edite e clique em "Salvar Máquinas" para persistir.');
     </script>
 </body>
