@@ -1420,10 +1420,11 @@
                             <th>Início</th>
                             <th>Fim</th>
                             <th>Duração</th>
+                            <th id="thAcoesHistorico">Ações</th>
                         </tr>
                     </thead>
                     <tbody id="tabelaHistoricoParadas">
-                        <tr><td colspan="5" class="empty-state">Nenhum histórico de paradas registrado</td></tr>
+                        <tr><td colspan="6" class="empty-state">Nenhum histórico de paradas registrado</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -1737,10 +1738,32 @@
             }
         }
 
+        async function excluirHistoricoParada(id) {
+            if (!isQualidade()) {
+                showToast('⛔ Apenas usuários de qualidade podem excluir itens do histórico.', 'warning');
+                return;
+            }
+            try {
+                await deleteDoc(doc(db, "historicoParadas", id));
+                historicoParadas = historicoParadas.filter(h => h.id !== id);
+                renderizarHistoricoParadas();
+                showToast('🗑 Registro de parada excluído com sucesso!', 'warning');
+            } catch (e) {
+                console.error("Erro ao excluir histórico de parada:", e);
+                showToast('❌ Erro ao excluir registro. Tente novamente.', 'warning');
+            }
+        }
+
         function renderizarHistoricoParadas() {
             const tabela = document.getElementById('tabelaHistoricoParadas');
             if (!tabela) return;
             const termo = normalizar(document.getElementById('filtroHistorico')?.value || '');
+            const podeExcluir = isQualidade();
+            const thAcoesHistorico = document.getElementById('thAcoesHistorico');
+
+            if (thAcoesHistorico) {
+                thAcoesHistorico.style.display = podeExcluir ? '' : 'none';
+            }
 
             let lista = historicoParadas;
             if (termo) {
@@ -1750,9 +1773,11 @@
                 );
             }
 
+            const colspan = podeExcluir ? 6 : 5;
+
             if (lista.length === 0) {
                 tabela.innerHTML =
-                    '<tr><td colspan="5" class="empty-state">Nenhum histórico de paradas registrado</td></tr>';
+                    `<tr><td colspan="${colspan}" class="empty-state">Nenhum histórico de paradas registrado</td></tr>`;
                 return;
             }
 
@@ -1763,6 +1788,11 @@
                     return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit',
                         minute: '2-digit', second: '2-digit' });
                 };
+                const acaoCol = podeExcluir ? `
+                    <td>
+                        <button class="btn-danger-sm" onclick="excluirHistoricoParada('${h.id}')" title="Excluir registro">🗑 Excluir</button>
+                    </td>
+                ` : '';
                 return `
                     <tr>
                         <td><strong>${escapeHTML(h.maquinaNome)}</strong></td>
@@ -1770,6 +1800,7 @@
                         <td>${formatoDataHora(inicioDate)}</td>
                         <td>${formatoDataHora(fimDate)}</td>
                         <td><span class="badge badge-red">⏱ ${formatarDuracao(h.duracaoSegundos)}</span></td>
+                        ${acaoCol}
                     </tr>
                 `;
             }).join('');
@@ -2033,7 +2064,10 @@
             machinesGrid.innerHTML = '';
             if (document.getElementById('tabelaHistoricoParadas')) {
                 document.getElementById('tabelaHistoricoParadas').innerHTML =
-                    '<tr><td colspan="5" class="empty-state">Nenhum histórico de paradas registrado</td></tr>';
+                    '<tr><td colspan="6" class="empty-state">Nenhum histórico de paradas registrado</td></tr>';
+            }
+            if (document.getElementById('thAcoesHistorico')) {
+                document.getElementById('thAcoesHistorico').style.display = '';
             }
             if (filtroHistoricoInput) filtroHistoricoInput.value = '';
             pararTimerGlobal();
@@ -2682,12 +2716,14 @@
         window.editarProduto = window.editarProduto;
         window.carregarHistoricoParadas = carregarHistoricoParadas;
         window.renderizarHistoricoParadas = renderizarHistoricoParadas;
+        window.excluirHistoricoParada = excluirHistoricoParada;
 
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
         console.log('🏭 Status das máquinas: 🟢 Em Produção | 🔴 Parado (com timer) | 🟡 Em Teste');
         console.log('⏱ Temporizador de parada: inicia ao colocar máquina como PARADO');
         console.log('📋 Histórico: salvo automaticamente no Firebase ao retornar para produção/teste');
+        console.log('🗑 Exclusão de histórico: disponível para usuários de qualidade');
         console.log('💾 Coleção "historicoParadas" criada automaticamente no Firestore');
     </script>
 </body>
