@@ -1702,6 +1702,11 @@
                 }
             } catch (e) {
                 console.error("Erro ao carregar histórico de paradas:", e);
+                if (e.code === 'failed-precondition' || e.message.includes('index')) {
+                    showToast('⚠️ É necessário criar um índice no Firestore. Verifique o console para o link.', 'warning');
+                } else {
+                    showToast('❌ Erro ao carregar histórico. Veja o console.', 'warning');
+                }
             }
         }
 
@@ -1710,7 +1715,7 @@
                 const docRef = await addDoc(collection(db, "historicoParadas"), {
                     maquinaId: registro.maquinaId,
                     maquinaNome: registro.maquinaNome,
-                    motivo: registro.motivo,
+                    motivo: registro.motivo || 'Motivo não informado',
                     inicio: registro.inicio,
                     fim: registro.fim,
                     duracaoSegundos: registro.duracaoSegundos
@@ -1723,7 +1728,12 @@
                     'warning');
             } catch (e) {
                 console.error("Erro ao salvar histórico de parada:", e);
-                showToast('❌ Erro ao registrar histórico de parada.', 'warning');
+                let msg = '❌ Erro ao registrar histórico de parada.';
+                if (e.message) {
+                    msg += ' (' + e.message.substring(0, 80) + '...)';
+                    console.log('Detalhes completos do erro:', e);
+                }
+                showToast(msg, 'warning');
             }
         }
 
@@ -1766,6 +1776,7 @@
         }
 
         function formatarDuracao(totalSegundos) {
+            if (isNaN(totalSegundos) || totalSegundos < 0) return '0s';
             if (totalSegundos < 60) return Math.round(totalSegundos) + 's';
             const horas = Math.floor(totalSegundos / 3600);
             const minutos = Math.floor((totalSegundos % 3600) / 60);
@@ -1801,17 +1812,25 @@
             if (!maquina) return;
             if (!maquina.paradaInicio) return;
 
-            const inicio = new Date(maquina.paradaInicio);
-            const fim = new Date();
-            const duracaoSegundos = Math.max(0, (fim.getTime() - inicio.getTime()) / 1000);
+            const inicioDate = new Date(maquina.paradaInicio);
+            if (isNaN(inicioDate.getTime())) {
+                console.warn('Data de início inválida:', maquina.paradaInicio);
+                maquina.paradaInicio = null;
+                maquina.motivoParada = '';
+                await atualizarMaquinaNoFirestore(maquina);
+                return;
+            }
+
+            const fimDate = new Date();
+            const duracaoSegundos = Math.max(0, Math.round((fimDate.getTime() - inicioDate.getTime()) / 1000));
 
             const registro = {
                 maquinaId: maquina.id,
                 maquinaNome: maquina.nome,
                 motivo: maquina.motivoParada || 'Motivo não informado',
                 inicio: maquina.paradaInicio,
-                fim: fim.toISOString(),
-                duracaoSegundos: Math.round(duracaoSegundos)
+                fim: fimDate.toISOString(),
+                duracaoSegundos: duracaoSegundos
             };
 
             maquina.paradaInicio = null;
@@ -2480,19 +2499,16 @@
                 await finalizarParada(id);
             }
 
+            maquina.status = novoStatus;
+
             if (novoStatus === 'parado' && statusAntigo !== 'parado') {
-                maquina.status = 'parado';
                 iniciarTimerParada(id);
-            } else if (novoStatus !== 'parado' && statusAntigo === 'parado') {
-                maquina.status = novoStatus;
-            } else {
-                maquina.status = novoStatus;
             }
 
-            if (novoStatus !== 'parado' && statusAntigo === 'parado') {
+            if (novoStatus !== 'parado') {
                 maquina.motivoParada = '';
             }
-            if (novoStatus !== 'teste' && statusAntigo === 'teste') {
+            if (novoStatus !== 'teste') {
                 maquina.motivoTeste = '';
             }
 
@@ -2627,7 +2643,6 @@
                 if (targetPanel) {
                     targetPanel.classList.add('active');
                     if (targetId === 'tab-maquinas') {
-                        // Recarrega o histórico do Firebase e atualiza a interface
                         carregarHistoricoParadas(false);
                         renderizarResumoMaquinas();
                         renderizarHistoricoParadas();
