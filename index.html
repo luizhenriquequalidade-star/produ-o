@@ -782,17 +782,21 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
-        .machine-summary-card.status-production {
+        /* Status cores */
+        .machine-summary-card.status-produzindo {
             border-color: rgba(16, 185, 129, 0.5);
             box-shadow: 0 0 20px var(--green-glow);
+            background: rgba(16, 185, 129, 0.08);
         }
-        .machine-summary-card.status-stopped {
+        .machine-summary-card.status-parado {
             border-color: rgba(239, 68, 68, 0.5);
             box-shadow: 0 0 20px var(--red-glow);
+            background: rgba(239, 68, 68, 0.08);
         }
-        .machine-summary-card.status-test {
+        .machine-summary-card.status-teste {
             border-color: rgba(234, 179, 8, 0.5);
             box-shadow: 0 0 20px var(--yellow-glow);
+            background: rgba(234, 179, 8, 0.08);
         }
         .machine-summary-card .ms-name {
             font-weight: 700;
@@ -822,50 +826,50 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        .machine-summary-card.status-production .ms-name {
+        .machine-summary-card.status-produzindo .ms-name {
             color: #34d399;
         }
-        .machine-summary-card.status-stopped .ms-name {
+        .machine-summary-card.status-parado .ms-name {
             color: #f87171;
         }
-        .machine-summary-card.status-test .ms-name {
+        .machine-summary-card.status-teste .ms-name {
             color: #facc15;
         }
-
-        .machine-summary-card .ms-status-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.65em;
+        .machine-summary-card .ms-status-text {
+            font-size: 0.68em;
             font-weight: 700;
             letter-spacing: 0.04em;
-            margin-top: 4px;
             text-transform: uppercase;
+            margin-top: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
         }
-        .machine-summary-card .ms-status-badge.status-production {
+        .machine-summary-card.status-produzindo .ms-status-text {
             background: rgba(16, 185, 129, 0.2);
             color: #34d399;
             border: 1px solid rgba(16, 185, 129, 0.4);
         }
-        .machine-summary-card .ms-status-badge.status-stopped {
+        .machine-summary-card.status-parado .ms-status-text {
             background: rgba(239, 68, 68, 0.2);
             color: #f87171;
             border: 1px solid rgba(239, 68, 68, 0.4);
         }
-        .machine-summary-card .ms-status-badge.status-test {
+        .machine-summary-card.status-teste .ms-status-text {
             background: rgba(234, 179, 8, 0.2);
             color: #facc15;
             border: 1px solid rgba(234, 179, 8, 0.4);
         }
-        .machine-summary-card .ms-stop-reason {
+        .machine-summary-card .ms-motivo-parada {
             font-size: 0.65em;
             color: #f87171;
             margin-top: 4px;
             font-style: italic;
+            letter-spacing: 0.02em;
+            word-break: break-word;
             max-height: 28px;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
         }
 
         /* Grid editável de máquinas */
@@ -929,7 +933,6 @@
             display: flex;
             gap: 6px;
             align-items: center;
-            margin-bottom: 6px;
         }
         .machine-card .field-group label {
             font-size: 0.6em;
@@ -938,49 +941,24 @@
             min-width: 30px;
             text-align: right;
         }
-        .machine-card .field-group input,
-        .machine-card .field-group select {
+        .machine-card .field-group input {
             flex: 1;
             margin-bottom: 0;
         }
-
-        .machine-card .status-select {
+        .machine-card select {
             font-size: 0.78em;
             padding: 8px 10px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             border-radius: 8px;
             text-align: center;
-            font-weight: 600;
-            cursor: pointer;
+            background-position: right 10px center;
+            padding-right: 30px;
         }
-        .machine-card .status-select option[value="production"] {
-            background: #064e3b;
-            color: #34d399;
+        .machine-card .motivo-parada-input {
+            display: none;
         }
-        .machine-card .status-select option[value="stopped"] {
-            background: #7f1d1d;
-            color: #f87171;
-        }
-        .machine-card .status-select option[value="test"] {
-            background: #713f12;
-            color: #facc15;
-        }
-
-        .machine-card .stop-reason-input {
-            font-size: 0.75em;
-            padding: 7px 8px;
-            margin-top: 4px;
-            border-radius: 8px;
-            text-align: center;
-            border-color: rgba(239, 68, 68, 0.4);
-        }
-        .machine-card .stop-reason-input:focus {
-            border-color: #ef4444;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
-        }
-        .machine-card .stop-reason-input::placeholder {
-            color: #666;
-            font-style: italic;
+        .machine-card .motivo-parada-input.visible {
+            display: block;
         }
 
         /* Comparação */
@@ -1067,7 +1045,7 @@
             }
         }
 
-        /* Pulse dot (usado nos cards de resumo) */
+        /* Pulse dot */
         .pulse-dot {
             display: inline-block;
             width: 8px;
@@ -1079,10 +1057,6 @@
         .pulse-dot.red {
             background: #ef4444;
             box-shadow: 0 0 8px #ef4444;
-        }
-        .pulse-dot.blue {
-            background: #3b82f6;
-            box-shadow: 0 0 8px #3b82f6;
         }
         .pulse-dot.green {
             background: #10b981;
@@ -1162,11 +1136,33 @@
             display: none !important;
         }
 
-        /* Área do botão salvar máquinas */
         .save-machines-area {
             display: flex;
             justify-content: center;
             margin-top: 20px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+        .status-indicator .status-label {
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+        .status-indicator .status-label.green {
+            color: #34d399;
+        }
+        .status-indicator .status-label.red {
+            color: #f87171;
+        }
+        .status-indicator .status-label.yellow {
+            color: #facc15;
         }
     </style>
 </head>
@@ -1330,7 +1326,7 @@
 
         <!-- Painel: Máquinas Ao Vivo -->
         <div class="tab-panel" id="tab-maquinas">
-            <!-- Cards-resumo individuais por máquina (coloridos por status) -->
+            <!-- Cards-resumo individuais por máquina (com status) -->
             <div class="machines-summary-grid" id="machinesSummaryGrid"></div>
 
             <!-- Grid editável de máquinas -->
@@ -1373,7 +1369,6 @@
             'Máquina Alpha', 'Máquina Beta', 'Máquina Gamma', 'Máquina Delta', 'Máquina Épsilon',
             'Máquina Zeta', 'Máquina Eta', 'Máquina Teta', 'Máquina Iota', 'Máquina Kappa'
         ];
-        // Lista de nomes de produtos para inicialização do campo Prod.
         const nomesProdutosIniciais = [
             'Farinha de Trigo', 'Farinha de Milho', 'Farinha de Rosca', 'Farinha de Mandioca',
             'Farinha de Arroz', 'Fubá', 'Amido de Milho', 'Polvilho', 'Fécula', 'Farinha Integral'
@@ -1487,7 +1482,6 @@
                     maquinas.push({
                         id: docSnap.id,
                         nome: data.nome,
-                        // Produto agora é string (nome do produto)
                         velProduto: data.velProduto !== undefined && data.velProduto !== null ? String(data
                             .velProduto) : '',
                         velocidade: data.velocidade,
@@ -1495,9 +1489,8 @@
                         pesoMin: data.pesoMin,
                         pesoMed: data.pesoMed,
                         pesoMax: data.pesoMax,
-                        // Novos campos de status
-                        status: data.status || 'production',
-                        stopReason: data.stopReason || ''
+                        status: data.status || 'produzindo',
+                        motivoParada: data.motivoParada || ''
                     });
                 });
                 maquinas.sort((a, b) => a.id.localeCompare(b.id));
@@ -1509,14 +1502,19 @@
 
         function inicializarMaquinasLocal() {
             maquinas = [];
-            const statusOptions = ['production', 'production', 'production', 'test', 'production', 'production',
-            'stopped', 'production', 'production', 'production'];
+            const statusOptions = ['produzindo', 'produzindo', 'produzindo', 'produzindo', 'produzindo', 'produzindo',
+                'parado', 'parado', 'teste', 'teste'
+            ];
+            const motivosParada = [
+                '', '', '', '', '', '',
+                'Falta de matéria-prima', 'Manutenção corretiva', '', ''
+            ];
             for (let i = 0; i < 10; i++) {
                 const pesoBase = Math.floor(Math.random() * 800) + 200;
                 const pesoMin = pesoBase - Math.floor(Math.random() * 50);
                 const pesoMed = pesoBase;
                 const pesoMax = pesoBase + Math.floor(Math.random() * 50);
-                const status = statusOptions[i] || 'production';
+                const st = statusOptions[i] || 'produzindo';
                 maquinas.push({
                     id: `maq${i}`,
                     nome: nomesPadraoMaquinas[i],
@@ -1526,8 +1524,8 @@
                     pesoMin: pesoMin,
                     pesoMed: pesoMed,
                     pesoMax: pesoMax,
-                    status: status,
-                    stopReason: status === 'stopped' ? 'Manutenção preventiva' : ''
+                    status: st,
+                    motivoParada: motivosParada[i] || ''
                 });
             }
         }
@@ -1543,8 +1541,8 @@
                         pesoMin: m.pesoMin,
                         pesoMed: m.pesoMed,
                         pesoMax: m.pesoMax,
-                        status: m.status || 'production',
-                        stopReason: m.stopReason || ''
+                        status: m.status,
+                        motivoParada: m.motivoParada
                     }, { merge: true });
                 }
             } catch (e) {
@@ -1562,8 +1560,8 @@
                     pesoMin: maquina.pesoMin,
                     pesoMed: maquina.pesoMed,
                     pesoMax: maquina.pesoMax,
-                    status: maquina.status || 'production',
-                    stopReason: maquina.stopReason || ''
+                    status: maquina.status,
+                    motivoParada: maquina.motivoParada
                 }, { merge: true });
             } catch (e) {
                 console.error("Erro ao atualizar máquina:", e);
@@ -1602,9 +1600,7 @@
 
         // ============ PARTÍCULAS ============
         function criarParticulas() {
-            const cores = ['#c89b5e', '#7c3aed', '#3b82f6', '#10b981', '#ef4444', '#e0c28f', '#a78bfa', '#f9a8d4',
-                '#eab308'
-            ];
+            const cores = ['#c89b5e', '#7c3aed', '#3b82f6', '#10b981', '#ef4444', '#e0c28f', '#a78bfa', '#f9a8d4'];
             for (let i = 0; i < 35; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
@@ -1683,8 +1679,7 @@
             await carregarProdutosDoFirestore();
             await carregarMaquinasDoFirestore();
 
-            userBadge.innerHTML =
-                `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+            userBadge.innerHTML = `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
             atualizarUIComPermissoes();
             atualizarTabelaVisualizacao();
             renderizarMaquinas();
@@ -2018,71 +2013,97 @@
             const readonlyAttr = isQualidade() ? '' : 'readonly';
             const disabledAttr = isQualidade() ? '' : 'disabled';
 
-            machinesGrid.innerHTML = maquinas.map((m, i) => {
-                const isStopped = m.status === 'stopped';
-                const statusOptionsHTML = `
-                    <select class="status-select" onchange="atualizarMaquinaLocal('${m.id}', 'status', this.value); renderizarMaquinas(); renderizarResumoMaquinas();" ${disabledAttr}>
-                        <option value="production" ${m.status === 'production' ? 'selected' : ''}>🟢 Em Produção</option>
-                        <option value="stopped" ${m.status === 'stopped' ? 'selected' : ''}>🔴 Parado</option>
-                        <option value="test" ${m.status === 'test' ? 'selected' : ''}>🟡 Em Teste</option>
-                    </select>
-                `;
-                const stopReasonHTML = `
-                    <input type="text" class="stop-reason-input" value="${escapeHTML(m.stopReason || '')}" 
-                           placeholder="Motivo da parada..." 
-                           oninput="atualizarMaquinaLocal('${m.id}', 'stopReason', this.value); renderizarResumoMaquinas();"
-                           ${readonlyAttr}
-                           style="${isStopped ? '' : 'display:none;'}">
-                `;
-
-                return `
-                    <div class="machine-card">
-                        <span class="machine-number">#${i + 1}</span>
-                        <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
-                               onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
-                               placeholder="Nome da máquina" ${readonlyAttr}>
-                        ${statusOptionsHTML}
-                        ${stopReasonHTML}
-                        <div class="field-group">
-                            <label>📦 Prod.</label>
-                            <input type="text" value="${escapeHTML(m.velProduto || '')}"
-                                   oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', this.value); renderizarResumoMaquinas();"
-                                   placeholder="Nome do produto" ${readonlyAttr}>
-                        </div>
-                        <div class="field-group">
-                            <label>⚡ Ciclo</label>
-                            <input type="number" value="${m.velocidade}" min="0" step="0.1"
-                                   oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                                   ${readonlyAttr}>
-                        </div>
-                        <div class="field-group">
-                            <label>👥 Pes.</label>
-                            <input type="number" value="${m.pessoas}" min="0" step="1"
-                                   oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); renderizarResumoMaquinas();"
-                                   ${readonlyAttr}>
-                        </div>
-                        <div class="field-group">
-                            <label>⚖️ Mín</label>
-                            <input type="number" value="${m.pesoMin}" min="0" step="0.01"
-                                   oninput="atualizarMaquinaLocal('${m.id}', 'pesoMin', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                                   ${readonlyAttr}>
-                        </div>
-                        <div class="field-group">
-                            <label>⚖️ Méd</label>
-                            <input type="number" value="${m.pesoMed}" min="0" step="0.01"
-                                   oninput="atualizarMaquinaLocal('${m.id}', 'pesoMed', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                                   ${readonlyAttr}>
-                        </div>
-                        <div class="field-group">
-                            <label>⚖️ Máx</label>
-                            <input type="number" value="${m.pesoMax}" min="0" step="0.01"
-                                   oninput="atualizarMaquinaLocal('${m.id}', 'pesoMax', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                                   ${readonlyAttr}>
-                        </div>
+            machinesGrid.innerHTML = maquinas.map((m, i) => `
+                <div class="machine-card">
+                    <span class="machine-number">#${i + 1}</span>
+                    <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
+                           onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
+                           placeholder="Nome da máquina" ${readonlyAttr}>
+                    
+                    <!-- Status da máquina -->
+                    <div class="status-indicator" id="statusIndicator_${m.id}">
+                        <span class="pulse-dot ${m.status === 'produzindo' ? 'green' : (m.status === 'parado' ? 'red' : 'yellow')}"></span>
+                        <span class="status-label ${m.status === 'produzindo' ? 'green' : (m.status === 'parado' ? 'red' : 'yellow')}">
+                            ${m.status === 'produzindo' ? '🟢 Em Produção' : (m.status === 'parado' ? '🔴 Parado' : '🟡 Em Teste')}
+                        </span>
                     </div>
-                `;
-            }).join('');
+                    
+                    <div class="field-group">
+                        <label>Status</label>
+                        <select onchange="atualizarStatusMaquina('${m.id}', this.value)"
+                                ${disabledAttr}>
+                            <option value="produzindo" ${m.status === 'produzindo' ? 'selected' : ''}>🟢 Em Produção</option>
+                            <option value="parado" ${m.status === 'parado' ? 'selected' : ''}>🔴 Parado</option>
+                            <option value="teste" ${m.status === 'teste' ? 'selected' : ''}>🟡 Em Teste</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Campo motivo da parada (visível apenas quando status = parado) -->
+                    <div class="field-group motivo-parada-input ${m.status === 'parado' ? 'visible' : ''}" id="motivoParadaGroup_${m.id}">
+                        <label>🔴 Motivo</label>
+                        <input type="text" value="${escapeHTML(m.motivoParada || '')}"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'motivoParada', this.value)"
+                               placeholder="Motivo da parada..." ${readonlyAttr}>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label>📦 Prod</label>
+                        <input type="text" value="${escapeHTML(m.velProduto || '')}"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', this.value); renderizarResumoMaquinas();"
+                               placeholder="Nome do produto" ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>⚡ Ciclo</label>
+                        <input type="number" value="${m.velocidade}" min="0" step="0.1"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>👥 Pes.</label>
+                        <input type="number" value="${m.pessoas}" min="0" step="1"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); renderizarResumoMaquinas();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>⚖️ Mín</label>
+                        <input type="number" value="${m.pesoMin}" min="0" step="0.01"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMin', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>⚖️ Méd</label>
+                        <input type="number" value="${m.pesoMed}" min="0" step="0.01"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMed', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
+                        <label>⚖️ Máx</label>
+                        <input type="number" value="${m.pesoMax}" min="0" step="0.01"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMax', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
+                               ${readonlyAttr}>
+                    </div>
+                </div>
+            `).join('');
         }
+
+        window.atualizarStatusMaquina = function(id, novoStatus) {
+            if (!isQualidade()) {
+                showToast('⛔ Apenas usuários de qualidade podem alterar o status.', 'warning');
+                renderizarMaquinas();
+                renderizarResumoMaquinas();
+                return;
+            }
+            const maquina = maquinas.find(m => m.id === id);
+            if (!maquina) return;
+
+            maquina.status = novoStatus;
+            if (novoStatus !== 'parado') {
+                maquina.motivoParada = '';
+            }
+
+            renderizarMaquinas();
+            renderizarResumoMaquinas();
+        };
 
         window.atualizarMaquinaLocal = function(id, campo, valor) {
             if (!isQualidade()) {
@@ -2108,13 +2129,8 @@
                 maquina.pesoMed = Math.max(0, valor);
             } else if (campo === 'pesoMax') {
                 maquina.pesoMax = Math.max(0, valor);
-            } else if (campo === 'status') {
-                maquina.status = valor;
-                if (valor !== 'stopped') {
-                    maquina.stopReason = '';
-                }
-            } else if (campo === 'stopReason') {
-                maquina.stopReason = valor;
+            } else if (campo === 'motivoParada') {
+                maquina.motivoParada = valor;
             }
             renderizarResumoMaquinas();
         };
@@ -2135,7 +2151,7 @@
             }
         };
 
-        // ============ CARDS-RESUMO INDIVIDUAIS POR MÁQUINA (COLORIDOS POR STATUS) ============
+        // ============ CARDS-RESUMO INDIVIDUAIS POR MÁQUINA (COM STATUS) ============
         function renderizarResumoMaquinas() {
             if (!usuarioLogado || maquinas.length === 0) {
                 machinesSummaryGrid.innerHTML = '';
@@ -2144,31 +2160,25 @@
 
             machinesSummaryGrid.innerHTML = maquinas.map((m, i) => {
                 let statusClass = '';
-                let statusText = '';
                 let dotColor = '';
-                let statusBadgeClass = '';
+                let statusText = '';
+                let motivoHTML = '';
 
-                if (m.status === 'production') {
-                    statusClass = 'status-production';
-                    statusText = 'Em Produção';
+                if (m.status === 'produzindo') {
+                    statusClass = 'status-produzindo';
                     dotColor = 'green';
-                    statusBadgeClass = 'status-production';
-                } else if (m.status === 'stopped') {
-                    statusClass = 'status-stopped';
-                    statusText = 'Parado';
+                    statusText = '🟢 Em Produção';
+                } else if (m.status === 'parado') {
+                    statusClass = 'status-parado';
                     dotColor = 'red';
-                    statusBadgeClass = 'status-stopped';
-                } else if (m.status === 'test') {
-                    statusClass = 'status-test';
-                    statusText = 'Em Teste';
+                    statusText = '🔴 Parado';
+                    if (m.motivoParada && m.motivoParada.trim() !== '') {
+                        motivoHTML = `<div class="ms-motivo-parada">📝 ${escapeHTML(m.motivoParada)}</div>`;
+                    }
+                } else if (m.status === 'teste') {
+                    statusClass = 'status-teste';
                     dotColor = 'yellow';
-                    statusBadgeClass = 'status-test';
-                }
-
-                let stopReasonHTML = '';
-                if (m.status === 'stopped' && m.stopReason) {
-                    stopReasonHTML =
-                        `<div class="ms-stop-reason" title="${escapeHTML(m.stopReason)}">📝 ${escapeHTML(m.stopReason)}</div>`;
+                    statusText = '🟡 Em Teste';
                 }
 
                 return `
@@ -2177,7 +2187,7 @@
                             <span class="pulse-dot ${dotColor}"></span> ${escapeHTML(m.nome)}
                         </div>
                         <div class="ms-row">
-                            <span class="ms-label">📦 Prod.</span>
+                            <span class="ms-label">📦 Prod</span>
                             <span class="ms-value">${escapeHTML(m.velProduto || '—')}</span>
                         </div>
                         <div class="ms-row">
@@ -2192,8 +2202,8 @@
                             <span class="ms-label">⚖️ Peso Méd</span>
                             <span class="ms-value">${m.pesoMed.toFixed(2)} g</span>
                         </div>
-                        <span class="ms-status-badge ${statusBadgeClass}">${statusText}</span>
-                        ${stopReasonHTML}
+                        <div class="ms-status-text">${statusText}</div>
+                        ${motivoHTML}
                     </div>
                 `;
             }).join('');
@@ -2229,15 +2239,13 @@
         window.removerProduto = window.removerProduto;
         window.compararClientes = window.compararClientes;
         window.atualizarMaquinaLocal = window.atualizarMaquinaLocal;
+        window.atualizarStatusMaquina = window.atualizarStatusMaquina;
         window.salvarMaquinas = window.salvarMaquinas;
 
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
-        console.log('📦 Coleções: produtos e maquinas');
-        console.log('🏭 Cards de resumo com status: 🟢 Em Produção | 🔴 Parado | 🟡 Em Teste');
-        console.log('📝 Campo Prod. exibe o nome do produto.');
-        console.log('⚡ Campo Ciclo exibe a velocidade/ciclo.');
-        console.log('🛑 Máquinas paradas exibem o motivo da parada.');
+        console.log('🏭 Status das máquinas: 🟢 Em Produção | 🔴 Parado (com motivo) | 🟡 Em Teste');
+        console.log('📝 Campos renomeados: 📦 Prod e ⚡ Ciclo');
         console.log('💾 Máquinas: edite e clique em "Salvar Máquinas" para persistir.');
     </script>
 </body>
