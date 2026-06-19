@@ -629,6 +629,31 @@
             border-color: #3b82f6;
             box-shadow: 0 0 15px var(--blue-glow);
         }
+        .btn-dash-sm {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #f87171;
+            padding: 7px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.68em;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            transition: var(--transition);
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .btn-dash-sm:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #ef4444;
+            box-shadow: 0 0 14px var(--red-glow);
+        }
+        .btn-dash-sm.active {
+            background: rgba(239, 68, 68, 0.35);
+            border-color: #ef4444;
+            color: #fff;
+            box-shadow: 0 0 18px var(--red-glow);
+        }
 
         .cliente-filter-btns {
             display: flex;
@@ -1289,6 +1314,320 @@
             align-items: center;
             gap: 8px;
         }
+
+        /* ============ DASHBOARD STYLES ============ */
+        .dash-metrics-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 1100px) {
+            .dash-metrics-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .dash-metrics-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .dash-metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            backdrop-filter: blur(12px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .dash-metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+        .dash-metric-card.accent-red {
+            border-color: rgba(239, 68, 68, 0.4);
+            box-shadow: 0 0 25px rgba(239, 68, 68, 0.1);
+        }
+        .dash-metric-card.accent-orange {
+            border-color: rgba(245, 158, 11, 0.4);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.1);
+        }
+        .dash-metric-card.accent-blue {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.1);
+        }
+        .dash-metric-card.accent-gold {
+            border-color: rgba(200, 155, 94, 0.4);
+            box-shadow: 0 0 25px rgba(200, 155, 94, 0.1);
+        }
+        .dash-metric-card .dash-metric-icon {
+            font-size: 2.2em;
+            display: block;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 12px currentColor);
+        }
+        .dash-metric-card .dash-metric-value {
+            font-size: 2em;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .dash-metric-card.accent-red .dash-metric-value {
+            color: #f87171;
+        }
+        .dash-metric-card.accent-orange .dash-metric-value {
+            color: #fb923c;
+        }
+        .dash-metric-card.accent-blue .dash-metric-value {
+            color: #60a5fa;
+        }
+        .dash-metric-card.accent-gold .dash-metric-value {
+            color: #e0c28f;
+        }
+        .dash-metric-card .dash-metric-label {
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .dash-metric-card .dash-metric-sub {
+            font-size: 0.7em;
+            color: var(--text-muted);
+            margin-top: 4px;
+            letter-spacing: 0.03em;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dash-charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 900px) {
+            .dash-charts-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .dash-chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            backdrop-filter: blur(12px);
+            transition: var(--transition);
+        }
+        .dash-chart-card:hover {
+            border-color: var(--border-gold);
+            box-shadow: var(--shadow-gold);
+        }
+        .dash-chart-card .chart-title {
+            font-weight: 700;
+            font-size: 0.9em;
+            letter-spacing: 0.04em;
+            color: #fff;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dash-bar-item {
+            margin-bottom: 14px;
+            cursor: default;
+        }
+        .dash-bar-item .bar-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+            font-size: 0.78em;
+            letter-spacing: 0.03em;
+        }
+        .dash-bar-item .bar-label-row .bar-name {
+            font-weight: 600;
+            color: #ddd;
+            max-width: 55%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .dash-bar-item .bar-label-row .bar-value {
+            font-weight: 700;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+        .dash-bar-item .bar-track {
+            height: 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            overflow: hidden;
+            position: relative;
+        }
+        .dash-bar-item .bar-fill {
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            position: relative;
+        }
+        .dash-bar-item .bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: 6px;
+            bottom: 2px;
+            left: 6px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
+            border-radius: 16px;
+        }
+        .dash-bar-item .bar-fill.gradient-red {
+            background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
+        }
+        .dash-bar-item .bar-fill.gradient-orange {
+            background: linear-gradient(90deg, #ea580c, #f97316, #fb923c);
+        }
+        .dash-bar-item .bar-fill.gradient-yellow {
+            background: linear-gradient(90deg, #ca8a04, #eab308, #facc15);
+        }
+        .dash-bar-item .bar-fill.gradient-blue {
+            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
+        }
+        .dash-bar-item .bar-fill.gradient-purple {
+            background: linear-gradient(90deg, #7c3aed, #8b5cf6, #a78bfa);
+        }
+        .dash-bar-item .bar-fill.gradient-green {
+            background: linear-gradient(90deg, #059669, #10b981, #34d399);
+        }
+        .dash-bar-item .bar-fill.gradient-gold {
+            background: linear-gradient(90deg, #8b6914, #c89b5e, #e0c28f);
+        }
+
+        .dash-donut-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .dash-donut {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .dash-donut::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #12121e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .dash-donut .donut-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            text-align: center;
+            font-weight: 800;
+            font-size: 1em;
+            color: #fff;
+            letter-spacing: 0.03em;
+            line-height: 1.1;
+            pointer-events: none;
+        }
+        .dash-donut .donut-center-text small {
+            display: block;
+            font-size: 0.55em;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .dash-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.72em;
+            letter-spacing: 0.03em;
+            min-width: 140px;
+            max-width: 220px;
+        }
+        .dash-legend .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dash-legend .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+        .dash-legend .legend-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #ccc;
+        }
+        .dash-legend .legend-pct {
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .dash-table-motivos {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82em;
+        }
+        .dash-table-motivos th {
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            font-size: 0.72em;
+            color: var(--gold-light);
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .dash-table-motivos td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            white-space: nowrap;
+        }
+        .dash-table-motivos tbody tr:hover {
+            background: rgba(255, 255, 255, 0.015);
+        }
+        .dash-mini-bar {
+            display: inline-block;
+            height: 6px;
+            border-radius: 3px;
+            margin-right: 8px;
+            vertical-align: middle;
+            background: #ef4444;
+            transition: width 0.6s ease;
+        }
+        .dash-filter-periodo {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
@@ -1330,6 +1669,9 @@
             </button>
             <button class="tab-btn" data-tab="tab-maquinas">
                 <span class="tab-icon">🏭</span> Máquinas Ao Vivo
+            </button>
+            <button class="tab-btn" data-tab="tab-dashboard">
+                <span class="tab-icon">📈</span> Dashboard Paradas
             </button>
         </nav>
 
@@ -1429,6 +1771,49 @@
                 </table>
             </div>
         </div>
+
+        <!-- Painel: Dashboard Paradas -->
+        <div class="tab-panel" id="tab-dashboard">
+            <div class="dash-filter-periodo" id="dashFilterPeriodo">
+                <button class="btn-dash-sm active" data-periodo="todos" onclick="filtrarDashboardPeriodo('todos', this)">📅 Todo Período</button>
+                <button class="btn-dash-sm" data-periodo="hoje" onclick="filtrarDashboardPeriodo('hoje', this)">📌 Hoje</button>
+                <button class="btn-dash-sm" data-periodo="semana" onclick="filtrarDashboardPeriodo('semana', this)">📆 Esta Semana</button>
+                <button class="btn-dash-sm" data-periodo="mes" onclick="filtrarDashboardPeriodo('mes', this)">🗓 Este Mês</button>
+            </div>
+            <div class="dash-metrics-row" id="dashMetricsRow"></div>
+            <div class="dash-charts-row">
+                <div class="dash-chart-card" id="dashCardRanking">
+                    <div class="chart-title">🏆 Ranking de Máquinas por Tempo de Parada</div>
+                    <div id="dashRankingBars"></div>
+                </div>
+                <div class="dash-chart-card" id="dashCardMotivos">
+                    <div class="chart-title">🎯 Distribuição de Motivos de Parada</div>
+                    <div class="dash-donut-container" id="dashDonutContainer"></div>
+                </div>
+            </div>
+            <div class="card mt-3" id="dashCardDetalhes">
+                <div class="card-header"><span class="icon">📋</span> Detalhamento: Motivos por Máquina</div>
+                <div class="table-wrap">
+                    <table class="dash-table-motivos">
+                        <thead>
+                            <tr>
+                                <th>Máquina</th>
+                                <th>Motivo</th>
+                                <th>Ocorrências</th>
+                                <th>Tempo Total</th>
+                                <th>% do Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashTabelaDetalhes">
+                            <tr><td colspan="5" class="empty-state">Nenhum dado de parada disponível</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button class="btn-refresh" onclick="atualizarDashboard()" style="font-size:0.82em;padding:10px 20px;">🔄 Atualizar Dashboard</button>
+            </div>
+        </div>
     </div>
 
     <!-- ============ SCRIPTS ============ -->
@@ -1460,6 +1845,7 @@
         let maquinas = [];
         let historicoParadas = [];
         let timerIntervalId = null;
+        let dashboardPeriodoAtual = 'todos';
 
         const nomesPadraoMaquinas = [
             'Máquina Alpha', 'Máquina Beta', 'Máquina Gamma', 'Máquina Delta', 'Máquina Épsilon',
@@ -2071,6 +2457,16 @@
             }
             if (filtroHistoricoInput) filtroHistoricoInput.value = '';
             pararTimerGlobal();
+            document.getElementById('dashMetricsRow').innerHTML = '';
+            document.getElementById('dashRankingBars').innerHTML = '';
+            document.getElementById('dashDonutContainer').innerHTML = '';
+            document.getElementById('dashTabelaDetalhes').innerHTML =
+                '<tr><td colspan="5" class="empty-state">Nenhum dado de parada disponível</td></tr>';
+            dashboardPeriodoAtual = 'todos';
+            const btnsPeriodo = document.querySelectorAll('#dashFilterPeriodo .btn-dash-sm');
+            btnsPeriodo.forEach(b => b.classList.remove('active'));
+            const btnTodos = document.querySelector('#dashFilterPeriodo .btn-dash-sm[data-periodo="todos"]');
+            if (btnTodos) btnTodos.classList.add('active');
             showToast('👋 Sessão encerrada.', 'warning');
         };
 
@@ -2663,6 +3059,306 @@
             atualizarTimersNaTela();
         }
 
+        // ============ DASHBOARD DE PARADAS ============
+        function obterDataLimite(periodo) {
+            const agora = new Date();
+            if (periodo === 'hoje') {
+                return new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+            } else if (periodo === 'semana') {
+                const d = new Date(agora);
+                d.setDate(d.getDate() - 7);
+                return d;
+            } else if (periodo === 'mes') {
+                const d = new Date(agora);
+                d.setDate(d.getDate() - 30);
+                return d;
+            }
+            return null;
+        }
+
+        function processarDadosDashboard() {
+            const dadosPorMaquina = {};
+            const dadosPorMotivo = {};
+            let totalParadasCount = 0;
+            let tempoTotalGeral = 0;
+
+            const dataLimite = obterDataLimite(dashboardPeriodoAtual);
+
+            const registrosCombinados = [];
+
+            historicoParadas.forEach(h => {
+                const fimDate = new Date(h.fim);
+                if (dataLimite && fimDate < dataLimite) return;
+                registrosCombinados.push({
+                    maquinaNome: h.maquinaNome,
+                    motivo: h.motivo || 'Não informado',
+                    duracaoSegundos: h.duracaoSegundos,
+                    origem: 'historico'
+                });
+            });
+
+            maquinas.forEach(m => {
+                if (m.status === 'parado' && m.paradaInicio) {
+                    const inicio = new Date(m.paradaInicio);
+                    if (dataLimite && inicio < dataLimite) return;
+                    const agora = new Date();
+                    const duracao = Math.max(0, Math.round((agora.getTime() - inicio.getTime()) / 1000));
+                    registrosCombinados.push({
+                        maquinaNome: m.nome,
+                        motivo: m.motivoParada || 'Não informado',
+                        duracaoSegundos: duracao,
+                        origem: 'atual'
+                    });
+                }
+            });
+
+            registrosCombinados.forEach(r => {
+                if (!dadosPorMaquina[r.maquinaNome]) {
+                    dadosPorMaquina[r.maquinaNome] = { count: 0, tempoTotal: 0, motivos: {} };
+                }
+                dadosPorMaquina[r.maquinaNome].count++;
+                dadosPorMaquina[r.maquinaNome].tempoTotal += r.duracaoSegundos;
+                if (!dadosPorMaquina[r.maquinaNome].motivos[r.motivo]) {
+                    dadosPorMaquina[r.maquinaNome].motivos[r.motivo] = { count: 0, tempo: 0 };
+                }
+                dadosPorMaquina[r.maquinaNome].motivos[r.motivo].count++;
+                dadosPorMaquina[r.maquinaNome].motivos[r.motivo].tempo += r.duracaoSegundos;
+
+                if (!dadosPorMotivo[r.motivo]) {
+                    dadosPorMotivo[r.motivo] = { count: 0, tempo: 0 };
+                }
+                dadosPorMotivo[r.motivo].count++;
+                dadosPorMotivo[r.motivo].tempo += r.duracaoSegundos;
+
+                totalParadasCount++;
+                tempoTotalGeral += r.duracaoSegundos;
+            });
+
+            return { dadosPorMaquina, dadosPorMotivo, totalParadasCount, tempoTotalGeral };
+        }
+
+        function renderizarDashboard() {
+            const { dadosPorMaquina, dadosPorMotivo, totalParadasCount, tempoTotalGeral } = processarDadosDashboard();
+
+            renderizarMetricasDashboard(dadosPorMaquina, dadosPorMotivo, totalParadasCount, tempoTotalGeral);
+            renderizarRankingBarras(dadosPorMaquina, tempoTotalGeral);
+            renderizarDonutMotivos(dadosPorMotivo, tempoTotalGeral);
+            renderizarTabelaDetalhes(dadosPorMaquina, tempoTotalGeral);
+        }
+
+        function renderizarMetricasDashboard(dadosPorMaquina, dadosPorMotivo, totalParadasCount, tempoTotalGeral) {
+            const container = document.getElementById('dashMetricsRow');
+            if (!container) return;
+
+            const nomesMaquinas = Object.keys(dadosPorMaquina);
+            let maquinaCampea = null;
+            let maxTempo = 0;
+            nomesMaquinas.forEach(nome => {
+                if (dadosPorMaquina[nome].tempoTotal > maxTempo) {
+                    maxTempo = dadosPorMaquina[nome].tempoTotal;
+                    maquinaCampea = nome;
+                }
+            });
+
+            const nomesMotivos = Object.keys(dadosPorMotivo);
+            let motivoTop = null;
+            let maxCount = 0;
+            nomesMotivos.forEach(motivo => {
+                if (dadosPorMotivo[motivo].count > maxCount) {
+                    maxCount = dadosPorMotivo[motivo].count;
+                    motivoTop = motivo;
+                }
+            });
+
+            container.innerHTML = `
+                <div class="dash-metric-card accent-red">
+                    <span class="dash-metric-icon">🔴</span>
+                    <div class="dash-metric-value">${totalParadasCount}</div>
+                    <div class="dash-metric-label">Total de Paradas</div>
+                    <div class="dash-metric-sub">Histórico + em andamento</div>
+                </div>
+                <div class="dash-metric-card accent-orange">
+                    <span class="dash-metric-icon">⏱️</span>
+                    <div class="dash-metric-value">${formatarDuracao(tempoTotalGeral)}</div>
+                    <div class="dash-metric-label">Tempo Total Parado</div>
+                    <div class="dash-metric-sub">Somando todas as máquinas</div>
+                </div>
+                <div class="dash-metric-card accent-blue">
+                    <span class="dash-metric-icon">🏭</span>
+                    <div class="dash-metric-value">${maquinaCampea ? escapeHTML(maquinaCampea) : '—'}</div>
+                    <div class="dash-metric-label">Máquina Mais Crítica</div>
+                    <div class="dash-metric-sub">${maquinaCampea ? formatarDuracao(maxTempo) + ' de parada' : 'Nenhuma parada'}</div>
+                </div>
+                <div class="dash-metric-card accent-gold">
+                    <span class="dash-metric-icon">⚠️</span>
+                    <div class="dash-metric-value" style="font-size:1.3em;">${motivoTop ? escapeHTML(motivoTop) : '—'}</div>
+                    <div class="dash-metric-label">Motivo Mais Frequente</div>
+                    <div class="dash-metric-sub">${motivoTop ? maxCount + ' ocorrência(s)' : 'Nenhum motivo'}</div>
+                </div>
+            `;
+        }
+
+        function renderizarRankingBarras(dadosPorMaquina, tempoTotalGeral) {
+            const container = document.getElementById('dashRankingBars');
+            if (!container) return;
+
+            const entries = Object.entries(dadosPorMaquina).sort((a, b) => b[1].tempoTotal - a[1].tempoTotal);
+            const topN = entries.slice(0, 8);
+
+            if (topN.length === 0) {
+                container.innerHTML = '<div class="empty-state">Nenhum dado de parada disponível</div>';
+                return;
+            }
+
+            const maxTempo = topN[0][1].tempoTotal || 1;
+            const gradientes = ['gradient-red', 'gradient-orange', 'gradient-yellow', 'gradient-blue', 'gradient-purple',
+                'gradient-green', 'gradient-gold', 'gradient-red'
+            ];
+
+            container.innerHTML = topN.map((entry, i) => {
+                const nome = entry[0];
+                const dados = entry[1];
+                const pct = Math.round((dados.tempoTotal / maxTempo) * 100);
+                const grad = gradientes[i % gradientes.length];
+                return `
+                    <div class="dash-bar-item">
+                        <div class="bar-label-row">
+                            <span class="bar-name">🏭 ${escapeHTML(nome)}</span>
+                            <span class="bar-value" style="color:#f87171;">${formatarDuracao(dados.tempoTotal)}</span>
+                        </div>
+                        <div class="bar-track">
+                            <div class="bar-fill ${grad}" style="width: ${pct}%;"></div>
+                        </div>
+                        <div class="bar-label-row" style="font-size:0.65em;color:var(--text-muted);margin-top:2px;">
+                            <span>${dados.count} parada(s)</span>
+                            <span>${tempoTotalGeral > 0 ? Math.round((dados.tempoTotal / tempoTotalGeral) * 100) : 0}% do total</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderizarDonutMotivos(dadosPorMotivo, tempoTotalGeral) {
+            const container = document.getElementById('dashDonutContainer');
+            if (!container) return;
+
+            const entries = Object.entries(dadosPorMotivo).sort((a, b) => b[1].tempo - a[1].tempo);
+            const topN = entries.slice(0, 8);
+
+            if (topN.length === 0 || tempoTotalGeral === 0) {
+                container.innerHTML =
+                    '<div class="empty-state" style="width:100%;text-align:center;">Nenhum motivo registrado</div>';
+                return;
+            }
+
+            const coresDonut = [
+                '#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6',
+                '#8b5cf6', '#ec4899', '#14b8a6', '#c89b5e', '#6366f1'
+            ];
+
+            let acumulado = 0;
+            const segmentos = topN.map((entry, i) => {
+                const pct = (entry[1].tempo / tempoTotalGeral) * 100;
+                const inicio = acumulado;
+                acumulado += pct;
+                return {
+                    motivo: entry[0],
+                    tempo: entry[1].tempo,
+                    pct: pct,
+                    inicio: inicio,
+                    cor: coresDonut[i % coresDonut.length]
+                };
+            });
+
+            const conicParts = segmentos.map(s => `${s.cor} ${s.inicio.toFixed(1)}% ${(s.inicio + s.pct).toFixed(1)}%`)
+                .join(', ');
+            const donutStyle = `background: conic-gradient(${conicParts});`;
+
+            const legendaHTML = segmentos.map(s => `
+                <div class="legend-item">
+                    <span class="legend-color" style="background:${s.cor};"></span>
+                    <span class="legend-text">${escapeHTML(s.motivo)}</span>
+                    <span class="legend-pct">${s.pct.toFixed(1)}%</span>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="dash-donut" style="${donutStyle}">
+                    <div class="donut-center-text">
+                        ${formatarDuracao(tempoTotalGeral)}
+                        <small>tempo total</small>
+                    </div>
+                </div>
+                <div class="dash-legend">
+                    ${legendaHTML}
+                </div>
+            `;
+        }
+
+        function renderizarTabelaDetalhes(dadosPorMaquina, tempoTotalGeral) {
+            const tabela = document.getElementById('dashTabelaDetalhes');
+            if (!tabela) return;
+
+            const linhas = [];
+            const nomesMaquinas = Object.keys(dadosPorMaquina).sort();
+
+            nomesMaquinas.forEach(nome => {
+                const dadosMaq = dadosPorMaquina[nome];
+                const motivos = Object.entries(dadosMaq.motivos).sort((a, b) => b[1].tempo - a[1].tempo);
+                motivos.forEach((entry, idx) => {
+                    const motivo = entry[0];
+                    const dadosMotivo = entry[1];
+                    const pct = tempoTotalGeral > 0 ? ((dadosMotivo.tempo / tempoTotalGeral) * 100) : 0;
+                    const pctBarra = Math.min(100, Math.max(0, pct));
+                    linhas.push({
+                        maquina: nome,
+                        motivo: motivo,
+                        count: dadosMotivo.count,
+                        tempo: dadosMotivo.tempo,
+                        pct: pct,
+                        pctBarra: pctBarra,
+                        isFirst: idx === 0
+                    });
+                });
+            });
+
+            linhas.sort((a, b) => b.tempo - a.tempo);
+
+            if (linhas.length === 0) {
+                tabela.innerHTML = '<tr><td colspan="5" class="empty-state">Nenhum dado de parada disponível</td></tr>';
+                return;
+            }
+
+            tabela.innerHTML = linhas.map(l => `
+                <tr>
+                    <td><strong>${escapeHTML(l.maquina)}</strong></td>
+                    <td>
+                        <span class="dash-mini-bar" style="width:${l.pctBarra * 0.8}px; background:#ef4444;"></span>
+                        ${escapeHTML(l.motivo)}
+                    </td>
+                    <td><span class="badge badge-yellow">${l.count}x</span></td>
+                    <td><span class="badge badge-red">⏱ ${formatarDuracao(l.tempo)}</span></td>
+                    <td><strong>${l.pct.toFixed(1)}%</strong></td>
+                </tr>
+            `).join('');
+        }
+
+        window.atualizarDashboard = function() {
+            if (!usuarioLogado) return;
+            carregarHistoricoParadas(false).then(() => {
+                renderizarDashboard();
+                showToast('📈 Dashboard atualizado!', 'info');
+            });
+        };
+
+        window.filtrarDashboardPeriodo = function(periodo, btnEl) {
+            dashboardPeriodoAtual = periodo;
+            const btns = document.querySelectorAll('#dashFilterPeriodo .btn-dash-sm');
+            btns.forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            renderizarDashboard();
+        };
+
         // ============ NAVEGAÇÃO POR ABAS ============
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabPanels = document.querySelectorAll('.tab-panel');
@@ -2681,6 +3377,11 @@
                         renderizarResumoMaquinas();
                         renderizarHistoricoParadas();
                         atualizarTimersNaTela();
+                    }
+                    if (targetId === 'tab-dashboard') {
+                        carregarHistoricoParadas(false).then(() => {
+                            renderizarDashboard();
+                        });
                     }
                 }
             });
@@ -2717,6 +3418,8 @@
         window.carregarHistoricoParadas = carregarHistoricoParadas;
         window.renderizarHistoricoParadas = renderizarHistoricoParadas;
         window.excluirHistoricoParada = excluirHistoricoParada;
+        window.atualizarDashboard = window.atualizarDashboard;
+        window.filtrarDashboardPeriodo = window.filtrarDashboardPeriodo;
 
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
@@ -2724,6 +3427,7 @@
         console.log('⏱ Temporizador de parada: inicia ao colocar máquina como PARADO');
         console.log('📋 Histórico: salvo automaticamente no Firebase ao retornar para produção/teste');
         console.log('🗑 Exclusão de histórico: disponível para usuários de qualidade');
+        console.log('📈 Dashboard de Paradas: ranking de máquinas, distribuição de motivos, métricas em tempo real');
         console.log('💾 Coleção "historicoParadas" criada automaticamente no Firestore');
     </script>
 </body>
