@@ -23,6 +23,8 @@
             --blue-glow: rgba(59, 130, 246, 0.5);
             --orange: #f59e0b;
             --orange-glow: rgba(245, 158, 11, 0.5);
+            --yellow: #eab308;
+            --yellow-glow: rgba(234, 179, 8, 0.5);
             --text: #e2e2e8;
             --text-muted: #9ca3af;
             --border: rgba(255, 255, 255, 0.08);
@@ -710,6 +712,11 @@
             color: #e0c28f;
             border: 1px solid rgba(200, 155, 94, 0.4);
         }
+        .badge-yellow {
+            background: rgba(234, 179, 8, 0.2);
+            color: #facc15;
+            border: 1px solid rgba(234, 179, 8, 0.4);
+        }
 
         /* Filtro / Busca */
         .filter-row {
@@ -775,17 +782,17 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
-        .machine-summary-card.max {
+        .machine-summary-card.status-production {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+        .machine-summary-card.status-stopped {
             border-color: rgba(239, 68, 68, 0.5);
             box-shadow: 0 0 20px var(--red-glow);
         }
-        .machine-summary-card.med {
-            border-color: rgba(59, 130, 246, 0.5);
-            box-shadow: 0 0 20px var(--blue-glow);
-        }
-        .machine-summary-card.min {
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 0 20px var(--green-glow);
+        .machine-summary-card.status-test {
+            border-color: rgba(234, 179, 8, 0.5);
+            box-shadow: 0 0 20px var(--yellow-glow);
         }
         .machine-summary-card .ms-name {
             font-weight: 700;
@@ -815,14 +822,50 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        .machine-summary-card.max .ms-name {
+        .machine-summary-card.status-production .ms-name {
+            color: #34d399;
+        }
+        .machine-summary-card.status-stopped .ms-name {
             color: #f87171;
         }
-        .machine-summary-card.med .ms-name {
-            color: #60a5fa;
+        .machine-summary-card.status-test .ms-name {
+            color: #facc15;
         }
-        .machine-summary-card.min .ms-name {
+
+        .machine-summary-card .ms-status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.65em;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+        .machine-summary-card .ms-status-badge.status-production {
+            background: rgba(16, 185, 129, 0.2);
             color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .machine-summary-card .ms-status-badge.status-stopped {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .machine-summary-card .ms-status-badge.status-test {
+            background: rgba(234, 179, 8, 0.2);
+            color: #facc15;
+            border: 1px solid rgba(234, 179, 8, 0.4);
+        }
+        .machine-summary-card .ms-stop-reason {
+            font-size: 0.65em;
+            color: #f87171;
+            margin-top: 4px;
+            font-style: italic;
+            max-height: 28px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         /* Grid editável de máquinas */
@@ -886,6 +929,7 @@
             display: flex;
             gap: 6px;
             align-items: center;
+            margin-bottom: 6px;
         }
         .machine-card .field-group label {
             font-size: 0.6em;
@@ -894,9 +938,49 @@
             min-width: 30px;
             text-align: right;
         }
-        .machine-card .field-group input {
+        .machine-card .field-group input,
+        .machine-card .field-group select {
             flex: 1;
             margin-bottom: 0;
+        }
+
+        .machine-card .status-select {
+            font-size: 0.78em;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .machine-card .status-select option[value="production"] {
+            background: #064e3b;
+            color: #34d399;
+        }
+        .machine-card .status-select option[value="stopped"] {
+            background: #7f1d1d;
+            color: #f87171;
+        }
+        .machine-card .status-select option[value="test"] {
+            background: #713f12;
+            color: #facc15;
+        }
+
+        .machine-card .stop-reason-input {
+            font-size: 0.75em;
+            padding: 7px 8px;
+            margin-top: 4px;
+            border-radius: 8px;
+            text-align: center;
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+        .machine-card .stop-reason-input:focus {
+            border-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+        .machine-card .stop-reason-input::placeholder {
+            color: #666;
+            font-style: italic;
         }
 
         /* Comparação */
@@ -1003,6 +1087,10 @@
         .pulse-dot.green {
             background: #10b981;
             box-shadow: 0 0 8px #10b981;
+        }
+        .pulse-dot.yellow {
+            background: #eab308;
+            box-shadow: 0 0 8px #eab308;
         }
         @keyframes pulse {
             0%,
@@ -1242,7 +1330,7 @@
 
         <!-- Painel: Máquinas Ao Vivo -->
         <div class="tab-panel" id="tab-maquinas">
-            <!-- Cards-resumo individuais por máquina (coloridos) -->
+            <!-- Cards-resumo individuais por máquina (coloridos por status) -->
             <div class="machines-summary-grid" id="machinesSummaryGrid"></div>
 
             <!-- Grid editável de máquinas -->
@@ -1285,7 +1373,7 @@
             'Máquina Alpha', 'Máquina Beta', 'Máquina Gamma', 'Máquina Delta', 'Máquina Épsilon',
             'Máquina Zeta', 'Máquina Eta', 'Máquina Teta', 'Máquina Iota', 'Máquina Kappa'
         ];
-        // Lista de nomes de produtos para inicialização do campo v.prod.
+        // Lista de nomes de produtos para inicialização do campo Prod.
         const nomesProdutosIniciais = [
             'Farinha de Trigo', 'Farinha de Milho', 'Farinha de Rosca', 'Farinha de Mandioca',
             'Farinha de Arroz', 'Fubá', 'Amido de Milho', 'Polvilho', 'Fécula', 'Farinha Integral'
@@ -1399,13 +1487,17 @@
                     maquinas.push({
                         id: docSnap.id,
                         nome: data.nome,
-                        // velProduto agora é string (nome do produto). Converte número antigo para string se necessário.
-                        velProduto: data.velProduto !== undefined && data.velProduto !== null ? String(data.velProduto) : '',
+                        // Produto agora é string (nome do produto)
+                        velProduto: data.velProduto !== undefined && data.velProduto !== null ? String(data
+                            .velProduto) : '',
                         velocidade: data.velocidade,
                         pessoas: data.pessoas,
                         pesoMin: data.pesoMin,
                         pesoMed: data.pesoMed,
-                        pesoMax: data.pesoMax
+                        pesoMax: data.pesoMax,
+                        // Novos campos de status
+                        status: data.status || 'production',
+                        stopReason: data.stopReason || ''
                     });
                 });
                 maquinas.sort((a, b) => a.id.localeCompare(b.id));
@@ -1417,11 +1509,14 @@
 
         function inicializarMaquinasLocal() {
             maquinas = [];
+            const statusOptions = ['production', 'production', 'production', 'test', 'production', 'production',
+            'stopped', 'production', 'production', 'production'];
             for (let i = 0; i < 10; i++) {
                 const pesoBase = Math.floor(Math.random() * 800) + 200;
                 const pesoMin = pesoBase - Math.floor(Math.random() * 50);
                 const pesoMed = pesoBase;
                 const pesoMax = pesoBase + Math.floor(Math.random() * 50);
+                const status = statusOptions[i] || 'production';
                 maquinas.push({
                     id: `maq${i}`,
                     nome: nomesPadraoMaquinas[i],
@@ -1430,7 +1525,9 @@
                     pessoas: Math.floor(Math.random() * 5) + 1,
                     pesoMin: pesoMin,
                     pesoMed: pesoMed,
-                    pesoMax: pesoMax
+                    pesoMax: pesoMax,
+                    status: status,
+                    stopReason: status === 'stopped' ? 'Manutenção preventiva' : ''
                 });
             }
         }
@@ -1445,7 +1542,9 @@
                         pessoas: m.pessoas,
                         pesoMin: m.pesoMin,
                         pesoMed: m.pesoMed,
-                        pesoMax: m.pesoMax
+                        pesoMax: m.pesoMax,
+                        status: m.status || 'production',
+                        stopReason: m.stopReason || ''
                     }, { merge: true });
                 }
             } catch (e) {
@@ -1462,7 +1561,9 @@
                     pessoas: maquina.pessoas,
                     pesoMin: maquina.pesoMin,
                     pesoMed: maquina.pesoMed,
-                    pesoMax: maquina.pesoMax
+                    pesoMax: maquina.pesoMax,
+                    status: maquina.status || 'production',
+                    stopReason: maquina.stopReason || ''
                 }, { merge: true });
             } catch (e) {
                 console.error("Erro ao atualizar máquina:", e);
@@ -1501,7 +1602,9 @@
 
         // ============ PARTÍCULAS ============
         function criarParticulas() {
-            const cores = ['#c89b5e', '#7c3aed', '#3b82f6', '#10b981', '#ef4444', '#e0c28f', '#a78bfa', '#f9a8d4'];
+            const cores = ['#c89b5e', '#7c3aed', '#3b82f6', '#10b981', '#ef4444', '#e0c28f', '#a78bfa', '#f9a8d4',
+                '#eab308'
+            ];
             for (let i = 0; i < 35; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
@@ -1580,7 +1683,8 @@
             await carregarProdutosDoFirestore();
             await carregarMaquinasDoFirestore();
 
-            userBadge.innerHTML = `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+            userBadge.innerHTML =
+                `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
             atualizarUIComPermissoes();
             atualizarTabelaVisualizacao();
             renderizarMaquinas();
@@ -1637,7 +1741,8 @@
                         usuarioLogado = data;
                         loginOverlay.classList.add('hidden');
                         appContainer.style.display = '';
-                        userBadge.innerHTML = `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+                        userBadge.innerHTML =
+                            `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
                         await carregarProdutosDoFirestore();
                         await carregarMaquinasDoFirestore();
                         atualizarUIComPermissoes();
@@ -1693,12 +1798,14 @@
 
             const colspan = isQualidade() ? 5 : 4;
             if (listaFiltrada.length === 0) {
-                tabelaClienteVisualizacao.innerHTML = `<tr><td colspan="${colspan}" class="empty-state">${termo ? 'Nenhum produto encontrado para este filtro' : 'Nenhum produto cadastrado'}</td></tr>`;
+                tabelaClienteVisualizacao.innerHTML =
+                    `<tr><td colspan="${colspan}" class="empty-state">${termo ? 'Nenhum produto encontrado para este filtro' : 'Nenhum produto cadastrado'}</td></tr>`;
             } else {
                 tabelaClienteVisualizacao.innerHTML = listaFiltrada.map((p) => {
                     let acaoCol = '';
                     if (isQualidade()) {
-                        acaoCol = `<td><button class="btn-danger-sm" onclick="removerProduto('${p.id}')" title="Remover">🗑</button></td>`;
+                        acaoCol =
+                            `<td><button class="btn-danger-sm" onclick="removerProduto('${p.id}')" title="Remover">🗑</button></td>`;
                     }
                     return `
                         <tr>
@@ -1888,13 +1995,19 @@
 
             let resumoHTML = '';
             if (produtosEmComum.length > 0) {
-                resumoHTML += `<span class="badge badge-gold" style="margin:4px;">🔗 ${produtosEmComum.length} produto(s) em comum</span> `;
-                if (batem > 0) resumoHTML += `<span class="badge badge-green" style="margin:4px;">✅ ${batem} com pesos idênticos</span> `;
-                if (naoBatem > 0) resumoHTML += `<span class="badge badge-red" style="margin:4px;">⚠️ ${naoBatem} com pesos diferentes</span> `;
+                resumoHTML +=
+                    `<span class="badge badge-gold" style="margin:4px;">🔗 ${produtosEmComum.length} produto(s) em comum</span> `;
+                if (batem > 0) resumoHTML +=
+                    `<span class="badge badge-green" style="margin:4px;">✅ ${batem} com pesos idênticos</span> `;
+                if (naoBatem > 0) resumoHTML +=
+                    `<span class="badge badge-red" style="margin:4px;">⚠️ ${naoBatem} com pesos diferentes</span> `;
             }
-            if (apenasRita.length > 0) resumoHTML += `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">👑 Só Dona Rita: ${apenasRita.join(', ')}</span> `;
-            if (apenasConc.length > 0) resumoHTML += `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">🏢 Só Concorrente: ${apenasConc.join(', ')}</span> `;
-            if (produtosEmComum.length === 0 && apenasRita.length === 0 && apenasConc.length === 0) resumoHTML = '<span style="color:var(--text-muted);">Nenhum dado para comparar.</span>';
+            if (apenasRita.length > 0) resumoHTML +=
+                `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">👑 Só Dona Rita: ${apenasRita.join(', ')}</span> `;
+            if (apenasConc.length > 0) resumoHTML +=
+                `<span class="badge badge-gold" style="margin:4px; opacity:0.7;">🏢 Só Concorrente: ${apenasConc.join(', ')}</span> `;
+            if (produtosEmComum.length === 0 && apenasRita.length === 0 && apenasConc.length === 0) resumoHTML =
+                '<span style="color:var(--text-muted);">Nenhum dado para comparar.</span>';
 
             resumoComparacao.innerHTML = resumoHTML;
         };
@@ -1903,50 +2016,72 @@
         function renderizarMaquinas() {
             if (!usuarioLogado) return;
             const readonlyAttr = isQualidade() ? '' : 'readonly';
-            machinesGrid.innerHTML = maquinas.map((m, i) => `
-                <div class="machine-card">
-                    <span class="machine-number">#${i + 1}</span>
-                    <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
-                           onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
-                           placeholder="Nome da máquina" ${readonlyAttr}>
-                    <div class="field-group">
-                        <label>📦Prod.</label>
-                        <input type="text" value="${escapeHTML(m.velProduto || '')}"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', this.value); renderizarResumoMaquinas();"
-                               placeholder="Nome do produto" ${readonlyAttr}>
+            const disabledAttr = isQualidade() ? '' : 'disabled';
+
+            machinesGrid.innerHTML = maquinas.map((m, i) => {
+                const isStopped = m.status === 'stopped';
+                const statusOptionsHTML = `
+                    <select class="status-select" onchange="atualizarMaquinaLocal('${m.id}', 'status', this.value); renderizarMaquinas(); renderizarResumoMaquinas();" ${disabledAttr}>
+                        <option value="production" ${m.status === 'production' ? 'selected' : ''}>🟢 Em Produção</option>
+                        <option value="stopped" ${m.status === 'stopped' ? 'selected' : ''}>🔴 Parado</option>
+                        <option value="test" ${m.status === 'test' ? 'selected' : ''}>🟡 Em Teste</option>
+                    </select>
+                `;
+                const stopReasonHTML = `
+                    <input type="text" class="stop-reason-input" value="${escapeHTML(m.stopReason || '')}" 
+                           placeholder="Motivo da parada..." 
+                           oninput="atualizarMaquinaLocal('${m.id}', 'stopReason', this.value); renderizarResumoMaquinas();"
+                           ${readonlyAttr}
+                           style="${isStopped ? '' : 'display:none;'}">
+                `;
+
+                return `
+                    <div class="machine-card">
+                        <span class="machine-number">#${i + 1}</span>
+                        <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
+                               onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
+                               placeholder="Nome da máquina" ${readonlyAttr}>
+                        ${statusOptionsHTML}
+                        ${stopReasonHTML}
+                        <div class="field-group">
+                            <label>📦 Prod.</label>
+                            <input type="text" value="${escapeHTML(m.velProduto || '')}"
+                                   oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', this.value); renderizarResumoMaquinas();"
+                                   placeholder="Nome do produto" ${readonlyAttr}>
+                        </div>
+                        <div class="field-group">
+                            <label>⚡ Ciclo</label>
+                            <input type="number" value="${m.velocidade}" min="0" step="0.1"
+                                   oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
+                                   ${readonlyAttr}>
+                        </div>
+                        <div class="field-group">
+                            <label>👥 Pes.</label>
+                            <input type="number" value="${m.pessoas}" min="0" step="1"
+                                   oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); renderizarResumoMaquinas();"
+                                   ${readonlyAttr}>
+                        </div>
+                        <div class="field-group">
+                            <label>⚖️ Mín</label>
+                            <input type="number" value="${m.pesoMin}" min="0" step="0.01"
+                                   oninput="atualizarMaquinaLocal('${m.id}', 'pesoMin', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
+                                   ${readonlyAttr}>
+                        </div>
+                        <div class="field-group">
+                            <label>⚖️ Méd</label>
+                            <input type="number" value="${m.pesoMed}" min="0" step="0.01"
+                                   oninput="atualizarMaquinaLocal('${m.id}', 'pesoMed', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
+                                   ${readonlyAttr}>
+                        </div>
+                        <div class="field-group">
+                            <label>⚖️ Máx</label>
+                            <input type="number" value="${m.pesoMax}" min="0" step="0.01"
+                                   oninput="atualizarMaquinaLocal('${m.id}', 'pesoMax', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
+                                   ${readonlyAttr}>
+                        </div>
                     </div>
-                    <div class="field-group">
-                        <label>⚡ Vel.</label>
-                        <input type="number" value="${m.velocidade}" min="0" step="0.1"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
-                    </div>
-                    <div class="field-group">
-                        <label>👥 Pes.</label>
-                        <input type="number" value="${m.pessoas}" min="0" step="1"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
-                    </div>
-                    <div class="field-group">
-                        <label>⚖️ Mín</label>
-                        <input type="number" value="${m.pesoMin}" min="0" step="0.01"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMin', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
-                    </div>
-                    <div class="field-group">
-                        <label>⚖️ Méd</label>
-                        <input type="number" value="${m.pesoMed}" min="0" step="0.01"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMed', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
-                    </div>
-                    <div class="field-group">
-                        <label>⚖️ Máx</label>
-                        <input type="number" value="${m.pesoMax}" min="0" step="0.01"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pesoMax', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         window.atualizarMaquinaLocal = function(id, campo, valor) {
@@ -1962,7 +2097,6 @@
             if (campo === 'nome') {
                 maquina.nome = valor;
             } else if (campo === 'velProduto') {
-                // Agora é string: nome do produto
                 maquina.velProduto = valor;
             } else if (campo === 'velocidade') {
                 maquina.velocidade = Math.max(0, valor);
@@ -1974,6 +2108,13 @@
                 maquina.pesoMed = Math.max(0, valor);
             } else if (campo === 'pesoMax') {
                 maquina.pesoMax = Math.max(0, valor);
+            } else if (campo === 'status') {
+                maquina.status = valor;
+                if (valor !== 'stopped') {
+                    maquina.stopReason = '';
+                }
+            } else if (campo === 'stopReason') {
+                maquina.stopReason = valor;
             }
             renderizarResumoMaquinas();
         };
@@ -1994,44 +2135,53 @@
             }
         };
 
-        // ============ CARDS-RESUMO INDIVIDUAIS POR MÁQUINA (COLORIDOS) ============
+        // ============ CARDS-RESUMO INDIVIDUAIS POR MÁQUINA (COLORIDOS POR STATUS) ============
         function renderizarResumoMaquinas() {
             if (!usuarioLogado || maquinas.length === 0) {
                 machinesSummaryGrid.innerHTML = '';
                 return;
             }
 
-            // Ordenar por velocidade para definir as cores
-            const sortedByVel = [...maquinas].sort((a, b) => b.velocidade - a.velocidade);
-            const total = maquinas.length;
-            const terc = Math.ceil(total / 3);
-
-            // Mapear cada máquina para sua classe de cor
-            const classeMap = {};
-            sortedByVel.forEach((m, index) => {
-                if (index < terc) {
-                    classeMap[m.id] = 'max';
-                } else if (index < total - terc) {
-                    classeMap[m.id] = 'med';
-                } else {
-                    classeMap[m.id] = 'min';
-                }
-            });
-
             machinesSummaryGrid.innerHTML = maquinas.map((m, i) => {
-                const classe = classeMap[m.id] || 'med';
-                const dotColor = classe === 'max' ? 'red' : (classe === 'min' ? 'green' : 'blue');
+                let statusClass = '';
+                let statusText = '';
+                let dotColor = '';
+                let statusBadgeClass = '';
+
+                if (m.status === 'production') {
+                    statusClass = 'status-production';
+                    statusText = 'Em Produção';
+                    dotColor = 'green';
+                    statusBadgeClass = 'status-production';
+                } else if (m.status === 'stopped') {
+                    statusClass = 'status-stopped';
+                    statusText = 'Parado';
+                    dotColor = 'red';
+                    statusBadgeClass = 'status-stopped';
+                } else if (m.status === 'test') {
+                    statusClass = 'status-test';
+                    statusText = 'Em Teste';
+                    dotColor = 'yellow';
+                    statusBadgeClass = 'status-test';
+                }
+
+                let stopReasonHTML = '';
+                if (m.status === 'stopped' && m.stopReason) {
+                    stopReasonHTML =
+                        `<div class="ms-stop-reason" title="${escapeHTML(m.stopReason)}">📝 ${escapeHTML(m.stopReason)}</div>`;
+                }
+
                 return `
-                    <div class="machine-summary-card ${classe}">
+                    <div class="machine-summary-card ${statusClass}">
                         <div class="ms-name">
                             <span class="pulse-dot ${dotColor}"></span> ${escapeHTML(m.nome)}
                         </div>
                         <div class="ms-row">
-                            <span class="ms-label"> Prod.</span>
+                            <span class="ms-label">📦 Prod.</span>
                             <span class="ms-value">${escapeHTML(m.velProduto || '—')}</span>
                         </div>
                         <div class="ms-row">
-                            <span class="ms-label">⚡ Vel.</span>
+                            <span class="ms-label">⚡ Ciclo</span>
                             <span class="ms-value">${m.velocidade.toFixed(1)}</span>
                         </div>
                         <div class="ms-row">
@@ -2042,6 +2192,8 @@
                             <span class="ms-label">⚖️ Peso Méd</span>
                             <span class="ms-value">${m.pesoMed.toFixed(2)} g</span>
                         </div>
+                        <span class="ms-status-badge ${statusBadgeClass}">${statusText}</span>
+                        ${stopReasonHTML}
                     </div>
                 `;
             }).join('');
@@ -2082,8 +2234,10 @@
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
         console.log('📦 Coleções: produtos e maquinas');
-        console.log('🏭 Cards de resumo individuais por máquina com cores baseadas em velocidade!');
-        console.log('📝 Campo V.Prod. agora exibe o nome do produto em vez de número.');
+        console.log('🏭 Cards de resumo com status: 🟢 Em Produção | 🔴 Parado | 🟡 Em Teste');
+        console.log('📝 Campo Prod. exibe o nome do produto.');
+        console.log('⚡ Campo Ciclo exibe a velocidade/ciclo.');
+        console.log('🛑 Máquinas paradas exibem o motivo da parada.');
         console.log('💾 Máquinas: edite e clique em "Salvar Máquinas" para persistir.');
     </script>
 </body>
