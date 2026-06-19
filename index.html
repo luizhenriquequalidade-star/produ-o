@@ -1843,13 +1843,11 @@
                     const duracaoSegundos = Math.max(0, (agora.getTime() - inicio.getTime()) / 1000);
                     const duracaoFormatada = formatarDuracaoTimer(duracaoSegundos);
 
-                    // Atualiza no card de resumo
                     const timerSummary = document.getElementById(`timerSummary_${m.id}`);
                     if (timerSummary) {
                         timerSummary.textContent = '⏱ ' + duracaoFormatada;
                     }
 
-                    // Atualiza no card editável
                     const timerCard = document.getElementById(`timerCard_${m.id}`);
                     if (timerCard) {
                         timerCard.textContent = '⏱ Parado há: ' + duracaoFormatada;
@@ -2463,7 +2461,6 @@
                 `;
             }).join('');
 
-            // Após renderizar, atualiza os timers
             atualizarTimersNaTela();
         }
 
@@ -2479,23 +2476,19 @@
 
             const statusAntigo = maquina.status;
 
-            // Se estava parado e vai mudar para outro status, finaliza a parada
             if (statusAntigo === 'parado' && novoStatus !== 'parado') {
                 await finalizarParada(id);
             }
 
-            // Se vai para parado e não estava parado, inicia o temporizador
             if (novoStatus === 'parado' && statusAntigo !== 'parado') {
                 maquina.status = 'parado';
                 iniciarTimerParada(id);
             } else if (novoStatus !== 'parado' && statusAntigo === 'parado') {
-                // Já finalizou a parada acima
                 maquina.status = novoStatus;
             } else {
                 maquina.status = novoStatus;
             }
 
-            // Limpa motivos quando muda de status
             if (novoStatus !== 'parado' && statusAntigo === 'parado') {
                 maquina.motivoParada = '';
             }
@@ -2503,7 +2496,6 @@
                 maquina.motivoTeste = '';
             }
 
-            // Salva no Firebase
             await atualizarMaquinaNoFirestore(maquina);
             renderizarMaquinas();
             renderizarResumoMaquinas();
@@ -2618,7 +2610,6 @@
                 `;
             }).join('');
 
-            // Atualiza timers após renderizar
             atualizarTimersNaTela();
         }
 
@@ -2636,6 +2627,8 @@
                 if (targetPanel) {
                     targetPanel.classList.add('active');
                     if (targetId === 'tab-maquinas') {
+                        // Recarrega o histórico do Firebase e atualiza a interface
+                        carregarHistoricoParadas(false);
                         renderizarResumoMaquinas();
                         renderizarHistoricoParadas();
                         atualizarTimersNaTela();
