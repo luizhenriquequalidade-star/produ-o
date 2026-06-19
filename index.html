@@ -1223,6 +1223,24 @@
 
         <!-- Painel: Máquinas Ao Vivo -->
         <div class="tab-panel" id="tab-maquinas">
+            <!-- NOVO: Velocidade Produto (acima de Velocidade) -->
+            <div class="live-indicators" id="liveIndicatorsVelProduto">
+                <div class="live-card max">
+                    <div class="live-label"><span class="pulse-dot red"></span> Vel. Produto Máx</div>
+                    <div class="live-value" id="liveVelProdMax">0</div>
+                    <div class="live-sub">unidades/min</div>
+                </div>
+                <div class="live-card med">
+                    <div class="live-label"><span class="pulse-dot blue"></span> Vel. Produto Méd</div>
+                    <div class="live-value" id="liveVelProdMed">0</div>
+                    <div class="live-sub">unidades/min</div>
+                </div>
+                <div class="live-card min">
+                    <div class="live-label"><span class="pulse-dot green"></span> Vel. Produto Mín</div>
+                    <div class="live-value" id="liveVelProdMin">0</div>
+                    <div class="live-sub">unidades/min</div>
+                </div>
+            </div>
             <div class="live-indicators" id="liveIndicatorsVel">
                 <div class="live-card max">
                     <div class="live-label"><span class="pulse-dot red"></span> Velocidade Máxima</div>
@@ -1340,7 +1358,6 @@
                 });
             } catch (e) {
                 console.error("Erro ao carregar produtos:", e);
-                // fallback para localStorage se existir
                 carregarDoLocalStorage();
             }
         }
@@ -1351,7 +1368,6 @@
                 const c = localStorage.getItem('donaRita_produtosConc');
                 if (r) produtosRita = JSON.parse(r);
                 if (c) produtosConcorrente = JSON.parse(c);
-                // Migrar para Firestore
                 migrarProdutosParaFirestore();
             } catch (e) {}
         }
@@ -1379,7 +1395,6 @@
                 }
                 localStorage.removeItem('donaRita_produtosRita');
                 localStorage.removeItem('donaRita_produtosConc');
-                // Recarregar do Firestore para obter IDs
                 await carregarProdutosDoFirestore();
             } catch (e) {
                 console.error("Erro na migração:", e);
@@ -1416,7 +1431,6 @@
             try {
                 const querySnapshot = await getDocs(collection(db, "maquinas"));
                 if (querySnapshot.empty) {
-                    // Inicializar com valores padrão e salvar
                     inicializarMaquinasLocal();
                     await salvarTodasMaquinasNoFirestore();
                     return;
@@ -1427,6 +1441,7 @@
                     maquinas.push({
                         id: docSnap.id,
                         nome: data.nome,
+                        velProduto: data.velProduto ?? (Math.floor(Math.random() * 80) + 20),
                         velocidade: data.velocidade,
                         pessoas: data.pessoas,
                         pesoMin: data.pesoMin,
@@ -1434,7 +1449,6 @@
                         pesoMax: data.pesoMax
                     });
                 });
-                // Ordenar por ID (maq0, maq1...)
                 maquinas.sort((a, b) => a.id.localeCompare(b.id));
             } catch (e) {
                 console.error("Erro ao carregar máquinas:", e);
@@ -1452,6 +1466,7 @@
                 maquinas.push({
                     id: `maq${i}`,
                     nome: nomesPadraoMaquinas[i],
+                    velProduto: Math.floor(Math.random() * 80) + 20,
                     velocidade: Math.floor(Math.random() * 80) + 20,
                     pessoas: Math.floor(Math.random() * 5) + 1,
                     pesoMin: pesoMin,
@@ -1466,6 +1481,7 @@
                 for (let m of maquinas) {
                     await setDoc(doc(db, "maquinas", m.id), {
                         nome: m.nome,
+                        velProduto: m.velProduto,
                         velocidade: m.velocidade,
                         pessoas: m.pessoas,
                         pesoMin: m.pesoMin,
@@ -1482,6 +1498,7 @@
             try {
                 await setDoc(doc(db, "maquinas", maquina.id), {
                     nome: maquina.nome,
+                    velProduto: maquina.velProduto,
                     velocidade: maquina.velocidade,
                     pessoas: maquina.pessoas,
                     pesoMin: maquina.pesoMin,
@@ -1599,7 +1616,6 @@
             loginOverlay.classList.add('hidden');
             appContainer.style.display = '';
 
-            // Carregar dados do Firestore
             await carregarProdutosDoFirestore();
             await carregarMaquinasDoFirestore();
 
@@ -1639,7 +1655,6 @@
             showToast('👋 Sessão encerrada.', 'warning');
         };
 
-        // Permitir login com Enter
         loginSenhaInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
                 window.efetuarLogin();
@@ -1651,7 +1666,6 @@
             }
         });
 
-        // Restaurar sessão
         async function restaurarSessao() {
             const sessao = sessionStorage.getItem('donaRita_usuarioLogado');
             if (sessao) {
@@ -1662,7 +1676,6 @@
                         loginOverlay.classList.add('hidden');
                         appContainer.style.display = '';
                         userBadge.innerHTML = `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
-                        // Carregar dados do Firestore
                         await carregarProdutosDoFirestore();
                         await carregarMaquinasDoFirestore();
                         atualizarUIComPermissoes();
@@ -1811,7 +1824,6 @@
             }
             try {
                 await deletarProdutoDoFirestore(id);
-                // Remover do array local
                 produtosRita = produtosRita.filter(p => p.id !== id);
                 produtosConcorrente = produtosConcorrente.filter(p => p.id !== id);
                 atualizarTabelaVisualizacao();
@@ -1936,6 +1948,12 @@
                            onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
                            placeholder="Nome da máquina" ${readonlyAttr}>
                     <div class="field-group">
+                        <label>⚡ V.Prod.</label>
+                        <input type="number" value="${m.velProduto}" min="0" step="0.1"
+                               oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
+                               ${readonlyAttr}>
+                    </div>
+                    <div class="field-group">
                         <label>⚡ Vel.</label>
                         <input type="number" value="${m.velocidade}" min="0" step="0.1"
                                oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); atualizarIndicadoresAoVivo();"
@@ -1969,7 +1987,6 @@
             `).join('');
         }
 
-        // Atualiza apenas o array local e os indicadores, sem salvar no Firestore
         window.atualizarMaquinaLocal = function(id, campo, valor) {
             if (!isQualidade()) {
                 showToast('⛔ Apenas usuários de qualidade podem editar máquinas.', 'warning');
@@ -1981,6 +1998,8 @@
 
             if (campo === 'nome') {
                 maquina.nome = valor;
+            } else if (campo === 'velProduto') {
+                maquina.velProduto = Math.max(0, valor);
             } else if (campo === 'velocidade') {
                 maquina.velocidade = Math.max(0, valor);
             } else if (campo === 'pessoas') {
@@ -1992,18 +2011,15 @@
             } else if (campo === 'pesoMax') {
                 maquina.pesoMax = Math.max(0, valor);
             }
-            // Não salva no Firestore aqui
             atualizarIndicadoresAoVivo();
         };
 
-        // Salva todas as máquinas no Firestore
         window.salvarMaquinas = async function() {
             if (!isQualidade()) {
                 showToast('⛔ Apenas usuários de qualidade podem salvar alterações.', 'warning');
                 return;
             }
             try {
-                // Atualizar cada máquina no Firestore
                 for (let m of maquinas) {
                     await atualizarMaquinaNoFirestore(m);
                 }
@@ -2015,12 +2031,24 @@
         };
 
         function atualizarIndicadoresAoVivo() {
+            const velProdutoArr = maquinas.map(m => m.velProduto).filter(v => !isNaN(v));
             const velocidades = maquinas.map(m => m.velocidade).filter(v => !isNaN(v));
             const pessoasArr = maquinas.map(m => m.pessoas).filter(p => !isNaN(p));
             const pesosMinArr = maquinas.map(m => m.pesoMin).filter(p => !isNaN(p));
             const pesosMedArr = maquinas.map(m => m.pesoMed).filter(p => !isNaN(p));
             const pesosMaxArr = maquinas.map(m => m.pesoMax).filter(p => !isNaN(p));
 
+            // Velocidade Produto
+            if (velProdutoArr.length > 0) {
+                document.getElementById('liveVelProdMax').textContent = Math.max(...velProdutoArr).toFixed(1);
+                document.getElementById('liveVelProdMed').textContent = (velProdutoArr.reduce((a, b) => a + b, 0) / velProdutoArr.length).toFixed(1);
+                document.getElementById('liveVelProdMin').textContent = Math.min(...velProdutoArr).toFixed(1);
+            } else {
+                document.getElementById('liveVelProdMax').textContent = '0';
+                document.getElementById('liveVelProdMed').textContent = '0';
+                document.getElementById('liveVelProdMin').textContent = '0';
+            }
+            // Velocidade
             if (velocidades.length > 0) {
                 document.getElementById('liveVelMax').textContent = Math.max(...velocidades).toFixed(1);
                 document.getElementById('liveVelMed').textContent = (velocidades.reduce((a, b) => a + b, 0) / velocidades.length).toFixed(1);
@@ -2030,6 +2058,7 @@
                 document.getElementById('liveVelMed').textContent = '0';
                 document.getElementById('liveVelMin').textContent = '0';
             }
+            // Pessoas
             if (pessoasArr.length > 0) {
                 document.getElementById('livePesMax').textContent = Math.max(...pessoasArr);
                 document.getElementById('livePesMed').textContent = Math.round(pessoasArr.reduce((a, b) => a + b, 0) / pessoasArr.length);
@@ -2039,6 +2068,7 @@
                 document.getElementById('livePesMed').textContent = '0';
                 document.getElementById('livePesMin').textContent = '0';
             }
+            // Peso
             if (pesosMinArr.length > 0) {
                 document.getElementById('liveWeightMax').textContent = Math.max(...pesosMinArr).toFixed(2);
                 document.getElementById('liveWeightMed').textContent = (pesosMedArr.reduce((a, b) => a + b, 0) / pesosMedArr.length).toFixed(2);
@@ -2070,14 +2100,13 @@
             });
         });
 
-        // Atualizar indicadores periodicamente
         setInterval(() => {
             if (usuarioLogado && document.getElementById('tab-maquinas').classList.contains('active')) {
                 atualizarIndicadoresAoVivo();
             }
         }, 3000);
 
-        // Expor funções globais necessárias
+        // Expor funções globais
         window.atualizarIndicadoresAoVivo = atualizarIndicadoresAoVivo;
         window.aplicarFiltroVisualizacao = window.aplicarFiltroVisualizacao;
         window.aplicarFiltroComparacao = window.aplicarFiltroComparacao;
@@ -2092,6 +2121,7 @@
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
         console.log('📦 Coleções: produtos e maquinas');
+        console.log('⚡ Novo campo: velProduto adicionado às máquinas.');
         console.log('💾 Máquinas: edite e clique em "Salvar Máquinas" para persistir.');
     </script>
 </body>
