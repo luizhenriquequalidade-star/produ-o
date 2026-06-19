@@ -117,7 +117,6 @@
             }
         }
 
-        /* ============ TELA DE LOGIN ============ */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -252,7 +251,6 @@
             transition: all 0.3s;
         }
 
-        /* ============ CONTAINER PRINCIPAL ============ */
         .app-container {
             position: relative;
             z-index: 1;
@@ -342,7 +340,6 @@
             box-shadow: 0 0 15px var(--red-glow);
         }
 
-        /* Navegação por abas */
         .tab-nav {
             display: flex;
             gap: 4px;
@@ -396,7 +393,6 @@
             font-size: 1.1em;
         }
 
-        /* Painéis de abas */
         .tab-panel {
             display: none;
             animation: fadeSlideIn 0.4s ease-out;
@@ -405,7 +401,6 @@
             display: block;
         }
 
-        /* Grid */
         .grid-2col {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -417,7 +412,6 @@
             }
         }
 
-        /* Cards */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -465,7 +459,6 @@
             box-shadow: var(--shadow-purple);
         }
 
-        /* Labels e inputs */
         label {
             display: block;
             font-size: 0.82em;
@@ -517,7 +510,6 @@
             background: rgba(10, 10, 20, 0.4);
         }
 
-        /* Botões */
         .btn {
             padding: 11px 22px;
             border-radius: 50px;
@@ -619,8 +611,25 @@
             box-shadow: 0 6px 30px rgba(16, 185, 129, 0.5);
             transform: translateY(-2px);
         }
+        .btn-refresh {
+            background: transparent;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            color: #60a5fa;
+            padding: 8px 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.75em;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .btn-refresh:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+            box-shadow: 0 0 15px var(--blue-glow);
+        }
 
-        /* Filtro por cliente (botões) */
         .cliente-filter-btns {
             display: flex;
             gap: 8px;
@@ -654,7 +663,6 @@
             box-shadow: 0 0 12px rgba(200, 155, 94, 0.2);
         }
 
-        /* Tabelas */
         .table-wrap {
             overflow-x: auto;
             border-radius: var(--radius-sm);
@@ -738,8 +746,12 @@
             color: #facc15;
             border: 1px solid rgba(234, 179, 8, 0.4);
         }
+        .badge-blue {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
 
-        /* Filtro / Busca */
         .filter-row {
             display: flex;
             gap: 8px;
@@ -767,7 +779,6 @@
             min-width: 180px;
         }
 
-        /* Grid de resumo de máquinas (cards coloridos individuais) */
         .machines-summary-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -803,7 +814,6 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
         }
-        /* Status cores */
         .machine-summary-card.status-produzindo {
             border-color: rgba(16, 185, 129, 0.5);
             box-shadow: 0 0 20px var(--green-glow);
@@ -892,8 +902,28 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .machine-summary-card .ms-timer {
+            font-size: 0.75em;
+            font-weight: 700;
+            color: #fca5a5;
+            margin-top: 4px;
+            letter-spacing: 0.03em;
+            background: rgba(239, 68, 68, 0.15);
+            border-radius: 12px;
+            padding: 3px 10px;
+            display: inline-block;
+            animation: timerPulse 1s ease-in-out infinite;
+        }
+        @keyframes timerPulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
 
-        /* Grid editável de máquinas */
         .machines-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -989,8 +1019,22 @@
         .machine-card .motivo-teste-input.visible {
             display: flex;
         }
+        .machine-card .timer-display {
+            font-size: 0.7em;
+            font-weight: 700;
+            color: #fca5a5;
+            text-align: center;
+            margin-bottom: 6px;
+            letter-spacing: 0.03em;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 10px;
+            padding: 4px 8px;
+            animation: timerPulse 1s ease-in-out infinite;
+        }
+        .machine-card .timer-display.hidden {
+            display: none;
+        }
 
-        /* Comparação */
         .comparison-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1032,7 +1076,6 @@
             color: #a78bfa;
         }
 
-        /* Toast */
         .toast {
             position: fixed;
             top: 20px;
@@ -1057,6 +1100,11 @@
             border-color: rgba(239, 68, 68, 0.5);
             color: #f87171;
         }
+        .toast.info {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+            color: #60a5fa;
+        }
         @keyframes slideInRight {
             from {
                 transform: translateX(120%);
@@ -1074,7 +1122,6 @@
             }
         }
 
-        /* Pulse dot */
         .pulse-dot {
             display: inline-block;
             width: 8px;
@@ -1107,7 +1154,6 @@
             }
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar {
             height: 4px;
             width: 4px;
@@ -1140,11 +1186,17 @@
             flex: 1;
             min-width: 100px;
         }
+        .mt-2 {
+            margin-top: 8px;
+        }
         .mt-3 {
             margin-top: 12px;
         }
         .mt-4 {
             margin-top: 16px;
+        }
+        .mb-2 {
+            margin-bottom: 8px;
         }
         .mb-3 {
             margin-bottom: 12px;
@@ -1169,6 +1221,8 @@
             display: flex;
             justify-content: center;
             margin-top: 20px;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .status-indicator {
@@ -1218,14 +1272,28 @@
         .btn-edit-sm.editing:hover {
             background: rgba(16, 185, 129, 0.3);
         }
+
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            margin: 24px 0 16px;
+        }
+        .section-title {
+            font-size: 1em;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            color: #e0c28f;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Partículas de fundo -->
     <div class="particles" id="particlesContainer"></div>
-
-    <!-- Toast container -->
     <div id="toastContainer"></div>
 
     <!-- ============ TELA DE LOGIN ============ -->
@@ -1245,7 +1313,6 @@
 
     <!-- ============ APP PRINCIPAL ============ -->
     <div class="app-container" id="appContainer" style="display:none;">
-        <!-- Header -->
         <header class="header">
             <span class="logo-icon">👑</span>
             <h1>Dona Rita Produção</h1>
@@ -1257,7 +1324,6 @@
             </div>
         </header>
 
-        <!-- Abas -->
         <nav class="tab-nav">
             <button class="tab-btn active" data-tab="tab-produtos">
                 <span class="tab-icon">📦</span> Produtos &amp; Consulta
@@ -1271,9 +1337,7 @@
         <div class="tab-panel active" id="tab-produtos">
             <div class="grid-2col">
                 <div class="card card-gold-border" id="cardCadastro">
-                    <div class="card-header">
-                        <span class="icon">📝</span> Cadastrar Produto
-                    </div>
+                    <div class="card-header"><span class="icon">📝</span> Cadastrar Produto</div>
                     <div class="row-flex mb-3">
                         <div class="flex-1">
                             <label>Cliente</label>
@@ -1290,89 +1354,45 @@
                         </div>
                     </div>
                     <div class="row-flex gap-sm mb-3">
-                        <div class="flex-1">
-                            <label>Peso Mínimo (g)</label>
-                            <input type="number" id="pesoMin" placeholder="Mín" step="0.01" min="0">
-                        </div>
-                        <div class="flex-1">
-                            <label>Peso Médio (g)</label>
-                            <input type="number" id="pesoMed" placeholder="Médio" step="0.01" min="0">
-                        </div>
-                        <div class="flex-1">
-                            <label>Peso Máximo (g)</label>
-                            <input type="number" id="pesoMax" placeholder="Máx" step="0.01" min="0">
-                        </div>
+                        <div class="flex-1"><label>Peso Mínimo (g)</label><input type="number" id="pesoMin" placeholder="Mín" step="0.01" min="0"></div>
+                        <div class="flex-1"><label>Peso Médio (g)</label><input type="number" id="pesoMed" placeholder="Médio" step="0.01" min="0"></div>
+                        <div class="flex-1"><label>Peso Máximo (g)</label><input type="number" id="pesoMax" placeholder="Máx" step="0.01" min="0"></div>
                     </div>
-                    <button class="btn btn-gold" id="btnAdicionarProduto" onclick="adicionarProduto()" style="width:100%;">
-                        ✨ Adicionar Produto
-                    </button>
+                    <button class="btn btn-gold" id="btnAdicionarProduto" onclick="adicionarProduto()" style="width:100%;">✨ Adicionar Produto</button>
                 </div>
-
                 <div class="card card-purple-border" id="cardListaCliente">
-                    <div class="card-header">
-                        <span class="icon">📋</span> Consulta de Produtos
-                    </div>
+                    <div class="card-header"><span class="icon">📋</span> Consulta de Produtos</div>
                     <div class="cliente-filter-btns">
-                        <button class="cliente-filter-btn active" data-cliente="rita" id="btnFiltroRita">
-                            👑 Dona Rita
-                        </button>
-                        <button class="cliente-filter-btn" data-cliente="concorrente" id="btnFiltroConc">
-                            🏢 Concorrente
-                        </button>
+                        <button class="cliente-filter-btn active" data-cliente="rita" id="btnFiltroRita">👑 Dona Rita</button>
+                        <button class="cliente-filter-btn" data-cliente="concorrente" id="btnFiltroConc">🏢 Concorrente</button>
                     </div>
                     <div class="filter-row">
-                        <input type="text" id="filtroVisualizacao" placeholder="🔍 Filtrar por nome do produto..."
-                        oninput="aplicarFiltroVisualizacao()">
+                        <input type="text" id="filtroVisualizacao" placeholder="🔍 Filtrar por nome do produto..." oninput="aplicarFiltroVisualizacao()">
                         <button class="btn-search" onclick="aplicarFiltroVisualizacao()" title="Buscar">🔍</button>
                     </div>
                     <div class="table-wrap">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Produto</th>
-                                    <th>Peso Mín</th>
-                                    <th>Peso Méd</th>
-                                    <th>Peso Máx</th>
-                                    <th id="thAcoes">Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelaClienteVisualizacao">
-                                <tr><td colspan="5" class="empty-state">Nenhum produto cadastrado</td></tr>
-                            </tbody>
+                            <thead><tr><th>Produto</th><th>Peso Mín</th><th>Peso Méd</th><th>Peso Máx</th><th id="thAcoes">Ações</th></tr></thead>
+                            <tbody id="tabelaClienteVisualizacao"><tr><td colspan="5" class="empty-state">Nenhum produto cadastrado</td></tr></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
             <div class="text-center mt-4">
-                <button class="btn btn-purple" onclick="compararClientes()" style="font-size:0.9em; padding:14px 36px;">
-                    🔍 Comparar Dona Rita × Concorrente
-                </button>
+                <button class="btn btn-purple" onclick="compararClientes()" style="font-size:0.9em; padding:14px 36px;">🔍 Comparar Dona Rita × Concorrente</button>
             </div>
-
             <div class="filter-row-compare mt-4" id="filtroComparacaoRow" style="display:none;">
-                <input type="text" id="filtroComparacao" placeholder="🔍 Filtrar produtos na comparação..."
-                oninput="aplicarFiltroComparacao()">
+                <input type="text" id="filtroComparacao" placeholder="🔍 Filtrar produtos na comparação..." oninput="aplicarFiltroComparacao()">
                 <button class="btn-search" onclick="aplicarFiltroComparacao()" title="Buscar">🔍</button>
             </div>
             <div class="comparison-container mt-2" id="comparisonArea" style="display:none;">
                 <div class="comparison-col riva">
                     <div class="col-title">👑 Dona Rita</div>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>Produto</th><th>Mín</th><th>Méd</th><th>Máx</th></tr></thead>
-                            <tbody id="tabelaComparacaoRita"></tbody>
-                        </table>
-                    </div>
+                    <div class="table-wrap"><table><thead><tr><th>Produto</th><th>Mín</th><th>Méd</th><th>Máx</th></tr></thead><tbody id="tabelaComparacaoRita"></tbody></table></div>
                 </div>
                 <div class="comparison-col conc">
                     <div class="col-title">🏢 Concorrente</div>
-                    <div class="table-wrap">
-                        <table>
-                            <thead><tr><th>Produto</th><th>Mín</th><th>Méd</th><th>Máx</th></tr></thead>
-                            <tbody id="tabelaComparacaoConc"></tbody>
-                        </table>
-                    </div>
+                    <div class="table-wrap"><table><thead><tr><th>Produto</th><th>Mín</th><th>Méd</th><th>Máx</th></tr></thead><tbody id="tabelaComparacaoConc"></tbody></table></div>
                 </div>
             </div>
             <div class="text-center mt-3" id="resumoComparacao" style="display:none;"></div>
@@ -1380,13 +1400,32 @@
 
         <!-- Painel: Máquinas Ao Vivo -->
         <div class="tab-panel" id="tab-maquinas">
-            <!-- Cards-resumo individuais por máquina (com status) -->
             <div class="machines-summary-grid" id="machinesSummaryGrid"></div>
-
-            <!-- Grid editável de máquinas -->
             <div class="machines-grid" id="machinesGrid"></div>
             <div class="save-machines-area">
                 <button class="btn btn-save-machines" onclick="salvarMaquinas()">💾 Salvar Máquinas</button>
+            </div>
+            <div class="section-divider"></div>
+            <div class="section-title">📋 Histórico de Paradas</div>
+            <div class="filter-row mb-3">
+                <input type="text" id="filtroHistorico" placeholder="🔍 Filtrar por máquina ou motivo..." oninput="renderizarHistoricoParadas()">
+                <button class="btn-refresh" onclick="carregarHistoricoParadas(true)" title="Atualizar histórico">🔄 Atualizar</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Máquina</th>
+                            <th>Motivo</th>
+                            <th>Início</th>
+                            <th>Fim</th>
+                            <th>Duração</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaHistoricoParadas">
+                        <tr><td colspan="5" class="empty-state">Nenhum histórico de paradas registrado</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -1394,7 +1433,7 @@
     <!-- ============ SCRIPTS ============ -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDwONgjmSWUPHCXyiJFAMRCJ-GfZrA-UKE",
@@ -1409,7 +1448,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ============ SISTEMA DE AUTENTICAÇÃO ============
         const USUARIOS = {
             'qualidade': { senha: 'rita2024', role: 'qualidade', nome: 'Qualidade' },
             'consulta': { senha: 'consulta2024', role: 'consulta', nome: 'Consulta' }
@@ -1419,6 +1457,9 @@
         let produtosRita = [];
         let produtosConcorrente = [];
         let maquinas = [];
+        let historicoParadas = [];
+        let timerIntervalId = null;
+
         const nomesPadraoMaquinas = [
             'Máquina Alpha', 'Máquina Beta', 'Máquina Gamma', 'Máquina Delta', 'Máquina Épsilon',
             'Máquina Zeta', 'Máquina Eta', 'Máquina Teta', 'Máquina Iota', 'Máquina Kappa'
@@ -1430,7 +1471,7 @@
 
         let clienteVisualizacao = 'rita';
 
-        // ============ FIREBASE CRUD ============
+        // ============ FIREBASE CRUD - PRODUTOS ============
         async function carregarProdutosDoFirestore() {
             try {
                 const querySnapshot = await getDocs(collection(db, "produtos"));
@@ -1530,7 +1571,7 @@
             }
         }
 
-        // Máquinas
+        // ============ FIREBASE CRUD - MÁQUINAS ============
         async function carregarMaquinasDoFirestore() {
             try {
                 const querySnapshot = await getDocs(collection(db, "maquinas"));
@@ -1554,7 +1595,8 @@
                         pesoMax: data.pesoMax,
                         status: data.status || 'produzindo',
                         motivoParada: data.motivoParada || '',
-                        motivoTeste: data.motivoTeste || ''
+                        motivoTeste: data.motivoTeste || '',
+                        paradaInicio: data.paradaInicio || null
                     });
                 });
                 maquinas.sort((a, b) => a.id.localeCompare(b.id));
@@ -1569,14 +1611,8 @@
             const statusOptions = ['produzindo', 'produzindo', 'produzindo', 'produzindo', 'produzindo', 'produzindo',
                 'parado', 'parado', 'teste', 'teste'
             ];
-            const motivosParada = [
-                '', '', '', '', '', '',
-                'Falta de matéria-prima', 'Manutenção corretiva', '', ''
-            ];
-            const motivosTeste = [
-                '', '', '', '', '', '',
-                '', '', 'Teste de novo produto', 'Ajuste de configuração'
-            ];
+            const motivosParada = ['', '', '', '', '', '', 'Falta de matéria-prima', 'Manutenção corretiva', '', ''];
+            const motivosTeste = ['', '', '', '', '', '', '', '', 'Teste de novo produto', 'Ajuste de configuração'];
             for (let i = 0; i < 10; i++) {
                 const pesoBase = Math.floor(Math.random() * 800) + 200;
                 const pesoMin = pesoBase - Math.floor(Math.random() * 50);
@@ -1594,7 +1630,8 @@
                     pesoMax: pesoMax,
                     status: st,
                     motivoParada: motivosParada[i] || '',
-                    motivoTeste: motivosTeste[i] || ''
+                    motivoTeste: motivosTeste[i] || '',
+                    paradaInicio: null
                 });
             }
         }
@@ -1612,7 +1649,8 @@
                         pesoMax: m.pesoMax,
                         status: m.status,
                         motivoParada: m.motivoParada,
-                        motivoTeste: m.motivoTeste
+                        motivoTeste: m.motivoTeste,
+                        paradaInicio: m.paradaInicio || null
                     }, { merge: true });
                 }
             } catch (e) {
@@ -1632,11 +1670,192 @@
                     pesoMax: maquina.pesoMax,
                     status: maquina.status,
                     motivoParada: maquina.motivoParada,
-                    motivoTeste: maquina.motivoTeste
+                    motivoTeste: maquina.motivoTeste,
+                    paradaInicio: maquina.paradaInicio || null
                 }, { merge: true });
             } catch (e) {
                 console.error("Erro ao atualizar máquina:", e);
             }
+        }
+
+        // ============ FIREBASE CRUD - HISTÓRICO DE PARADAS ============
+        async function carregarHistoricoParadas(showToastFlag = false) {
+            try {
+                const q = query(collection(db, "historicoParadas"), orderBy("fim", "desc"), limit(200));
+                const querySnapshot = await getDocs(q);
+                historicoParadas = [];
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    historicoParadas.push({
+                        id: docSnap.id,
+                        maquinaId: data.maquinaId,
+                        maquinaNome: data.maquinaNome,
+                        motivo: data.motivo,
+                        inicio: data.inicio,
+                        fim: data.fim,
+                        duracaoSegundos: data.duracaoSegundos
+                    });
+                });
+                renderizarHistoricoParadas();
+                if (showToastFlag) {
+                    showToast('🔄 Histórico de paradas atualizado!', 'info');
+                }
+            } catch (e) {
+                console.error("Erro ao carregar histórico de paradas:", e);
+            }
+        }
+
+        async function salvarHistoricoParada(registro) {
+            try {
+                const docRef = await addDoc(collection(db, "historicoParadas"), {
+                    maquinaId: registro.maquinaId,
+                    maquinaNome: registro.maquinaNome,
+                    motivo: registro.motivo,
+                    inicio: registro.inicio,
+                    fim: registro.fim,
+                    duracaoSegundos: registro.duracaoSegundos
+                });
+                registro.id = docRef.id;
+                historicoParadas.unshift(registro);
+                renderizarHistoricoParadas();
+                showToast(
+                    `📋 Parada registrada: ${registro.maquinaNome} - ${formatarDuracao(registro.duracaoSegundos)}`,
+                    'warning');
+            } catch (e) {
+                console.error("Erro ao salvar histórico de parada:", e);
+                showToast('❌ Erro ao registrar histórico de parada.', 'warning');
+            }
+        }
+
+        function renderizarHistoricoParadas() {
+            const tabela = document.getElementById('tabelaHistoricoParadas');
+            if (!tabela) return;
+            const termo = normalizar(document.getElementById('filtroHistorico')?.value || '');
+
+            let lista = historicoParadas;
+            if (termo) {
+                lista = lista.filter(h =>
+                    normalizar(h.maquinaNome).includes(termo) ||
+                    normalizar(h.motivo).includes(termo)
+                );
+            }
+
+            if (lista.length === 0) {
+                tabela.innerHTML =
+                    '<tr><td colspan="5" class="empty-state">Nenhum histórico de paradas registrado</td></tr>';
+                return;
+            }
+
+            tabela.innerHTML = lista.map(h => {
+                const inicioDate = new Date(h.inicio);
+                const fimDate = new Date(h.fim);
+                const formatoDataHora = (d) => {
+                    return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit',
+                        minute: '2-digit', second: '2-digit' });
+                };
+                return `
+                    <tr>
+                        <td><strong>${escapeHTML(h.maquinaNome)}</strong></td>
+                        <td>${escapeHTML(h.motivo || '—')}</td>
+                        <td>${formatoDataHora(inicioDate)}</td>
+                        <td>${formatoDataHora(fimDate)}</td>
+                        <td><span class="badge badge-red">⏱ ${formatarDuracao(h.duracaoSegundos)}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function formatarDuracao(totalSegundos) {
+            if (totalSegundos < 60) return Math.round(totalSegundos) + 's';
+            const horas = Math.floor(totalSegundos / 3600);
+            const minutos = Math.floor((totalSegundos % 3600) / 60);
+            const segundos = Math.round(totalSegundos % 60);
+            if (horas > 0) {
+                return `${horas}h ${minutos}m ${segundos}s`;
+            }
+            return `${minutos}m ${segundos}s`;
+        }
+
+        function formatarDuracaoTimer(totalSegundos) {
+            const horas = Math.floor(totalSegundos / 3600);
+            const minutos = Math.floor((totalSegundos % 3600) / 60);
+            const segundos = Math.floor(totalSegundos % 60);
+            if (horas > 0) {
+                return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+            }
+            return `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+        }
+
+        // ============ TEMPORIZADOR DE PARADA ============
+        function iniciarTimerParada(maquinaId) {
+            const maquina = maquinas.find(m => m.id === maquinaId);
+            if (!maquina) return;
+            if (!maquina.paradaInicio) {
+                maquina.paradaInicio = new Date().toISOString();
+                atualizarMaquinaNoFirestore(maquina);
+            }
+        }
+
+        async function finalizarParada(maquinaId) {
+            const maquina = maquinas.find(m => m.id === maquinaId);
+            if (!maquina) return;
+            if (!maquina.paradaInicio) return;
+
+            const inicio = new Date(maquina.paradaInicio);
+            const fim = new Date();
+            const duracaoSegundos = Math.max(0, (fim.getTime() - inicio.getTime()) / 1000);
+
+            const registro = {
+                maquinaId: maquina.id,
+                maquinaNome: maquina.nome,
+                motivo: maquina.motivoParada || 'Motivo não informado',
+                inicio: maquina.paradaInicio,
+                fim: fim.toISOString(),
+                duracaoSegundos: Math.round(duracaoSegundos)
+            };
+
+            maquina.paradaInicio = null;
+            maquina.motivoParada = '';
+            await atualizarMaquinaNoFirestore(maquina);
+            await salvarHistoricoParada(registro);
+        }
+
+        function iniciarTimerGlobal() {
+            if (timerIntervalId) clearInterval(timerIntervalId);
+            timerIntervalId = setInterval(() => {
+                atualizarTimersNaTela();
+            }, 1000);
+        }
+
+        function pararTimerGlobal() {
+            if (timerIntervalId) {
+                clearInterval(timerIntervalId);
+                timerIntervalId = null;
+            }
+        }
+
+        function atualizarTimersNaTela() {
+            if (!usuarioLogado) return;
+            maquinas.forEach(m => {
+                if (m.status === 'parado' && m.paradaInicio) {
+                    const inicio = new Date(m.paradaInicio);
+                    const agora = new Date();
+                    const duracaoSegundos = Math.max(0, (agora.getTime() - inicio.getTime()) / 1000);
+                    const duracaoFormatada = formatarDuracaoTimer(duracaoSegundos);
+
+                    // Atualiza no card de resumo
+                    const timerSummary = document.getElementById(`timerSummary_${m.id}`);
+                    if (timerSummary) {
+                        timerSummary.textContent = '⏱ ' + duracaoFormatada;
+                    }
+
+                    // Atualiza no card editável
+                    const timerCard = document.getElementById(`timerCard_${m.id}`);
+                    if (timerCard) {
+                        timerCard.textContent = '⏱ Parado há: ' + duracaoFormatada;
+                    }
+                }
+            });
         }
 
         // ============ ELEMENTOS DOM ============
@@ -1668,6 +1887,7 @@
         const particlesContainer = document.getElementById('particlesContainer');
         const btnFiltroRita = document.getElementById('btnFiltroRita');
         const btnFiltroConc = document.getElementById('btnFiltroConc');
+        const filtroHistoricoInput = document.getElementById('filtroHistorico');
 
         // ============ PARTÍCULAS ============
         function criarParticulas() {
@@ -1721,6 +1941,7 @@
             atualizarTabelaVisualizacao();
             renderizarMaquinas();
             renderizarResumoMaquinas();
+            renderizarHistoricoParadas();
         }
 
         // ============ LOGIN / LOGOUT ============
@@ -1753,12 +1974,16 @@
 
             await carregarProdutosDoFirestore();
             await carregarMaquinasDoFirestore();
+            await carregarHistoricoParadas();
 
-            userBadge.innerHTML = `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+            userBadge.innerHTML =
+                `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
             atualizarUIComPermissoes();
             atualizarTabelaVisualizacao();
             renderizarMaquinas();
             renderizarResumoMaquinas();
+            renderizarHistoricoParadas();
+            iniciarTimerGlobal();
             showToast('✅ Bem-vindo(a), ' + usuarioLogado.nome + '!');
             setTimeout(() => {
                 if (isQualidade()) {
@@ -1788,18 +2013,21 @@
             btnFiltroRita.classList.add('active');
             btnFiltroConc.classList.remove('active');
             machinesSummaryGrid.innerHTML = '';
+            machinesGrid.innerHTML = '';
+            if (document.getElementById('tabelaHistoricoParadas')) {
+                document.getElementById('tabelaHistoricoParadas').innerHTML =
+                    '<tr><td colspan="5" class="empty-state">Nenhum histórico de paradas registrado</td></tr>';
+            }
+            if (filtroHistoricoInput) filtroHistoricoInput.value = '';
+            pararTimerGlobal();
             showToast('👋 Sessão encerrada.', 'warning');
         };
 
         loginSenhaInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                window.efetuarLogin();
-            }
+            if (e.key === 'Enter') window.efetuarLogin();
         });
         loginUsuarioInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                loginSenhaInput.focus();
-            }
+            if (e.key === 'Enter') loginSenhaInput.focus();
         });
 
         async function restaurarSessao() {
@@ -1815,10 +2043,13 @@
                             `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
                         await carregarProdutosDoFirestore();
                         await carregarMaquinasDoFirestore();
+                        await carregarHistoricoParadas();
                         atualizarUIComPermissoes();
                         atualizarTabelaVisualizacao();
                         renderizarMaquinas();
                         renderizarResumoMaquinas();
+                        renderizarHistoricoParadas();
+                        iniciarTimerGlobal();
                         return;
                     }
                 } catch (e) {}
@@ -1832,12 +2063,12 @@
         // ============ FUNÇÕES AUXILIARES ============
         function escapeHTML(str) {
             const div = document.createElement('div');
-            div.textContent = str;
+            div.textContent = str || '';
             return div.innerHTML;
         }
 
         function normalizar(str) {
-            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+            return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
         }
 
         // ============ FILTROS DE CLIENTE NA CONSULTA ============
@@ -1859,13 +2090,11 @@
         function atualizarTabelaVisualizacao() {
             if (!usuarioLogado) return;
             const lista = clienteVisualizacao === 'rita' ? produtosRita : produtosConcorrente;
-
             const termo = normalizar(filtroVisualizacaoInput.value || '');
             let listaFiltrada = lista;
             if (termo) {
                 listaFiltrada = lista.filter(p => normalizar(p.nome).includes(termo));
             }
-
             const colspan = isQualidade() ? 5 : 4;
             const podeEditar = isQualidade();
 
@@ -1878,9 +2107,7 @@
                     if (podeEditar) {
                         acaoCol = `
                             <td>
-                                <button class="btn-edit-sm" onclick="editarProduto('${p.id}')" id="btnEdit_${p.id}">
-                                    ✏️ Editar
-                                </button>
+                                <button class="btn-edit-sm" onclick="editarProduto('${p.id}')" id="btnEdit_${p.id}">✏️ Editar</button>
                                 <button class="btn-danger-sm" onclick="removerProduto('${p.id}')" title="Remover">🗑</button>
                             </td>
                         `;
@@ -1908,12 +2135,8 @@
                     `;
                 }).join('');
             }
-
-            if (!isQualidade()) {
-                thAcoes.style.display = 'none';
-            } else {
-                thAcoes.style.display = '';
-            }
+            if (!isQualidade()) thAcoes.style.display = 'none';
+            else thAcoes.style.display = '';
         }
 
         // ============ EDITAR PRODUTO ============
@@ -1922,17 +2145,14 @@
                 showToast('⛔ Acesso negado. Apenas usuários de qualidade podem editar.', 'warning');
                 return;
             }
-
             const btn = document.getElementById(`btnEdit_${id}`);
             const isEditing = btn.classList.contains('editing');
 
-            // Se estiver editando, salva as alterações
             if (isEditing) {
                 const nomeInput = document.getElementById(`edit_nome_${id}`);
                 const minInput = document.getElementById(`edit_min_${id}`);
                 const medInput = document.getElementById(`edit_med_${id}`);
                 const maxInput = document.getElementById(`edit_max_${id}`);
-
                 const nome = nomeInput.value.trim();
                 const pesoMin = parseFloat(minInput.value);
                 const pesoMed = parseFloat(medInput.value);
@@ -1952,22 +2172,15 @@
                     return;
                 }
 
-                // Encontra o produto e atualiza
                 let produtoEncontrado = null;
                 let lista = clienteVisualizacao === 'rita' ? produtosRita : produtosConcorrente;
                 produtoEncontrado = lista.find(p => p.id === id);
                 if (!produtoEncontrado) {
-                    // tenta na outra lista
                     const outraLista = clienteVisualizacao === 'rita' ? produtosConcorrente : produtosRita;
                     produtoEncontrado = outraLista.find(p => p.id === id);
-                    if (produtoEncontrado) {
-                        lista = outraLista;
-                    }
+                    if (produtoEncontrado) lista = outraLista;
                 }
-                if (!produtoEncontrado) {
-                    showToast('❌ Produto não encontrado.', 'warning');
-                    return;
-                }
+                if (!produtoEncontrado) { showToast('❌ Produto não encontrado.', 'warning'); return; }
 
                 const dadosAntigos = {
                     nome: produtoEncontrado.nome,
@@ -1975,13 +2188,11 @@
                     pesoMed: produtoEncontrado.pesoMed,
                     pesoMax: produtoEncontrado.pesoMax
                 };
-
                 produtoEncontrado.nome = nome;
                 produtoEncontrado.pesoMin = pesoMin;
                 produtoEncontrado.pesoMed = pesoMed;
                 produtoEncontrado.pesoMax = pesoMax;
 
-                // Salva no Firebase
                 atualizarProdutoNoFirestore(id, {
                     cliente: clienteVisualizacao === 'rita' ? 'rita' : 'concorrente',
                     nome: nome,
@@ -1989,13 +2200,10 @@
                     pesoMed: pesoMed,
                     pesoMax: pesoMax
                 }).then(() => {
-                    // Atualiza a visualização
                     document.getElementById(`view_nome_${id}`).textContent = nome;
                     document.getElementById(`view_min_${id}`).textContent = pesoMin.toFixed(2) + ' g';
                     document.getElementById(`view_med_${id}`).textContent = pesoMed.toFixed(2) + ' g';
                     document.getElementById(`view_max_${id}`).textContent = pesoMax.toFixed(2) + ' g';
-
-                    // Esconde inputs, mostra spans
                     document.getElementById(`view_nome_${id}`).style.display = '';
                     document.getElementById(`view_min_${id}`).style.display = '';
                     document.getElementById(`view_med_${id}`).style.display = '';
@@ -2004,17 +2212,11 @@
                     document.getElementById(`edit_min_${id}`).style.display = 'none';
                     document.getElementById(`edit_med_${id}`).style.display = 'none';
                     document.getElementById(`edit_max_${id}`).style.display = 'none';
-
                     btn.textContent = '✏️ Editar';
                     btn.classList.remove('editing');
-
-                    // Atualiza comparação se estiver aberta
-                    if (comparisonArea.style.display !== 'none') {
-                        window.compararClientes();
-                    }
+                    if (comparisonArea.style.display !== 'none') window.compararClientes();
                     showToast('✅ Produto atualizado com sucesso!');
                 }).catch((err) => {
-                    // Reverte mudanças em caso de erro
                     produtoEncontrado.nome = dadosAntigos.nome;
                     produtoEncontrado.pesoMin = dadosAntigos.pesoMin;
                     produtoEncontrado.pesoMed = dadosAntigos.pesoMed;
@@ -2025,7 +2227,6 @@
                 return;
             }
 
-            // Modo de edição: mostra inputs, esconde spans
             document.getElementById(`view_nome_${id}`).style.display = 'none';
             document.getElementById(`view_min_${id}`).style.display = 'none';
             document.getElementById(`view_med_${id}`).style.display = 'none';
@@ -2034,11 +2235,8 @@
             document.getElementById(`edit_min_${id}`).style.display = '';
             document.getElementById(`edit_med_${id}`).style.display = '';
             document.getElementById(`edit_max_${id}`).style.display = '';
-
             btn.textContent = '💾 Salvar';
             btn.classList.add('editing');
-
-            // Foco no primeiro campo
             document.getElementById(`edit_nome_${id}`).focus();
             document.getElementById(`edit_nome_${id}`).select();
         };
@@ -2053,7 +2251,6 @@
             const pesoMin = parseFloat(pesoMinInput.value);
             const pesoMed = parseFloat(pesoMedInput.value);
             const pesoMax = parseFloat(pesoMaxInput.value);
-
             if (!nome) { showToast('⚠️ Informe o nome do produto.', 'warning'); return; }
             if (isNaN(pesoMin) || isNaN(pesoMed) || isNaN(pesoMax)) {
                 showToast('⚠️ Preencha todos os pesos corretamente.', 'warning');
@@ -2067,31 +2264,19 @@
                 showToast('⚠️ Os pesos não podem ser negativos.', 'warning');
                 return;
             }
-
-            const produto = {
-                nome: nome,
-                pesoMin: pesoMin,
-                pesoMed: pesoMed,
-                pesoMax: pesoMax
-            };
-
+            const produto = { nome, pesoMin, pesoMed, pesoMax };
             const cliente = clienteSelect.value;
             try {
                 await salvarProdutoNoFirestore(produto, cliente);
-                if (cliente === 'rita') {
-                    produtosRita.push(produto);
-                } else {
-                    produtosConcorrente.push(produto);
-                }
+                if (cliente === 'rita') produtosRita.push(produto);
+                else produtosConcorrente.push(produto);
                 atualizarTabelaVisualizacao();
                 nomeProdutoInput.value = '';
                 pesoMinInput.value = '';
                 pesoMedInput.value = '';
                 pesoMaxInput.value = '';
                 nomeProdutoInput.focus();
-                if (comparisonArea.style.display !== 'none') {
-                    window.compararClientes();
-                }
+                if (comparisonArea.style.display !== 'none') window.compararClientes();
                 showToast('✅ Produto adicionado com sucesso!');
             } catch (e) {
                 showToast('❌ Erro ao salvar produto no servidor.', 'warning');
@@ -2100,18 +2285,13 @@
 
         // ============ REMOVER PRODUTO ============
         window.removerProduto = async function(id) {
-            if (!isQualidade()) {
-                showToast('⛔ Acesso negado.', 'warning');
-                return;
-            }
+            if (!isQualidade()) { showToast('⛔ Acesso negado.', 'warning'); return; }
             try {
                 await deletarProdutoDoFirestore(id);
                 produtosRita = produtosRita.filter(p => p.id !== id);
                 produtosConcorrente = produtosConcorrente.filter(p => p.id !== id);
                 atualizarTabelaVisualizacao();
-                if (comparisonArea.style.display !== 'none') {
-                    window.compararClientes();
-                }
+                if (comparisonArea.style.display !== 'none') window.compararClientes();
                 showToast('🗑 Produto removido.');
             } catch (e) {
                 showToast('❌ Erro ao remover produto.', 'warning');
@@ -2128,7 +2308,6 @@
                 showToast('ℹ️ Nenhum produto cadastrado para comparar.', 'warning');
                 return;
             }
-
             comparisonArea.style.display = 'grid';
             filtroComparacaoRow.style.display = 'flex';
             resumoComparacao.style.display = 'block';
@@ -2138,71 +2317,46 @@
         window.aplicarFiltroComparacao = function() {
             if (comparisonArea.style.display === 'none') return;
             const termo = normalizar(filtroComparacaoInput.value || '');
-
             const filtrar = (lista) => {
                 if (!termo) return lista;
                 return lista.filter(p => normalizar(p.nome).includes(termo));
             };
-
             const ritaFiltrada = filtrar(produtosRita);
             const concFiltrada = filtrar(produtosConcorrente);
 
-            if (ritaFiltrada.length === 0) {
-                tabelaComparacaoRita.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>';
-            } else {
-                tabelaComparacaoRita.innerHTML = ritaFiltrada.map(p => `
-                    <tr>
-                        <td><strong>${escapeHTML(p.nome)}</strong></td>
-                        <td>${p.pesoMin.toFixed(2)}</td>
-                        <td>${p.pesoMed.toFixed(2)}</td>
-                        <td>${p.pesoMax.toFixed(2)}</td>
-                    </tr>
+            tabelaComparacaoRita.innerHTML = ritaFiltrada.length === 0 ?
+                '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>' :
+                ritaFiltrada.map(p => `
+                    <tr><td><strong>${escapeHTML(p.nome)}</strong></td><td>${p.pesoMin.toFixed(2)}</td><td>${p.pesoMed.toFixed(2)}</td><td>${p.pesoMax.toFixed(2)}</td></tr>
                 `).join('');
-            }
 
-            if (concFiltrada.length === 0) {
-                tabelaComparacaoConc.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>';
-            } else {
-                tabelaComparacaoConc.innerHTML = concFiltrada.map(p => `
-                    <tr>
-                        <td><strong>${escapeHTML(p.nome)}</strong></td>
-                        <td>${p.pesoMin.toFixed(2)}</td>
-                        <td>${p.pesoMed.toFixed(2)}</td>
-                        <td>${p.pesoMax.toFixed(2)}</td>
-                    </tr>
+            tabelaComparacaoConc.innerHTML = concFiltrada.length === 0 ?
+                '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>' :
+                concFiltrada.map(p => `
+                    <tr><td><strong>${escapeHTML(p.nome)}</strong></td><td>${p.pesoMin.toFixed(2)}</td><td>${p.pesoMed.toFixed(2)}</td><td>${p.pesoMax.toFixed(2)}</td></tr>
                 `).join('');
-            }
 
             const nomesRita = new Set(produtosRita.map(p => p.nome.toLowerCase()));
             const nomesConc = new Set(produtosConcorrente.map(p => p.nome.toLowerCase()));
             const produtosEmComum = [];
             const apenasRita = [];
             const apenasConc = [];
-
             produtosRita.forEach(p => {
-                if (nomesConc.has(p.nome.toLowerCase())) {
-                    produtosEmComum.push(p.nome);
-                } else {
-                    apenasRita.push(p.nome);
-                }
+                if (nomesConc.has(p.nome.toLowerCase())) produtosEmComum.push(p.nome);
+                else apenasRita.push(p.nome);
             });
             produtosConcorrente.forEach(p => {
-                if (!nomesRita.has(p.nome.toLowerCase())) {
-                    apenasConc.push(p.nome);
-                }
+                if (!nomesRita.has(p.nome.toLowerCase())) apenasConc.push(p.nome);
             });
 
-            let batem = 0;
-            let naoBatem = 0;
+            let batem = 0,
+                naoBatem = 0;
             produtosEmComum.forEach(nome => {
                 const r = produtosRita.find(p => p.nome.toLowerCase() === nome.toLowerCase());
                 const c = produtosConcorrente.find(p => p.nome.toLowerCase() === nome.toLowerCase());
                 if (r && c) {
-                    if (r.pesoMin === c.pesoMin && r.pesoMed === c.pesoMed && r.pesoMax === c.pesoMax) {
-                        batem++;
-                    } else {
-                        naoBatem++;
-                    }
+                    if (r.pesoMin === c.pesoMin && r.pesoMed === c.pesoMed && r.pesoMax === c.pesoMax) batem++;
+                    else naoBatem++;
                 }
             });
 
@@ -2231,47 +2385,44 @@
             const readonlyAttr = isQualidade() ? '' : 'readonly';
             const disabledAttr = isQualidade() ? '' : 'disabled';
 
-            machinesGrid.innerHTML = maquinas.map((m, i) => `
+            machinesGrid.innerHTML = maquinas.map((m, i) => {
+                const timerDisplayHTML = (m.status === 'parado' && m.paradaInicio) ? `
+                    <div class="timer-display" id="timerCard_${m.id}">⏱ Parado há: 00:00</div>
+                ` : `<div class="timer-display hidden" id="timerCard_${m.id}"></div>`;
+
+                return `
                 <div class="machine-card">
                     <span class="machine-number">#${i + 1}</span>
                     <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
                            onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
                            placeholder="Nome da máquina" ${readonlyAttr}>
-                    
-                    <!-- Status da máquina -->
                     <div class="status-indicator" id="statusIndicator_${m.id}">
                         <span class="pulse-dot ${m.status === 'produzindo' ? 'green' : (m.status === 'parado' ? 'red' : 'yellow')}"></span>
                         <span class="status-label ${m.status === 'produzindo' ? 'green' : (m.status === 'parado' ? 'red' : 'yellow')}">
                             ${m.status === 'produzindo' ? '🟢 Em Produção' : (m.status === 'parado' ? '🔴 Parado' : '🟡 Em Teste')}
                         </span>
                     </div>
-                    
+                    ${timerDisplayHTML}
                     <div class="field-group">
                         <label>Status</label>
-                        <select onchange="atualizarStatusMaquina('${m.id}', this.value)"
-                                ${disabledAttr}>
+                        <select onchange="atualizarStatusMaquina('${m.id}', this.value)" ${disabledAttr}>
                             <option value="produzindo" ${m.status === 'produzindo' ? 'selected' : ''}>🟢 Em Produção</option>
                             <option value="parado" ${m.status === 'parado' ? 'selected' : ''}>🔴 Parado</option>
                             <option value="teste" ${m.status === 'teste' ? 'selected' : ''}>🟡 Em Teste</option>
                         </select>
                     </div>
-                    
-                    <!-- Campo motivo da parada (visível apenas quando status = parado) -->
                     <div class="field-group motivo-parada-input ${m.status === 'parado' ? 'visible' : ''}" id="motivoParadaGroup_${m.id}">
                         <label>🔴 Motivo</label>
                         <input type="text" value="${escapeHTML(m.motivoParada || '')}"
                                oninput="atualizarMaquinaLocal('${m.id}', 'motivoParada', this.value)"
                                placeholder="Motivo da parada..." ${readonlyAttr}>
                     </div>
-                    
-                    <!-- Campo motivo do teste (visível apenas quando status = teste) -->
                     <div class="field-group motivo-teste-input ${m.status === 'teste' ? 'visible' : ''}" id="motivoTesteGroup_${m.id}">
                         <label>🟡 Motivo</label>
                         <input type="text" value="${escapeHTML(m.motivoTeste || '')}"
                                oninput="atualizarMaquinaLocal('${m.id}', 'motivoTeste', this.value)"
                                placeholder="Motivo do teste..." ${readonlyAttr}>
                     </div>
-                    
                     <div class="field-group">
                         <label>📦 Prod</label>
                         <input type="text" value="${escapeHTML(m.velProduto || '')}"
@@ -2309,10 +2460,14 @@
                                ${readonlyAttr}>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
+
+            // Após renderizar, atualiza os timers
+            atualizarTimersNaTela();
         }
 
-        window.atualizarStatusMaquina = function(id, novoStatus) {
+        window.atualizarStatusMaquina = async function(id, novoStatus) {
             if (!isQualidade()) {
                 showToast('⛔ Apenas usuários de qualidade podem alterar o status.', 'warning');
                 renderizarMaquinas();
@@ -2323,9 +2478,24 @@
             if (!maquina) return;
 
             const statusAntigo = maquina.status;
-            maquina.status = novoStatus;
-            
-            // Limpa os motivos quando muda de status
+
+            // Se estava parado e vai mudar para outro status, finaliza a parada
+            if (statusAntigo === 'parado' && novoStatus !== 'parado') {
+                await finalizarParada(id);
+            }
+
+            // Se vai para parado e não estava parado, inicia o temporizador
+            if (novoStatus === 'parado' && statusAntigo !== 'parado') {
+                maquina.status = 'parado';
+                iniciarTimerParada(id);
+            } else if (novoStatus !== 'parado' && statusAntigo === 'parado') {
+                // Já finalizou a parada acima
+                maquina.status = novoStatus;
+            } else {
+                maquina.status = novoStatus;
+            }
+
+            // Limpa motivos quando muda de status
             if (novoStatus !== 'parado' && statusAntigo === 'parado') {
                 maquina.motivoParada = '';
             }
@@ -2333,8 +2503,11 @@
                 maquina.motivoTeste = '';
             }
 
+            // Salva no Firebase
+            await atualizarMaquinaNoFirestore(maquina);
             renderizarMaquinas();
             renderizarResumoMaquinas();
+            atualizarTimersNaTela();
         };
 
         window.atualizarMaquinaLocal = function(id, campo, valor) {
@@ -2347,25 +2520,15 @@
             const maquina = maquinas.find(m => m.id === id);
             if (!maquina) return;
 
-            if (campo === 'nome') {
-                maquina.nome = valor;
-            } else if (campo === 'velProduto') {
-                maquina.velProduto = valor;
-            } else if (campo === 'velocidade') {
-                maquina.velocidade = Math.max(0, valor);
-            } else if (campo === 'pessoas') {
-                maquina.pessoas = Math.max(0, Math.floor(valor));
-            } else if (campo === 'pesoMin') {
-                maquina.pesoMin = Math.max(0, valor);
-            } else if (campo === 'pesoMed') {
-                maquina.pesoMed = Math.max(0, valor);
-            } else if (campo === 'pesoMax') {
-                maquina.pesoMax = Math.max(0, valor);
-            } else if (campo === 'motivoParada') {
-                maquina.motivoParada = valor;
-            } else if (campo === 'motivoTeste') {
-                maquina.motivoTeste = valor;
-            }
+            if (campo === 'nome') maquina.nome = valor;
+            else if (campo === 'velProduto') maquina.velProduto = valor;
+            else if (campo === 'velocidade') maquina.velocidade = Math.max(0, valor);
+            else if (campo === 'pessoas') maquina.pessoas = Math.max(0, Math.floor(valor));
+            else if (campo === 'pesoMin') maquina.pesoMin = Math.max(0, valor);
+            else if (campo === 'pesoMed') maquina.pesoMed = Math.max(0, valor);
+            else if (campo === 'pesoMax') maquina.pesoMax = Math.max(0, valor);
+            else if (campo === 'motivoParada') maquina.motivoParada = valor;
+            else if (campo === 'motivoTeste') maquina.motivoTeste = valor;
             renderizarResumoMaquinas();
         };
 
@@ -2385,7 +2548,7 @@
             }
         };
 
-        // ============ CARDS-RESUMO INDIVIDUAIS POR MÁQUINA (COM STATUS) ============
+        // ============ CARDS-RESUMO INDIVIDUAIS POR MÁQUINA ============
         function renderizarResumoMaquinas() {
             if (!usuarioLogado || maquinas.length === 0) {
                 machinesSummaryGrid.innerHTML = '';
@@ -2397,6 +2560,7 @@
                 let dotColor = '';
                 let statusText = '';
                 let motivoHTML = '';
+                let timerHTML = '';
 
                 if (m.status === 'produzindo') {
                     statusClass = 'status-produzindo';
@@ -2409,12 +2573,20 @@
                     if (m.motivoParada && m.motivoParada.trim() !== '') {
                         motivoHTML = `<div class="ms-motivo-parada">📝 ${escapeHTML(m.motivoParada)}</div>`;
                     }
+                    if (m.paradaInicio) {
+                        const inicio = new Date(m.paradaInicio);
+                        const agora = new Date();
+                        const duracaoSegundos = Math.max(0, (agora.getTime() - inicio.getTime()) / 1000);
+                        timerHTML =
+                            `<div class="ms-timer" id="timerSummary_${m.id}">⏱ ${formatarDuracaoTimer(duracaoSegundos)}</div>`;
+                    }
                 } else if (m.status === 'teste') {
                     statusClass = 'status-teste';
                     dotColor = 'yellow';
                     statusText = '🟡 Em Teste';
                     if (m.motivoTeste && m.motivoTeste.trim() !== '') {
-                        motivoHTML = `<div class="ms-motivo-parada" style="color: #facc15;">📝 ${escapeHTML(m.motivoTeste)}</div>`;
+                        motivoHTML =
+                            `<div class="ms-motivo-parada" style="color: #facc15;">📝 ${escapeHTML(m.motivoTeste)}</div>`;
                     }
                 }
 
@@ -2441,9 +2613,13 @@
                         </div>
                         <div class="ms-status-text">${statusText}</div>
                         ${motivoHTML}
+                        ${timerHTML}
                     </div>
                 `;
             }).join('');
+
+            // Atualiza timers após renderizar
+            atualizarTimersNaTela();
         }
 
         // ============ NAVEGAÇÃO POR ABAS ============
@@ -2461,27 +2637,31 @@
                     targetPanel.classList.add('active');
                     if (targetId === 'tab-maquinas') {
                         renderizarResumoMaquinas();
+                        renderizarHistoricoParadas();
+                        atualizarTimersNaTela();
                     }
                 }
             });
         });
 
-        // ============ Pressionar Enter no filtro de visualização ============
-        filtroVisualizacaoInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                aplicarFiltroVisualizacao();
-            }
-        });
+        // ============ FILTRO HISTÓRICO ============
+        if (filtroHistoricoInput) {
+            filtroHistoricoInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') renderizarHistoricoParadas();
+            });
+        }
 
+        // ============ PRESSIONAR ENTER NOS FILTROS ============
+        filtroVisualizacaoInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') aplicarFiltroVisualizacao();
+        });
         filtroComparacaoInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                aplicarFiltroComparacao();
-            }
+            if (e.key === 'Enter') aplicarFiltroComparacao();
         });
 
         // Expor funções globais
         window.renderizarResumoMaquinas = renderizarResumoMaquinas;
-        window.aplicarFiltroVisualizacao = window.aplicarFiltroVisualizacao;
+        window.aplicarFiltroVisualizacao = atualizarTabelaVisualizacao;
         window.aplicarFiltroComparacao = window.aplicarFiltroComparacao;
         window.efetuarLogin = window.efetuarLogin;
         window.efetuarLogout = window.efetuarLogout;
@@ -2492,13 +2672,15 @@
         window.atualizarStatusMaquina = window.atualizarStatusMaquina;
         window.salvarMaquinas = window.salvarMaquinas;
         window.editarProduto = window.editarProduto;
+        window.carregarHistoricoParadas = carregarHistoricoParadas;
+        window.renderizarHistoricoParadas = renderizarHistoricoParadas;
 
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
         console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
-        console.log('🏭 Status das máquinas: 🟢 Em Produção | 🔴 Parado (com motivo) | 🟡 Em Teste (com motivo)');
-        console.log('📝 Campos renomeados: 📦 Prod e ⚡ Ciclo');
-        console.log('💾 Máquinas: edite e clique em "Salvar Máquinas" para persistir.');
-        console.log('✏️ Produtos: clique em "Editar" para alterar nome e pesos, depois "Salvar" para persistir.');
+        console.log('🏭 Status das máquinas: 🟢 Em Produção | 🔴 Parado (com timer) | 🟡 Em Teste');
+        console.log('⏱ Temporizador de parada: inicia ao colocar máquina como PARADO');
+        console.log('📋 Histórico: salvo automaticamente no Firebase ao retornar para produção/teste');
+        console.log('💾 Coleção "historicoParadas" criada automaticamente no Firestore');
     </script>
 </body>
 </html>
