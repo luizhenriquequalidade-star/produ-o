@@ -184,7 +184,6 @@
             }
         }
         
-        /* Quadradinho pequeno do logo */
         .login-logo-wrapper {
             display: inline-flex;
             align-items: center;
@@ -300,7 +299,6 @@
             margin: 0 auto;
             padding: 20px 24px 40px;
         }
-        /* Padrão de logo repetido por todo o sistema (exatamente como no login) */
         .app-container::before {
             content: '';
             position: fixed;
@@ -890,8 +888,9 @@
             }
         }
         .machine-summary-card {
-            background: #fff;
-            border: 1px solid var(--border);
+            background: #121212; /* ALTERADO PARA PRETO */
+            color: #ffffff; /* ALTERADO PARA BRANCO */
+            border: 1px solid #333;
             border-radius: var(--radius);
             padding: 14px 12px;
             text-align: center;
@@ -902,22 +901,22 @@
         }
         .machine-summary-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
         .machine-summary-card.status-produzindo {
-            border-color: rgba(16, 185, 129, 0.4);
-            box-shadow: 0 0 20px var(--green-glow);
-            background: rgba(16, 185, 129, 0.04);
+            border-color: rgba(16, 185, 129, 0.6);
+            box-shadow: 0 0 25px var(--green-glow);
+            background: #121212;
         }
         .machine-summary-card.status-parado {
-            border-color: rgba(239, 68, 68, 0.4);
-            box-shadow: 0 0 20px var(--red-glow);
-            background: rgba(239, 68, 68, 0.04);
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 0 0 25px var(--red-glow);
+            background: #121212;
         }
         .machine-summary-card.status-teste {
-            border-color: rgba(234, 179, 8, 0.4);
-            box-shadow: 0 0 20px var(--yellow-glow);
-            background: rgba(234, 179, 8, 0.04);
+            border-color: rgba(234, 179, 8, 0.6);
+            box-shadow: 0 0 25px var(--yellow-glow);
+            background: #121212;
         }
         .machine-summary-card .ms-name {
             font-weight: 700;
@@ -927,7 +926,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: var(--text);
+            color: #ffffff;
         }
         .machine-summary-card .ms-row {
             display: flex;
@@ -937,7 +936,7 @@
             letter-spacing: 0.03em;
         }
         .machine-summary-card .ms-row .ms-label {
-            color: var(--text-muted);
+            color: #a0a0a0;
             text-transform: uppercase;
             font-size: 0.9em;
         }
@@ -947,16 +946,16 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            color: var(--text);
+            color: #ffffff;
         }
         .machine-summary-card.status-produzindo .ms-name {
-            color: #059669;
+            color: #34d399;
         }
         .machine-summary-card.status-parado .ms-name {
-            color: #dc2626;
+            color: #f87171;
         }
         .machine-summary-card.status-teste .ms-name {
-            color: #a16207;
+            color: #facc15;
         }
         .machine-summary-card .ms-status-text {
             font-size: 0.68em;
@@ -969,23 +968,23 @@
             display: inline-block;
         }
         .machine-summary-card.status-produzindo .ms-status-text {
-            background: rgba(16, 185, 129, 0.12);
-            color: #059669;
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
             border: 1px solid rgba(16, 185, 129, 0.3);
         }
         .machine-summary-card.status-parado .ms-status-text {
-            background: rgba(239, 68, 68, 0.1);
-            color: #dc2626;
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
             border: 1px solid rgba(239, 68, 68, 0.3);
         }
         .machine-summary-card.status-teste .ms-status-text {
-            background: rgba(234, 179, 8, 0.1);
-            color: #a16207;
+            background: rgba(234, 179, 8, 0.2);
+            color: #facc15;
             border: 1px solid rgba(234, 179, 8, 0.3);
         }
         .machine-summary-card .ms-motivo-parada {
             font-size: 0.65em;
-            color: #dc2626;
+            color: #f87171;
             margin-top: 4px;
             font-style: italic;
             letter-spacing: 0.02em;
@@ -997,10 +996,10 @@
         .machine-summary-card .ms-timer {
             font-size: 0.75em;
             font-weight: 700;
-            color: #dc2626;
+            color: #f87171;
             margin-top: 4px;
             letter-spacing: 0.03em;
-            background: rgba(239, 68, 68, 0.1);
+            background: rgba(239, 68, 68, 0.2);
             border-radius: 12px;
             padding: 3px 10px;
             display: inline-block;
@@ -3133,7 +3132,7 @@
                     statusText = '🟡 Em Teste';
                     if (m.motivoTeste && m.motivoTeste.trim() !== '') {
                         motivoHTML =
-                            `<div class="ms-motivo-parada" style="color: #a16207;">📝 ${escapeHTML(m.motivoTeste)}</div>`;
+                            `<div class="ms-motivo-parada" style="color: #facc15;">📝 ${escapeHTML(m.motivoTeste)}</div>`;
                     }
                 }
 
