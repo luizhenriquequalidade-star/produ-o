@@ -380,6 +380,60 @@
             border-color: #ef4444;
             box-shadow: 0 0 15px var(--red-glow);
         }
+        
+        /* ====== ESTILOS DO BOTÃO DE ALARME ====== */
+        .alarm-btn {
+            background: linear-gradient(135deg, #ff4b4b, #d40000);
+            color: #fff;
+            border: 2px solid #ff0000;
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            font-family: inherit;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+            animation: alarmPulse 1.5s ease-in-out infinite;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+        }
+        .alarm-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.6);
+        }
+        .alarm-btn.triggered {
+            background: linear-gradient(135deg, #000, #333);
+            border-color: #fff;
+            color: #ff0;
+            animation: alarmShake 0.1s infinite;
+            box-shadow: 0 0 30px rgba(255, 255, 0, 0.8);
+        }
+        @keyframes alarmPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.2); background: #ff0000; }
+        }
+        @keyframes alarmShake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(2px, 2px) rotate(1deg); }
+            50% { transform: translate(-2px, -2px) rotate(-1deg); }
+            75% { transform: translate(2px, -2px) rotate(1deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .alarm-flash-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: rgba(255, 0, 0, 0.2);
+            animation: screenFlash 0.1s infinite alternate;
+        }
+        @keyframes screenFlash {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        /* ====== FIM DOS ESTILOS DO ALARME ====== */
+
         .tab-nav {
             display: flex;
             gap: 4px;
@@ -1616,6 +1670,9 @@
             <div class="divider"></div>
             <div class="user-info-bar">
                 <span class="user-badge" id="userBadge">👤 Usuário</span>
+                <!-- BOTÃO DE ALARME ADICIONADO AQUI -->
+                <button class="alarm-btn" id="alarmBtn" onclick="triggerAlarm()">🚨 Alarme Manutenção</button>
+                <!-- FIM DO BOTÃO DE ALARME -->
                 <button class="btn-logout" onclick="efetuarLogout()">🚪 Sair</button>
             </div>
         </header>
@@ -1813,6 +1870,9 @@
             </div>
         </div>
     </div>
+
+    <!-- OVERLAY DE FLASH PARA O ALARME -->
+    <div id="alarmOverlay" class="alarm-flash-overlay" style="display:none;"></div>
 
     <!-- SCRIPTS -->
     <script type="module">
@@ -2515,6 +2575,59 @@
                 if (toast.parentNode) toast.parentNode.removeChild(toast);
             }, 3000);
         }
+
+        // ============ FUNÇÃO DO ALARME ============
+        window.triggerAlarm = function() {
+            if (window.alarmActive) return;
+            window.alarmActive = true;
+
+            const btn = document.getElementById('alarmBtn');
+            const overlay = document.getElementById('alarmOverlay');
+
+            btn.classList.add('triggered');
+            btn.innerHTML = '🔊 ALARME ATIVO!';
+            overlay.style.display = 'block';
+
+            // Gera um som de sirene bem alto usando Web Audio API
+            let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            let oscillators = [];
+            let gains = [];
+
+            function playSiren() {
+                for(let i=0; i<2; i++) {
+                    let osc = audioCtx.createOscillator();
+                    let gain = audioCtx.createGain();
+                    osc.type = 'sawtooth'; // Som mais agressivo e alto
+                    osc.frequency.value = (i === 0) ? 800 : 600;
+                    gain.gain.value = 0.5;
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start();
+                    oscillators.push(osc);
+                    gains.push(gain);
+
+                    // Alterna a frequência para dar o efeito de sirene
+                    setTimeout(() => {
+                        osc.frequency.value = (i === 0) ? 600 : 800;
+                    }, 250);
+                }
+            }
+
+            playSiren();
+            let interval = setInterval(playSiren, 500);
+
+            // Para o alarme após 5 segundos (5000ms)
+            setTimeout(() => {
+                clearInterval(interval);
+                oscillators.forEach(osc => osc.stop());
+                audioCtx.close();
+
+                btn.classList.remove('triggered');
+                btn.innerHTML = '🚨 Alarme Manutenção';
+                overlay.style.display = 'none';
+                window.alarmActive = false;
+            }, 5000);
+        };
 
         // ============ LOGIN / LOGOUT ============
         window.efetuarLogin = async function() {
