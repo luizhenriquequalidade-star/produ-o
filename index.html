@@ -6,7 +6,6 @@
     <title>Dona Rita Produção</title>
     <style>
         :root {
-            /* ===== TEMA CLARO (FUNDO BRANCO) ===== */
             --bg: #ffffff;
             --bg-card: rgba(255, 255, 255, 0.95);
             --bg-card2: rgba(250, 250, 252, 0.9);
@@ -35,11 +34,8 @@
             --radius: 16px;
             --radius-sm: 10px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            
-            /* LOGO DE FUNDO (mantida exatamente como estava) */
             --logo-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%236A0DAD'/%3E%3Ctext x='50' y='60' text-anchor='middle' fill='%23FFFFFF' font-family='Arial' font-weight='bold' font-size='24'%3EDONA%3C/text%3E%3Ctext x='50' y='85' text-anchor='middle' fill='%23FFFFFF' font-family='Arial' font-size='16'%3ERITA%3C/text%3E%3C/svg%3E");
         }
-
         * {
             margin: 0;
             padding: 0;
@@ -55,8 +51,6 @@
             -webkit-font-smoothing: antialiased;
             letter-spacing: 0.01em;
         }
-        
-        /* Fundo gradiente suave (agora bem claro) */
         body::before {
             content: '';
             position: fixed;
@@ -122,8 +116,6 @@
                 opacity: 0;
             }
         }
-
-        /* ========== LOGIN ========== */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -144,8 +136,6 @@
             visibility: hidden;
             pointer-events: none;
         }
-        
-        /* Fundo com logo em quadradinhos no Login (mantido) */
         .login-overlay::before {
             content: '';
             position: absolute;
@@ -159,7 +149,6 @@
             opacity: 0.06;
             z-index: 0;
         }
-        
         .login-box {
             background: var(--bg-card);
             border: 1px solid var(--border-primary);
@@ -183,7 +172,6 @@
                 transform: translateY(0);
             }
         }
-        
         .login-logo-wrapper {
             display: inline-flex;
             align-items: center;
@@ -213,7 +201,6 @@
                 transform: translateY(-8px);
             }
         }
-        
         .login-box h2 {
             font-size: 1.6em;
             font-weight: 700;
@@ -290,8 +277,6 @@
             letter-spacing: 0.03em;
             transition: all 0.3s;
         }
-
-        /* ========== APP PRINCIPAL - FUNDO PADRÃO DO LOGO EM TODO O SISTEMA ========== */
         .app-container {
             position: relative;
             z-index: 1;
@@ -313,7 +298,6 @@
             background-repeat: repeat;
             opacity: 0.05;
         }
-
         .header {
             text-align: center;
             padding: 30px 20px 20px;
@@ -396,7 +380,6 @@
             border-color: #ef4444;
             box-shadow: 0 0 15px var(--red-glow);
         }
-
         .tab-nav {
             display: flex;
             gap: 4px;
@@ -450,7 +433,6 @@
             margin-right: 6px;
             font-size: 1.1em;
         }
-
         .tab-panel {
             display: none;
             animation: fadeSlideIn 0.4s ease-out;
@@ -459,7 +441,6 @@
         .tab-panel.active {
             display: block;
         }
-
         .grid-2col {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -470,7 +451,6 @@
                 grid-template-columns: 1fr;
             }
         }
-
         .card {
             background: #ffffff;
             border: 1px solid var(--border);
@@ -481,7 +461,7 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         }
         .card:hover {
             border-color: var(--border-primary);
@@ -518,7 +498,6 @@
             border-color: rgba(124, 58, 237, 0.2);
             box-shadow: var(--shadow-purple);
         }
-
         label {
             display: block;
             font-size: 0.82em;
@@ -569,7 +548,6 @@
             cursor: not-allowed;
             background: #f3f3f8;
         }
-
         .btn {
             padding: 11px 22px;
             border-radius: 50px;
@@ -715,7 +693,6 @@
             background-color: #ef4444;
             box-shadow: 0 0 18px var(--red-glow);
         }
-
         .cliente-filter-btns {
             display: flex;
             gap: 8px;
@@ -748,7 +725,6 @@
             color: var(--primary);
             box-shadow: 0 0 12px rgba(106, 13, 173, 0.1);
         }
-
         .table-wrap {
             overflow-x: auto;
             border-radius: var(--radius-sm);
@@ -765,7 +741,7 @@
         table td {
             padding: 12px 14px;
             text-align: left;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
             white-space: nowrap;
         }
         table th {
@@ -782,7 +758,7 @@
             transition: var(--transition);
         }
         table tbody tr:hover {
-            background: rgba(0,0,0,0.02);
+            background: rgba(0, 0, 0, 0.02);
         }
         table td input {
             width: 100%;
@@ -838,7 +814,17 @@
             color: #2563eb;
             border: 1px solid rgba(59, 130, 246, 0.3);
         }
-
+        .badge-admin-role {
+            background: rgba(106, 13, 173, 0.15);
+            color: #6A0DAD;
+            border: 1px solid rgba(106, 13, 173, 0.4);
+            font-weight: 700;
+        }
+        .badge-padrao-role {
+            background: rgba(100, 100, 120, 0.1);
+            color: #555;
+            border: 1px solid rgba(100, 100, 120, 0.3);
+        }
         .filter-row {
             display: flex;
             gap: 8px;
@@ -865,7 +851,6 @@
             max-width: 300px;
             min-width: 180px;
         }
-
         .machines-summary-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -888,8 +873,8 @@
             }
         }
         .machine-summary-card {
-            background: #121212; /* ALTERADO PARA PRETO */
-            color: #ffffff; /* ALTERADO PARA BRANCO */
+            background: #121212;
+            color: #ffffff;
             border: 1px solid #333;
             border-radius: var(--radius);
             padding: 14px 12px;
@@ -897,7 +882,7 @@
             backdrop-filter: blur(8px);
             transition: var(--transition);
             position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
         .machine-summary-card:hover {
             transform: translateY(-2px);
@@ -1014,7 +999,6 @@
                 opacity: 0.6;
             }
         }
-
         .machines-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -1043,10 +1027,10 @@
             backdrop-filter: blur(8px);
             transition: var(--transition);
             position: relative;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
         .machine-card:hover {
-            border-color: rgba(0,0,0,0.15);
+            border-color: rgba(0, 0, 0, 0.15);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
             transform: translateY(-3px);
         }
@@ -1056,7 +1040,7 @@
             right: 14px;
             font-size: 0.65em;
             font-weight: 800;
-            color: rgba(0,0,0,0.15);
+            color: rgba(0, 0, 0, 0.15);
             letter-spacing: 0.05em;
         }
         .machine-card input {
@@ -1071,7 +1055,7 @@
         }
         .machine-card input:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(106,13,173,0.1);
+            box-shadow: 0 0 10px rgba(106, 13, 173, 0.1);
             background: #fff;
         }
         .machine-card .machine-name-input {
@@ -1138,7 +1122,6 @@
         .machine-card .timer-display.hidden {
             display: none;
         }
-
         .comparison-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1180,7 +1163,6 @@
             background: rgba(124, 58, 237, 0.06);
             color: #7c3aed;
         }
-
         .toast {
             position: fixed;
             top: 20px;
@@ -1226,7 +1208,6 @@
                 opacity: 0;
             }
         }
-
         .pulse-dot {
             display: inline-block;
             width: 8px;
@@ -1258,7 +1239,6 @@
                 opacity: 0.5;
             }
         }
-
         ::-webkit-scrollbar {
             height: 4px;
             width: 4px;
@@ -1267,13 +1247,12 @@
             background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(0,0,0,0.12);
+            background: rgba(0, 0, 0, 0.12);
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(0,0,0,0.25);
+            background: rgba(0, 0, 0, 0.25);
         }
-
         .empty-state {
             text-align: center;
             padding: 30px;
@@ -1321,7 +1300,6 @@
         .hidden-permanently {
             display: none !important;
         }
-
         .save-machines-area {
             display: flex;
             justify-content: center;
@@ -1329,7 +1307,6 @@
             gap: 12px;
             flex-wrap: wrap;
         }
-
         .status-indicator {
             display: flex;
             align-items: center;
@@ -1352,7 +1329,6 @@
         .status-indicator .status-label.yellow {
             color: #a16207;
         }
-
         .btn-edit-sm {
             background: transparent;
             border: 1px solid var(--primary);
@@ -1377,11 +1353,10 @@
         .btn-edit-sm.editing:hover {
             background: rgba(16, 185, 129, 0.15);
         }
-
         .section-divider {
             width: 100%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.08), transparent);
             margin: 24px 0 16px;
         }
         .section-title {
@@ -1394,7 +1369,6 @@
             align-items: center;
             gap: 8px;
         }
-
         .dash-metrics-row {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1421,7 +1395,7 @@
             position: relative;
             overflow: hidden;
             transition: var(--transition);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
         .dash-metric-card:hover {
             transform: translateY(-3px);
@@ -1456,18 +1430,6 @@
             line-height: 1;
             margin-bottom: 4px;
         }
-        .dash-metric-card.accent-red .dash-metric-value {
-            color: #dc2626;
-        }
-        .dash-metric-card.accent-orange .dash-metric-value {
-            color: #ea580c;
-        }
-        .dash-metric-card.accent-blue .dash-metric-value {
-            color: #2563eb;
-        }
-        .dash-metric-card.accent-primary .dash-metric-value {
-            color: var(--primary);
-        }
         .dash-metric-card .dash-metric-label {
             font-size: 0.72em;
             text-transform: uppercase;
@@ -1475,17 +1437,6 @@
             color: var(--text-muted);
             font-weight: 600;
         }
-        .dash-metric-card .dash-metric-sub {
-            font-size: 0.7em;
-            color: var(--text-muted);
-            margin-top: 4px;
-            letter-spacing: 0.03em;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
         .dash-charts-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1504,11 +1455,7 @@
             padding: 22px 24px;
             backdrop-filter: blur(12px);
             transition: var(--transition);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-        }
-        .dash-chart-card:hover {
-            border-color: var(--border-primary);
-            box-shadow: var(--shadow-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
         .dash-chart-card .chart-title {
             font-weight: 700;
@@ -1532,19 +1479,6 @@
             font-size: 0.78em;
             letter-spacing: 0.03em;
         }
-        .dash-bar-item .bar-label-row .bar-name {
-            font-weight: 600;
-            color: var(--text);
-            max-width: 55%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .dash-bar-item .bar-label-row .bar-value {
-            font-weight: 700;
-            font-size: 0.85em;
-            white-space: nowrap;
-        }
         .dash-bar-item .bar-track {
             height: 18px;
             border-radius: 20px;
@@ -1565,31 +1499,9 @@
             right: 6px;
             bottom: 2px;
             left: 6px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 60%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
             border-radius: 16px;
         }
-        .dash-bar-item .bar-fill.gradient-red {
-            background: linear-gradient(90deg, #dc2626, #ef4444, #f87171);
-        }
-        .dash-bar-item .bar-fill.gradient-orange {
-            background: linear-gradient(90deg, #ea580c, #f97316, #fb923c);
-        }
-        .dash-bar-item .bar-fill.gradient-yellow {
-            background: linear-gradient(90deg, #ca8a04, #eab308, #facc15);
-        }
-        .dash-bar-item .bar-fill.gradient-blue {
-            background: linear-gradient(90deg, #2563eb, #3b82f6, #60a5fa);
-        }
-        .dash-bar-item .bar-fill.gradient-purple {
-            background: linear-gradient(90deg, #7c3aed, #8b5cf6, #a78bfa);
-        }
-        .dash-bar-item .bar-fill.gradient-green {
-            background: linear-gradient(90deg, #059669, #10b981, #34d399);
-        }
-        .dash-bar-item .bar-fill.gradient-primary {
-            background: linear-gradient(90deg, #4B0082, #6A0DAD, #9B30FF);
-        }
-
         .dash-donut-container {
             display: flex;
             align-items: center;
@@ -1614,7 +1526,7 @@
             height: 90px;
             border-radius: 50%;
             background: #fff;
-            border: 1px solid rgba(0,0,0,0.08);
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
         .dash-donut .donut-center-text {
             position: absolute;
@@ -1629,12 +1541,6 @@
             letter-spacing: 0.03em;
             line-height: 1.1;
             pointer-events: none;
-        }
-        .dash-donut .donut-center-text small {
-            display: block;
-            font-size: 0.55em;
-            color: var(--text-muted);
-            font-weight: 500;
         }
         .dash-legend {
             display: flex;
@@ -1656,19 +1562,6 @@
             border-radius: 3px;
             flex-shrink: 0;
         }
-        .dash-legend .legend-text {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            color: var(--text);
-        }
-        .dash-legend .legend-pct {
-            font-weight: 700;
-            color: var(--text);
-            white-space: nowrap;
-        }
-
         .dash-table-motivos {
             width: 100%;
             border-collapse: collapse;
@@ -1683,44 +1576,23 @@
             color: var(--primary);
             padding: 10px 12px;
             text-align: left;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
         .dash-table-motivos td {
             padding: 10px 12px;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
             white-space: nowrap;
             color: var(--text);
-        }
-        .dash-table-motivos tbody tr:hover {
-            background: rgba(0,0,0,0.01);
-        }
-        .dash-mini-bar {
-            display: inline-block;
-            height: 6px;
-            border-radius: 3px;
-            margin-right: 8px;
-            vertical-align: middle;
-            background: #ef4444;
-            transition: width 0.6s ease;
-        }
-        .dash-filter-periodo {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-            justify-content: center;
         }
     </style>
 </head>
 <body>
-
     <div class="particles" id="particlesContainer"></div>
     <div id="toastContainer"></div>
 
-    <!-- ============ TELA DE LOGIN ============ -->
+    <!-- TELA DE LOGIN -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-box">
-            <!-- Logo em quadradinho (mantido) -->
             <div class="login-logo-wrapper">
                 <img src="" alt="Logo Dona Rita" id="loginLogoImg">
             </div>
@@ -1735,7 +1607,7 @@
         </div>
     </div>
 
-    <!-- ============ APP PRINCIPAL ============ -->
+    <!-- APP PRINCIPAL -->
     <div class="app-container" id="appContainer" style="display:none;">
         <header class="header">
             <span class="logo-icon">👑</span>
@@ -1748,15 +1620,18 @@
             </div>
         </header>
 
-        <nav class="tab-nav">
+        <nav class="tab-nav" id="tabNav">
             <button class="tab-btn active" data-tab="tab-produtos">
                 <span class="tab-icon">📦</span> Produtos &amp; Consulta
             </button>
             <button class="tab-btn" data-tab="tab-maquinas">
                 <span class="tab-icon">🏭</span> Máquinas Ao Vivo
             </button>
-            <button class="tab-btn" data-tab="tab-dashboard">
+            <button class="tab-btn" data-tab="tab-dashboard" id="tabDashboardBtn">
                 <span class="tab-icon">📈</span> Dashboard Paradas
+            </button>
+            <button class="tab-btn" data-tab="tab-usuarios" id="tabUsuariosBtn" style="display:none;">
+                <span class="tab-icon">👥</span> Usuários
             </button>
         </nav>
 
@@ -1829,31 +1704,29 @@
         <div class="tab-panel" id="tab-maquinas">
             <div class="machines-summary-grid" id="machinesSummaryGrid"></div>
             <div class="machines-grid" id="machinesGrid"></div>
-            <div class="save-machines-area">
+            <div class="save-machines-area" id="saveMachinesArea">
                 <button class="btn btn-save-machines" onclick="salvarMaquinas()">💾 Salvar Máquinas</button>
             </div>
-            <div class="section-divider"></div>
-            <div class="section-title">📋 Histórico de Paradas</div>
-            <div class="filter-row mb-3">
-                <input type="text" id="filtroHistorico" placeholder="🔍 Filtrar por máquina ou motivo..." oninput="renderizarHistoricoParadas()">
-                <button class="btn-refresh" onclick="carregarHistoricoParadas(true)" title="Atualizar histórico">🔄 Atualizar</button>
-            </div>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Máquina</th>
-                            <th>Motivo</th>
-                            <th>Início</th>
-                            <th>Fim</th>
-                            <th>Duração</th>
-                            <th id="thAcoesHistorico">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabelaHistoricoParadas">
-                        <tr><td colspan="6" class="empty-state">Nenhum histórico de paradas registrado</td></tr>
-                    </tbody>
-                </table>
+            <div id="historicoParadasSection">
+                <div class="section-divider"></div>
+                <div class="section-title">📋 Histórico de Paradas</div>
+                <div class="filter-row mb-3">
+                    <input type="text" id="filtroHistorico" placeholder="🔍 Filtrar por máquina ou motivo..." oninput="renderizarHistoricoParadas()">
+                    <button class="btn-refresh" onclick="carregarHistoricoParadas(true)" title="Atualizar histórico">🔄 Atualizar</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Máquina</th><th>Motivo</th><th>Início</th><th>Fim</th><th>Duração</th>
+                                <th id="thAcoesHistorico">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaHistoricoParadas">
+                            <tr><td colspan="6" class="empty-state">Nenhum histórico de paradas registrado</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -1880,18 +1753,8 @@
                 <div class="card-header"><span class="icon">📋</span> Detalhamento: Motivos por Máquina</div>
                 <div class="table-wrap">
                     <table class="dash-table-motivos">
-                        <thead>
-                            <tr>
-                                <th>Máquina</th>
-                                <th>Motivo</th>
-                                <th>Ocorrências</th>
-                                <th>Tempo Total</th>
-                                <th>% do Total</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dashTabelaDetalhes">
-                            <tr><td colspan="5" class="empty-state">Nenhum dado de parada disponível</td></tr>
-                        </tbody>
+                        <thead><tr><th>Máquina</th><th>Motivo</th><th>Ocorrências</th><th>Tempo Total</th><th>% do Total</th></tr></thead>
+                        <tbody id="dashTabelaDetalhes"><tr><td colspan="5" class="empty-state">Nenhum dado de parada disponível</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -1899,9 +1762,59 @@
                 <button class="btn-refresh" onclick="atualizarDashboard()" style="font-size:0.82em;padding:10px 20px;">🔄 Atualizar Dashboard</button>
             </div>
         </div>
+
+        <!-- Painel: Gerenciamento de Usuários (somente Admin) -->
+        <div class="tab-panel" id="tab-usuarios">
+            <div class="grid-2col">
+                <div class="card card-primary-border">
+                    <div class="card-header"><span class="icon">➕</span> Criar Novo Usuário</div>
+                    <div class="row-flex mb-3">
+                        <div class="flex-1">
+                            <label>Nome de Usuário</label>
+                            <input type="text" id="novoUsername" placeholder="Ex: operador1" autocomplete="off" spellcheck="false">
+                        </div>
+                    </div>
+                    <div class="row-flex mb-3">
+                        <div class="flex-1">
+                            <label>Nome Exibição</label>
+                            <input type="text" id="novoNome" placeholder="Ex: Operador 1">
+                        </div>
+                    </div>
+                    <div class="row-flex mb-3">
+                        <div class="flex-1">
+                            <label>Senha</label>
+                            <input type="password" id="novaSenha" placeholder="••••••••" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row-flex mb-3">
+                        <div class="flex-1">
+                            <label>Tipo de Usuário</label>
+                            <select id="novoRole">
+                                <option value="padrao">👤 Usuário Padrão (restrito)</option>
+                                <option value="admin">👑 Administrador (acesso total)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="criarUsuario()" style="width:100%;">✨ Criar Usuário</button>
+                    <div id="criarUsuarioMsg" style="min-height:20px;margin-top:8px;font-size:0.8em;text-align:center;"></div>
+                </div>
+                <div class="card card-purple-border">
+                    <div class="card-header"><span class="icon">👥</span> Usuários Cadastrados</div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead><tr><th>Usuário</th><th>Nome</th><th>Tipo</th><th>Ações</th></tr></thead>
+                            <tbody id="tabelaUsuarios"><tr><td colspan="4" class="empty-state">Nenhum usuário cadastrado</td></tr></tbody>
+                        </table>
+                    </div>
+                    <div class="text-sm text-center mt-3" style="color:var(--text-muted);">
+                        ⚠️ Não é possível remover seu próprio usuário.
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- ============ SCRIPTS (inalterados) ============ -->
+    <!-- SCRIPTS -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, setDoc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
@@ -1919,9 +1832,14 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        const USUARIOS = {
-            'qualidade': { senha: 'rita2024', role: 'qualidade', nome: 'Qualidade' },
-            'consulta': { senha: 'consulta2024', role: 'consulta', nome: 'Consulta' }
+        // Cache local de usuários (sincronizado com Firestore)
+        let USUARIOS_CACHE = {};
+
+        const ADMIN_PADRAO = {
+            username: 'qualidade',
+            senha: 'rita2024',
+            role: 'admin',
+            nome: 'Qualidade Admin'
         };
 
         let usuarioLogado = null;
@@ -1945,6 +1863,162 @@
 
         let clienteVisualizacao = 'rita';
 
+        // ============ GERENCIAMENTO DE USUÁRIOS NO FIRESTORE ============
+        async function carregarUsuariosDoFirestore() {
+            try {
+                const querySnapshot = await getDocs(collection(db, "usuarios"));
+                USUARIOS_CACHE = {};
+                let temAdmin = false;
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    USUARIOS_CACHE[data.username] = {
+                        senha: data.senha,
+                        role: data.role,
+                        nome: data.nome
+                    };
+                    if (data.role === 'admin') temAdmin = true;
+                });
+                if (!temAdmin) {
+                    await criarAdminPadrao();
+                }
+                return true;
+            } catch (e) {
+                console.error("Erro ao carregar usuários:", e);
+                // fallback: garante admin padrão no cache
+                if (!USUARIOS_CACHE['qualidade']) {
+                    USUARIOS_CACHE['qualidade'] = {
+                        senha: ADMIN_PADRAO.senha,
+                        role: ADMIN_PADRAO.role,
+                        nome: ADMIN_PADRAO.nome
+                    };
+                }
+                return false;
+            }
+        }
+
+        async function criarAdminPadrao() {
+            try {
+                await setDoc(doc(db, "usuarios", ADMIN_PADRAO.username), {
+                    username: ADMIN_PADRAO.username,
+                    senha: ADMIN_PADRAO.senha,
+                    role: ADMIN_PADRAO.role,
+                    nome: ADMIN_PADRAO.nome
+                });
+                USUARIOS_CACHE[ADMIN_PADRAO.username] = {
+                    senha: ADMIN_PADRAO.senha,
+                    role: ADMIN_PADRAO.role,
+                    nome: ADMIN_PADRAO.nome
+                };
+                console.log('✅ Admin padrão criado no Firestore.');
+            } catch (e) {
+                console.error("Erro ao criar admin padrão:", e);
+                USUARIOS_CACHE[ADMIN_PADRAO.username] = {
+                    senha: ADMIN_PADRAO.senha,
+                    role: ADMIN_PADRAO.role,
+                    nome: ADMIN_PADRAO.nome
+                };
+            }
+        }
+
+        async function salvarUsuarioNoFirestore(username, dados) {
+            try {
+                await setDoc(doc(db, "usuarios", username), {
+                    username: username,
+                    senha: dados.senha,
+                    role: dados.role,
+                    nome: dados.nome
+                });
+                USUARIOS_CACHE[username] = { ...dados };
+                return true;
+            } catch (e) {
+                console.error("Erro ao salvar usuário:", e);
+                // fallback local
+                USUARIOS_CACHE[username] = { ...dados };
+                return false;
+            }
+        }
+
+        async function deletarUsuarioDoFirestore(username) {
+            try {
+                await deleteDoc(doc(db, "usuarios", username));
+                delete USUARIOS_CACHE[username];
+                return true;
+            } catch (e) {
+                console.error("Erro ao deletar usuário:", e);
+                delete USUARIOS_CACHE[username];
+                return false;
+            }
+        }
+
+        // ============ VERIFICAÇÃO DE PERMISSÃO ============
+        function isAdmin() {
+            return usuarioLogado && usuarioLogado.role === 'admin';
+        }
+
+        function isPadrao() {
+            return usuarioLogado && usuarioLogado.role === 'padrao';
+        }
+
+        // campos que usuário padrão NÃO pode editar nas máquinas
+        function campoRestritoParaPadrao(campo) {
+            return ['nome', 'pesoMin', 'pesoMed', 'pesoMax'].includes(campo);
+        }
+
+        function atualizarUIComPermissoes() {
+            // Card de cadastro de produtos: só admin
+            const cardCadastro = document.getElementById('cardCadastro');
+            const thAcoes = document.getElementById('thAcoes');
+            const btnAdicionarProduto = document.getElementById('btnAdicionarProduto');
+
+            if (isAdmin()) {
+                cardCadastro.style.display = '';
+                thAcoes.style.display = '';
+                btnAdicionarProduto.style.display = '';
+            } else {
+                cardCadastro.style.display = 'none';
+                thAcoes.style.display = 'none';
+                btnAdicionarProduto.style.display = 'none';
+            }
+
+            // Abas: Dashboard e Usuários só para admin
+            const tabDashboardBtn = document.getElementById('tabDashboardBtn');
+            const tabUsuariosBtn = document.getElementById('tabUsuariosBtn');
+            if (isAdmin()) {
+                tabDashboardBtn.style.display = '';
+                tabUsuariosBtn.style.display = '';
+            } else {
+                tabDashboardBtn.style.display = 'none';
+                tabUsuariosBtn.style.display = 'none';
+            }
+
+            // Seção de histórico de paradas: só admin
+            const historicoSection = document.getElementById('historicoParadasSection');
+            if (historicoSection) {
+                historicoSection.style.display = isAdmin() ? '' : 'none';
+            }
+
+            // Th de ações no histórico: só admin
+            const thAcoesHistorico = document.getElementById('thAcoesHistorico');
+            if (thAcoesHistorico) {
+                thAcoesHistorico.style.display = isAdmin() ? '' : 'none';
+            }
+
+            atualizarTabelaVisualizacao();
+            renderizarMaquinas();
+            renderizarResumoMaquinas();
+            renderizarHistoricoParadas();
+            if (isAdmin()) {
+                renderizarTabelaUsuarios();
+            }
+
+            // Se a aba ativa for Dashboard ou Usuários e o usuário não for admin, muda para Produtos
+            const activeTab = document.querySelector('.tab-panel.active');
+            if (activeTab && ((activeTab.id === 'tab-dashboard' || activeTab.id === 'tab-usuarios') && !isAdmin())) {
+                const tabProdutosBtn = document.querySelector('.tab-btn[data-tab="tab-produtos"]');
+                if (tabProdutosBtn) tabProdutosBtn.click();
+            }
+        }
+
         // ============ FIREBASE CRUD - PRODUTOS ============
         async function carregarProdutosDoFirestore() {
             try {
@@ -1960,11 +2034,8 @@
                         pesoMed: data.pesoMed,
                         pesoMax: data.pesoMax
                     };
-                    if (data.cliente === 'rita') {
-                        produtosRita.push(produto);
-                    } else if (data.cliente === 'concorrente') {
-                        produtosConcorrente.push(produto);
-                    }
+                    if (data.cliente === 'rita') produtosRita.push(produto);
+                    else if (data.cliente === 'concorrente') produtosConcorrente.push(produto);
                 });
             } catch (e) {
                 console.error("Erro ao carregar produtos:", e);
@@ -2142,21 +2213,34 @@
             }
         }
 
-        async function atualizarMaquinaNoFirestore(maquina) {
+        async function atualizarMaquinaNoFirestore(maquina, adminMode = true) {
             try {
-                await setDoc(doc(db, "maquinas", maquina.id), {
-                    nome: maquina.nome,
-                    velProduto: maquina.velProduto,
-                    velocidade: maquina.velocidade,
-                    pessoas: maquina.pessoas,
-                    pesoMin: maquina.pesoMin,
-                    pesoMed: maquina.pesoMed,
-                    pesoMax: maquina.pesoMax,
-                    status: maquina.status,
-                    motivoParada: maquina.motivoParada,
-                    motivoTeste: maquina.motivoTeste,
-                    paradaInicio: maquina.paradaInicio || null
-                }, { merge: true });
+                if (adminMode) {
+                    await setDoc(doc(db, "maquinas", maquina.id), {
+                        nome: maquina.nome,
+                        velProduto: maquina.velProduto,
+                        velocidade: maquina.velocidade,
+                        pessoas: maquina.pessoas,
+                        pesoMin: maquina.pesoMin,
+                        pesoMed: maquina.pesoMed,
+                        pesoMax: maquina.pesoMax,
+                        status: maquina.status,
+                        motivoParada: maquina.motivoParada,
+                        motivoTeste: maquina.motivoTeste,
+                        paradaInicio: maquina.paradaInicio || null
+                    }, { merge: true });
+                } else {
+                    // usuário padrão: só salva campos permitidos
+                    await setDoc(doc(db, "maquinas", maquina.id), {
+                        status: maquina.status,
+                        motivoParada: maquina.motivoParada,
+                        motivoTeste: maquina.motivoTeste,
+                        velProduto: maquina.velProduto,
+                        velocidade: maquina.velocidade,
+                        pessoas: maquina.pessoas,
+                        paradaInicio: maquina.paradaInicio || null
+                    }, { merge: true });
+                }
             } catch (e) {
                 console.error("Erro ao atualizar máquina:", e);
             }
@@ -2181,7 +2265,7 @@
                     });
                 });
                 renderizarHistoricoParadas();
-                if (showToastFlag) {
+                if (showToastFlag && isAdmin()) {
                     showToast('🔄 Histórico de paradas atualizado!', 'info');
                 }
             } catch (e) {
@@ -2189,7 +2273,7 @@
                 if (e.code === 'failed-precondition' || e.message.includes('index')) {
                     showToast('⚠️ É necessário criar um índice no Firestore. Verifique o console para o link.',
                         'warning');
-                } else {
+                } else if (isAdmin()) {
                     showToast('❌ Erro ao carregar histórico. Veja o console.', 'warning');
                 }
             }
@@ -2214,17 +2298,14 @@
             } catch (e) {
                 console.error("Erro ao salvar histórico de parada:", e);
                 let msg = '❌ Erro ao registrar histórico de parada.';
-                if (e.message) {
-                    msg += ' (' + e.message.substring(0, 80) + '...)';
-                    console.log('Detalhes completos do erro:', e);
-                }
+                if (e.message) msg += ' (' + e.message.substring(0, 80) + '...)';
                 showToast(msg, 'warning');
             }
         }
 
         async function excluirHistoricoParada(id) {
-            if (!isQualidade()) {
-                showToast('⛔ Apenas usuários de qualidade podem excluir itens do histórico.', 'warning');
+            if (!isAdmin()) {
+                showToast('⛔ Apenas administradores podem excluir itens do histórico.', 'warning');
                 return;
             }
             try {
@@ -2241,13 +2322,14 @@
         function renderizarHistoricoParadas() {
             const tabela = document.getElementById('tabelaHistoricoParadas');
             if (!tabela) return;
-            const termo = normalizar(document.getElementById('filtroHistorico')?.value || '');
-            const podeExcluir = isQualidade();
-            const thAcoesHistorico = document.getElementById('thAcoesHistorico');
-
-            if (thAcoesHistorico) {
-                thAcoesHistorico.style.display = podeExcluir ? '' : 'none';
+            if (!isAdmin()) {
+                tabela.innerHTML = '<tr><td colspan="6" class="empty-state">Acesso restrito ao administrador</td></tr>';
+                return;
             }
+            const termo = normalizar(document.getElementById('filtroHistorico')?.value || '');
+            const podeExcluir = isAdmin();
+            const thAcoesHistorico = document.getElementById('thAcoesHistorico');
+            if (thAcoesHistorico) thAcoesHistorico.style.display = podeExcluir ? '' : 'none';
 
             let lista = historicoParadas;
             if (termo) {
@@ -2256,15 +2338,12 @@
                     normalizar(h.motivo).includes(termo)
                 );
             }
-
             const colspan = podeExcluir ? 6 : 5;
-
             if (lista.length === 0) {
                 tabela.innerHTML =
                     `<tr><td colspan="${colspan}" class="empty-state">Nenhum histórico de paradas registrado</td></tr>`;
                 return;
             }
-
             tabela.innerHTML = lista.map(h => {
                 const inicioDate = new Date(h.inicio);
                 const fimDate = new Date(h.fim);
@@ -2275,8 +2354,7 @@
                 const acaoCol = podeExcluir ? `
                     <td>
                         <button class="btn-danger-sm" onclick="excluirHistoricoParada('${h.id}')" title="Excluir registro">🗑 Excluir</button>
-                    </td>
-                ` : '';
+                    </td>` : '';
                 return `
                     <tr>
                         <td><strong>${escapeHTML(h.maquinaNome)}</strong></td>
@@ -2285,8 +2363,7 @@
                         <td>${formatoDataHora(fimDate)}</td>
                         <td><span class="badge badge-red">⏱ ${formatarDuracao(h.duracaoSegundos)}</span></td>
                         ${acaoCol}
-                    </tr>
-                `;
+                    </tr>`;
             }).join('');
         }
 
@@ -2296,9 +2373,7 @@
             const horas = Math.floor(totalSegundos / 3600);
             const minutos = Math.floor((totalSegundos % 3600) / 60);
             const segundos = Math.round(totalSegundos % 60);
-            if (horas > 0) {
-                return `${horas}h ${minutos}m ${segundos}s`;
-            }
+            if (horas > 0) return `${horas}h ${minutos}m ${segundos}s`;
             return `${minutos}m ${segundos}s`;
         }
 
@@ -2306,9 +2381,7 @@
             const horas = Math.floor(totalSegundos / 3600);
             const minutos = Math.floor((totalSegundos % 3600) / 60);
             const segundos = Math.floor(totalSegundos % 60);
-            if (horas > 0) {
-                return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
-            }
+            if (horas > 0) return `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
             return `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
         }
 
@@ -2318,7 +2391,7 @@
             if (!maquina) return;
             if (!maquina.paradaInicio) {
                 maquina.paradaInicio = new Date().toISOString();
-                atualizarMaquinaNoFirestore(maquina);
+                atualizarMaquinaNoFirestore(maquina, isAdmin());
             }
         }
 
@@ -2326,19 +2399,15 @@
             const maquina = maquinas.find(m => m.id === maquinaId);
             if (!maquina) return;
             if (!maquina.paradaInicio) return;
-
             const inicioDate = new Date(maquina.paradaInicio);
             if (isNaN(inicioDate.getTime())) {
-                console.warn('Data de início inválida:', maquina.paradaInicio);
                 maquina.paradaInicio = null;
                 maquina.motivoParada = '';
-                await atualizarMaquinaNoFirestore(maquina);
+                await atualizarMaquinaNoFirestore(maquina, isAdmin());
                 return;
             }
-
             const fimDate = new Date();
             const duracaoSegundos = Math.max(0, Math.round((fimDate.getTime() - inicioDate.getTime()) / 1000));
-
             const registro = {
                 maquinaId: maquina.id,
                 maquinaNome: maquina.nome,
@@ -2347,10 +2416,9 @@
                 fim: fimDate.toISOString(),
                 duracaoSegundos: duracaoSegundos
             };
-
             maquina.paradaInicio = null;
             maquina.motivoParada = '';
-            await atualizarMaquinaNoFirestore(maquina);
+            await atualizarMaquinaNoFirestore(maquina, isAdmin());
             await salvarHistoricoParada(registro);
         }
 
@@ -2376,16 +2444,10 @@
                     const agora = new Date();
                     const duracaoSegundos = Math.max(0, (agora.getTime() - inicio.getTime()) / 1000);
                     const duracaoFormatada = formatarDuracaoTimer(duracaoSegundos);
-
                     const timerSummary = document.getElementById(`timerSummary_${m.id}`);
-                    if (timerSummary) {
-                        timerSummary.textContent = '⏱ ' + duracaoFormatada;
-                    }
-
+                    if (timerSummary) timerSummary.textContent = '⏱ ' + duracaoFormatada;
                     const timerCard = document.getElementById(`timerCard_${m.id}`);
-                    if (timerCard) {
-                        timerCard.textContent = '⏱ Parado há: ' + duracaoFormatada;
-                    }
+                    if (timerCard) timerCard.textContent = '⏱ Parado há: ' + duracaoFormatada;
                 }
             });
         }
@@ -2397,16 +2459,7 @@
         const loginError = document.getElementById('loginError');
         const appContainer = document.getElementById('appContainer');
         const userBadge = document.getElementById('userBadge');
-        const cardCadastro = document.getElementById('cardCadastro');
-        const thAcoes = document.getElementById('thAcoes');
-        const btnAdicionarProduto = document.getElementById('btnAdicionarProduto');
-        const clienteSelect = document.getElementById('clienteSelect');
-        const nomeProdutoInput = document.getElementById('nomeProduto');
-        const pesoMinInput = document.getElementById('pesoMin');
-        const pesoMedInput = document.getElementById('pesoMed');
-        const pesoMaxInput = document.getElementById('pesoMax');
         const tabelaClienteVisualizacao = document.getElementById('tabelaClienteVisualizacao');
-        const filtroVisualizacaoInput = document.getElementById('filtroVisualizacao');
         const comparisonArea = document.getElementById('comparisonArea');
         const filtroComparacaoRow = document.getElementById('filtroComparacaoRow');
         const filtroComparacaoInput = document.getElementById('filtroComparacao');
@@ -2419,16 +2472,18 @@
         const particlesContainer = document.getElementById('particlesContainer');
         const btnFiltroRita = document.getElementById('btnFiltroRita');
         const btnFiltroConc = document.getElementById('btnFiltroConc');
-        const filtroHistoricoInput = document.getElementById('filtroHistorico');
         const loginLogoImg = document.getElementById('loginLogoImg');
+        const nomeProdutoInput = document.getElementById('nomeProduto');
+        const pesoMinInput = document.getElementById('pesoMin');
+        const pesoMedInput = document.getElementById('pesoMed');
+        const pesoMaxInput = document.getElementById('pesoMax');
+        const filtroVisualizacaoInput = document.getElementById('filtroVisualizacao');
+        const filtroHistoricoInput = document.getElementById('filtroHistorico');
 
-        // Atualiza a imagem do logo no login com a URL do CSS, ou define um fallback
         const logoUrlComputed = getComputedStyle(document.documentElement).getPropertyValue('--logo-url').trim();
         if (logoUrlComputed && logoUrlComputed !== 'none' && logoUrlComputed.startsWith('url(')) {
             const urlMatch = logoUrlComputed.match(/url\(["']?(.*?)["']?\)/);
-            if (urlMatch && urlMatch[1]) {
-                loginLogoImg.src = urlMatch[1];
-            }
+            if (urlMatch && urlMatch[1]) loginLogoImg.src = urlMatch[1];
         }
 
         // ============ PARTÍCULAS ============
@@ -2461,49 +2516,21 @@
             }, 3000);
         }
 
-        // ============ VERIFICAÇÃO DE PERMISSÃO ============
-        function isQualidade() {
-            return usuarioLogado && usuarioLogado.role === 'qualidade';
-        }
-
-        function isConsulta() {
-            return usuarioLogado && usuarioLogado.role === 'consulta';
-        }
-
-        function atualizarUIComPermissoes() {
-            if (isQualidade()) {
-                cardCadastro.style.display = '';
-                thAcoes.style.display = '';
-                btnAdicionarProduto.style.display = '';
-            } else {
-                cardCadastro.style.display = 'none';
-                thAcoes.style.display = 'none';
-                btnAdicionarProduto.style.display = 'none';
-            }
-            atualizarTabelaVisualizacao();
-            renderizarMaquinas();
-            renderizarResumoMaquinas();
-            renderizarHistoricoParadas();
-        }
-
         // ============ LOGIN / LOGOUT ============
         window.efetuarLogin = async function() {
             const username = loginUsuarioInput.value.trim().toLowerCase();
             const senha = loginSenhaInput.value;
-
             if (!username || !senha) {
                 loginError.textContent = '⚠️ Preencha usuário e senha.';
                 return;
             }
-
-            const userData = USUARIOS[username];
+            const userData = USUARIOS_CACHE[username];
             if (!userData || userData.senha !== senha) {
                 loginError.textContent = '❌ Usuário ou senha inválidos.';
                 loginSenhaInput.value = '';
                 loginSenhaInput.focus();
                 return;
             }
-
             usuarioLogado = {
                 username: username,
                 role: userData.role,
@@ -2513,24 +2540,27 @@
             loginError.textContent = '';
             loginOverlay.classList.add('hidden');
             appContainer.style.display = '';
-
             await carregarProdutosDoFirestore();
             await carregarMaquinasDoFirestore();
             await carregarHistoricoParadas();
-
             userBadge.innerHTML =
-                `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+                `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role === 'admin' ? 'Admin' : 'Padrão'})</span>`;
             atualizarUIComPermissoes();
             atualizarTabelaVisualizacao();
             renderizarMaquinas();
             renderizarResumoMaquinas();
             renderizarHistoricoParadas();
+            if (isAdmin()) renderizarTabelaUsuarios();
             iniciarTimerGlobal();
+            // Garantir que a aba ativa seja válida
+            const activePanel = document.querySelector('.tab-panel.active');
+            if (activePanel && ((activePanel.id === 'tab-dashboard' || activePanel.id === 'tab-usuarios') && !isAdmin())) {
+                const tabProdutosBtn = document.querySelector('.tab-btn[data-tab="tab-produtos"]');
+                if (tabProdutosBtn) tabProdutosBtn.click();
+            }
             showToast('✅ Bem-vindo(a), ' + usuarioLogado.nome + '!');
             setTimeout(() => {
-                if (isQualidade()) {
-                    nomeProdutoInput.focus();
-                }
+                if (isAdmin()) nomeProdutoInput.focus();
             }, 300);
         };
 
@@ -2548,9 +2578,6 @@
             resumoComparacao.style.display = 'none';
             filtroVisualizacaoInput.value = '';
             filtroComparacaoInput.value = '';
-            cardCadastro.style.display = '';
-            thAcoes.style.display = '';
-            btnAdicionarProduto.style.display = '';
             clienteVisualizacao = 'rita';
             btnFiltroRita.classList.add('active');
             btnFiltroConc.classList.remove('active');
@@ -2559,9 +2586,6 @@
             if (document.getElementById('tabelaHistoricoParadas')) {
                 document.getElementById('tabelaHistoricoParadas').innerHTML =
                     '<tr><td colspan="6" class="empty-state">Nenhum histórico de paradas registrado</td></tr>';
-            }
-            if (document.getElementById('thAcoesHistorico')) {
-                document.getElementById('thAcoesHistorico').style.display = '';
             }
             if (filtroHistoricoInput) filtroHistoricoInput.value = '';
             pararTimerGlobal();
@@ -2575,6 +2599,20 @@
             btnsPeriodo.forEach(b => b.classList.remove('active'));
             const btnTodos = document.querySelector('#dashFilterPeriodo .btn-dash-sm[data-periodo="todos"]');
             if (btnTodos) btnTodos.classList.add('active');
+            document.getElementById('tabelaUsuarios').innerHTML =
+                '<tr><td colspan="4" class="empty-state">Nenhum usuário cadastrado</td></tr>';
+            document.getElementById('novoUsername').value = '';
+            document.getElementById('novoNome').value = '';
+            document.getElementById('novaSenha').value = '';
+            document.getElementById('novoRole').value = 'padrao';
+            document.getElementById('criarUsuarioMsg').textContent = '';
+            // Resetar abas para estado inicial
+            document.querySelectorAll('.tab-btn').forEach(b => b.style.display = '');
+            document.getElementById('tabUsuariosBtn').style.display = 'none';
+            const tabProdutosBtn = document.querySelector('.tab-btn[data-tab="tab-produtos"]');
+            if (tabProdutosBtn) tabProdutosBtn.click();
+            const historicoSection = document.getElementById('historicoParadasSection');
+            if (historicoSection) historicoSection.style.display = '';
             showToast('👋 Sessão encerrada.', 'warning');
         };
 
@@ -2586,16 +2624,26 @@
         });
 
         async function restaurarSessao() {
+            await carregarUsuariosDoFirestore();
             const sessao = sessionStorage.getItem('donaRita_usuarioLogado');
             if (sessao) {
                 try {
                     const data = JSON.parse(sessao);
-                    if (data && data.username && USUARIOS[data.username]) {
-                        usuarioLogado = data;
+                    if (data && data.username && USUARIOS_CACHE[data.username]) {
+                        const userData = USUARIOS_CACHE[data.username];
+                        if (userData.senha !== data.senha && data.senha) {
+                            // senha foi alterada, verifica com a senha do cache
+                            // Mantém o login se o username existe (já validado)
+                        }
+                        usuarioLogado = {
+                            username: data.username,
+                            role: userData.role,
+                            nome: userData.nome
+                        };
                         loginOverlay.classList.add('hidden');
                         appContainer.style.display = '';
                         userBadge.innerHTML =
-                            `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role})</span>`;
+                            `👤 ${usuarioLogado.nome} <span style="font-size:0.7em;opacity:0.7;">(${usuarioLogado.role === 'admin' ? 'Admin' : 'Padrão'})</span>`;
                         await carregarProdutosDoFirestore();
                         await carregarMaquinasDoFirestore();
                         await carregarHistoricoParadas();
@@ -2604,6 +2652,7 @@
                         renderizarMaquinas();
                         renderizarResumoMaquinas();
                         renderizarHistoricoParadas();
+                        if (isAdmin()) renderizarTabelaUsuarios();
                         iniciarTimerGlobal();
                         return;
                     }
@@ -2633,7 +2682,6 @@
             btnFiltroConc.classList.remove('active');
             atualizarTabelaVisualizacao();
         });
-
         btnFiltroConc.addEventListener('click', function() {
             clienteVisualizacao = 'concorrente';
             btnFiltroConc.classList.add('active');
@@ -2647,11 +2695,11 @@
             const lista = clienteVisualizacao === 'rita' ? produtosRita : produtosConcorrente;
             const termo = normalizar(filtroVisualizacaoInput.value || '');
             let listaFiltrada = lista;
-            if (termo) {
-                listaFiltrada = lista.filter(p => normalizar(p.nome).includes(termo));
-            }
-            const colspan = isQualidade() ? 5 : 4;
-            const podeEditar = isQualidade();
+            if (termo) listaFiltrada = lista.filter(p => normalizar(p.nome).includes(termo));
+            const colspan = isAdmin() ? 5 : 4;
+            const podeEditar = isAdmin();
+            const thAcoes = document.getElementById('thAcoes');
+            if (thAcoes) thAcoes.style.display = podeEditar ? '' : 'none';
 
             if (listaFiltrada.length === 0) {
                 tabelaClienteVisualizacao.innerHTML =
@@ -2664,8 +2712,7 @@
                             <td>
                                 <button class="btn-edit-sm" onclick="editarProduto('${p.id}')" id="btnEdit_${p.id}">✏️ Editar</button>
                                 <button class="btn-danger-sm" onclick="removerProduto('${p.id}')" title="Remover">🗑</button>
-                            </td>
-                        `;
+                            </td>`;
                     }
                     return `
                         <tr id="row_${p.id}">
@@ -2686,23 +2733,19 @@
                                 <input type="number" id="edit_max_${p.id}" value="${p.pesoMax}" step="0.01" min="0" style="display:none;max-width:90px;">
                             </td>
                             ${acaoCol}
-                        </tr>
-                    `;
+                        </tr>`;
                 }).join('');
             }
-            if (!isQualidade()) thAcoes.style.display = 'none';
-            else thAcoes.style.display = '';
         }
 
         // ============ EDITAR PRODUTO ============
         window.editarProduto = function(id) {
-            if (!isQualidade()) {
-                showToast('⛔ Acesso negado. Apenas usuários de qualidade podem editar.', 'warning');
+            if (!isAdmin()) {
+                showToast('⛔ Acesso negado. Apenas administradores podem editar.', 'warning');
                 return;
             }
             const btn = document.getElementById(`btnEdit_${id}`);
             const isEditing = btn.classList.contains('editing');
-
             if (isEditing) {
                 const nomeInput = document.getElementById(`edit_nome_${id}`);
                 const minInput = document.getElementById(`edit_min_${id}`);
@@ -2712,7 +2755,6 @@
                 const pesoMin = parseFloat(minInput.value);
                 const pesoMed = parseFloat(medInput.value);
                 const pesoMax = parseFloat(maxInput.value);
-
                 if (!nome) { showToast('⚠️ O nome do produto não pode ficar vazio.', 'warning'); return; }
                 if (isNaN(pesoMin) || isNaN(pesoMed) || isNaN(pesoMax)) {
                     showToast('⚠️ Preencha todos os pesos corretamente.', 'warning');
@@ -2726,7 +2768,6 @@
                     showToast('⚠️ Os pesos não podem ser negativos.', 'warning');
                     return;
                 }
-
                 let produtoEncontrado = null;
                 let lista = clienteVisualizacao === 'rita' ? produtosRita : produtosConcorrente;
                 produtoEncontrado = lista.find(p => p.id === id);
@@ -2736,7 +2777,6 @@
                     if (produtoEncontrado) lista = outraLista;
                 }
                 if (!produtoEncontrado) { showToast('❌ Produto não encontrado.', 'warning'); return; }
-
                 const dadosAntigos = {
                     nome: produtoEncontrado.nome,
                     pesoMin: produtoEncontrado.pesoMin,
@@ -2747,7 +2787,6 @@
                 produtoEncontrado.pesoMin = pesoMin;
                 produtoEncontrado.pesoMed = pesoMed;
                 produtoEncontrado.pesoMax = pesoMax;
-
                 atualizarProdutoNoFirestore(id, {
                     cliente: clienteVisualizacao === 'rita' ? 'rita' : 'concorrente',
                     nome: nome,
@@ -2781,7 +2820,6 @@
                 });
                 return;
             }
-
             document.getElementById(`view_nome_${id}`).style.display = 'none';
             document.getElementById(`view_min_${id}`).style.display = 'none';
             document.getElementById(`view_med_${id}`).style.display = 'none';
@@ -2798,8 +2836,8 @@
 
         // ============ ADICIONAR PRODUTO ============
         window.adicionarProduto = async function() {
-            if (!isQualidade()) {
-                showToast('⛔ Acesso negado. Apenas usuários de qualidade podem adicionar produtos.', 'warning');
+            if (!isAdmin()) {
+                showToast('⛔ Acesso negado. Apenas administradores podem adicionar produtos.', 'warning');
                 return;
             }
             const nome = nomeProdutoInput.value.trim();
@@ -2820,7 +2858,7 @@
                 return;
             }
             const produto = { nome, pesoMin, pesoMed, pesoMax };
-            const cliente = clienteSelect.value;
+            const cliente = document.getElementById('clienteSelect').value;
             try {
                 await salvarProdutoNoFirestore(produto, cliente);
                 if (cliente === 'rita') produtosRita.push(produto);
@@ -2840,7 +2878,7 @@
 
         // ============ REMOVER PRODUTO ============
         window.removerProduto = async function(id) {
-            if (!isQualidade()) { showToast('⛔ Acesso negado.', 'warning'); return; }
+            if (!isAdmin()) { showToast('⛔ Acesso negado.', 'warning'); return; }
             try {
                 await deletarProdutoDoFirestore(id);
                 produtosRita = produtosRita.filter(p => p.id !== id);
@@ -2878,19 +2916,16 @@
             };
             const ritaFiltrada = filtrar(produtosRita);
             const concFiltrada = filtrar(produtosConcorrente);
-
             tabelaComparacaoRita.innerHTML = ritaFiltrada.length === 0 ?
                 '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>' :
                 ritaFiltrada.map(p => `
                     <tr><td><strong>${escapeHTML(p.nome)}</strong></td><td>${p.pesoMin.toFixed(2)}</td><td>${p.pesoMed.toFixed(2)}</td><td>${p.pesoMax.toFixed(2)}</td></tr>
                 `).join('');
-
             tabelaComparacaoConc.innerHTML = concFiltrada.length === 0 ?
                 '<tr><td colspan="4" class="empty-state">Nenhum produto</td></tr>' :
                 concFiltrada.map(p => `
                     <tr><td><strong>${escapeHTML(p.nome)}</strong></td><td>${p.pesoMin.toFixed(2)}</td><td>${p.pesoMed.toFixed(2)}</td><td>${p.pesoMax.toFixed(2)}</td></tr>
                 `).join('');
-
             const nomesRita = new Set(produtosRita.map(p => p.nome.toLowerCase()));
             const nomesConc = new Set(produtosConcorrente.map(p => p.nome.toLowerCase()));
             const produtosEmComum = [];
@@ -2903,7 +2938,6 @@
             produtosConcorrente.forEach(p => {
                 if (!nomesRita.has(p.nome.toLowerCase())) apenasConc.push(p.nome);
             });
-
             let batem = 0,
                 naoBatem = 0;
             produtosEmComum.forEach(nome => {
@@ -2914,7 +2948,6 @@
                     else naoBatem++;
                 }
             });
-
             let resumoHTML = '';
             if (produtosEmComum.length > 0) {
                 resumoHTML +=
@@ -2928,29 +2961,30 @@
                 `<span class="badge badge-primary" style="margin:4px; opacity:0.7;">👑 Só Dona Rita: ${apenasRita.join(', ')}</span> `;
             if (apenasConc.length > 0) resumoHTML +=
                 `<span class="badge badge-primary" style="margin:4px; opacity:0.7;">🏢 Só Concorrente: ${apenasConc.join(', ')}</span> `;
-            if (produtosEmComum.length === 0 && apenasRita.length === 0 && apenasConc.length === 0) resumoHTML =
-                '<span style="color:var(--text-muted);">Nenhum dado para comparar.</span>';
-
+            if (produtosEmComum.length === 0 && apenasRita.length === 0 && apenasConc.length === 0)
+                resumoHTML = '<span style="color:var(--text-muted);">Nenhum dado para comparar.</span>';
             resumoComparacao.innerHTML = resumoHTML;
         };
 
         // ============ MÁQUINAS: GRID EDITÁVEL ============
         function renderizarMaquinas() {
             if (!usuarioLogado) return;
-            const readonlyAttr = isQualidade() ? '' : 'readonly';
-            const disabledAttr = isQualidade() ? '' : 'disabled';
+            const adminMode = isAdmin();
+            const readonlyNomePesos = adminMode ? '' : 'readonly';
+            const disabledStatus = adminMode ? '' : ''; // ambos podem alterar status
+            const disabledMotivos = adminMode ? '' : ''; // ambos podem alterar motivos
+            const readonlyCamposEditaveis = adminMode ? '' : ''; // campos como velProduto, velocidade, pessoas são editáveis por ambos
 
             machinesGrid.innerHTML = maquinas.map((m, i) => {
                 const timerDisplayHTML = (m.status === 'parado' && m.paradaInicio) ? `
                     <div class="timer-display" id="timerCard_${m.id}">⏱ Parado há: 00:00</div>
                 ` : `<div class="timer-display hidden" id="timerCard_${m.id}"></div>`;
-
                 return `
                 <div class="machine-card">
                     <span class="machine-number">#${i + 1}</span>
                     <input type="text" class="machine-name-input" value="${escapeHTML(m.nome)}"
                            onchange="atualizarMaquinaLocal('${m.id}', 'nome', this.value)"
-                           placeholder="Nome da máquina" ${readonlyAttr}>
+                           placeholder="Nome da máquina" ${readonlyNomePesos}>
                     <div class="status-indicator" id="statusIndicator_${m.id}">
                         <span class="pulse-dot ${m.status === 'produzindo' ? 'green' : (m.status === 'parado' ? 'red' : 'yellow')}"></span>
                         <span class="status-label ${m.status === 'produzindo' ? 'green' : (m.status === 'parado' ? 'red' : 'yellow')}">
@@ -2960,7 +2994,7 @@
                     ${timerDisplayHTML}
                     <div class="field-group">
                         <label>Status</label>
-                        <select onchange="atualizarStatusMaquina('${m.id}', this.value)" ${disabledAttr}>
+                        <select onchange="atualizarStatusMaquina('${m.id}', this.value)" ${disabledStatus}>
                             <option value="produzindo" ${m.status === 'produzindo' ? 'selected' : ''}>🟢 Em Produção</option>
                             <option value="parado" ${m.status === 'parado' ? 'selected' : ''}>🔴 Parado</option>
                             <option value="teste" ${m.status === 'teste' ? 'selected' : ''}>🟡 Em Teste</option>
@@ -2970,102 +3004,86 @@
                         <label>🔴 Motivo</label>
                         <input type="text" value="${escapeHTML(m.motivoParada || '')}"
                                oninput="atualizarMaquinaLocal('${m.id}', 'motivoParada', this.value)"
-                               placeholder="Motivo da parada..." ${readonlyAttr}>
+                               placeholder="Motivo da parada...">
                     </div>
                     <div class="field-group motivo-teste-input ${m.status === 'teste' ? 'visible' : ''}" id="motivoTesteGroup_${m.id}">
                         <label>🟡 Motivo</label>
                         <input type="text" value="${escapeHTML(m.motivoTeste || '')}"
                                oninput="atualizarMaquinaLocal('${m.id}', 'motivoTeste', this.value)"
-                               placeholder="Motivo do teste..." ${readonlyAttr}>
+                               placeholder="Motivo do teste...">
                     </div>
                     <div class="field-group">
                         <label>📦 Prod</label>
                         <input type="text" value="${escapeHTML(m.velProduto || '')}"
                                oninput="atualizarMaquinaLocal('${m.id}', 'velProduto', this.value); renderizarResumoMaquinas();"
-                               placeholder="Nome do produto" ${readonlyAttr}>
+                               placeholder="Nome do produto">
                     </div>
                     <div class="field-group">
                         <label>⚡ Ciclo</label>
                         <input type="number" value="${m.velocidade}" min="0" step="0.1"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
+                               oninput="atualizarMaquinaLocal('${m.id}', 'velocidade', parseFloat(this.value) || 0); renderizarResumoMaquinas();">
                     </div>
                     <div class="field-group">
                         <label>👥 Pes.</label>
                         <input type="number" value="${m.pessoas}" min="0" step="1"
-                               oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
+                               oninput="atualizarMaquinaLocal('${m.id}', 'pessoas', parseInt(this.value) || 0); renderizarResumoMaquinas();">
                     </div>
                     <div class="field-group">
                         <label>⚖️ Mín</label>
                         <input type="number" value="${m.pesoMin}" min="0" step="0.01"
                                oninput="atualizarMaquinaLocal('${m.id}', 'pesoMin', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
+                               ${readonlyNomePesos}>
                     </div>
                     <div class="field-group">
                         <label>⚖️ Méd</label>
                         <input type="number" value="${m.pesoMed}" min="0" step="0.01"
                                oninput="atualizarMaquinaLocal('${m.id}', 'pesoMed', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
+                               ${readonlyNomePesos}>
                     </div>
                     <div class="field-group">
                         <label>⚖️ Máx</label>
                         <input type="number" value="${m.pesoMax}" min="0" step="0.01"
                                oninput="atualizarMaquinaLocal('${m.id}', 'pesoMax', parseFloat(this.value) || 0); renderizarResumoMaquinas();"
-                               ${readonlyAttr}>
+                               ${readonlyNomePesos}>
                     </div>
-                </div>
-                `;
+                </div>`;
             }).join('');
-
             atualizarTimersNaTela();
         }
 
         window.atualizarStatusMaquina = async function(id, novoStatus) {
-            if (!isQualidade()) {
-                showToast('⛔ Apenas usuários de qualidade podem alterar o status.', 'warning');
-                renderizarMaquinas();
-                renderizarResumoMaquinas();
-                return;
-            }
+            // Ambos admin e padrão podem alterar status
             const maquina = maquinas.find(m => m.id === id);
             if (!maquina) return;
-
             const statusAntigo = maquina.status;
-
             if (statusAntigo === 'parado' && novoStatus !== 'parado') {
                 await finalizarParada(id);
             }
-
             maquina.status = novoStatus;
-
             if (novoStatus === 'parado' && statusAntigo !== 'parado') {
                 iniciarTimerParada(id);
             }
-
-            if (novoStatus !== 'parado') {
-                maquina.motivoParada = '';
-            }
-            if (novoStatus !== 'teste') {
-                maquina.motivoTeste = '';
-            }
-
-            await atualizarMaquinaNoFirestore(maquina);
+            if (novoStatus !== 'parado') maquina.motivoParada = '';
+            if (novoStatus !== 'teste') maquina.motivoTeste = '';
+            await atualizarMaquinaNoFirestore(maquina, isAdmin());
             renderizarMaquinas();
             renderizarResumoMaquinas();
             atualizarTimersNaTela();
+            if (isAdmin() && document.getElementById('tab-dashboard').classList.contains('active')) {
+                renderizarDashboard();
+            }
         };
 
         window.atualizarMaquinaLocal = function(id, campo, valor) {
-            if (!isQualidade()) {
-                showToast('⛔ Apenas usuários de qualidade podem editar máquinas.', 'warning');
+            const maquina = maquinas.find(m => m.id === id);
+            if (!maquina) return;
+            // Usuário padrão não pode alterar campos restritos
+            if (isPadrao() && campoRestritoParaPadrao(campo)) {
+                showToast('⛔ Você não tem permissão para alterar este campo.', 'warning');
                 renderizarMaquinas();
                 renderizarResumoMaquinas();
                 return;
             }
-            const maquina = maquinas.find(m => m.id === id);
-            if (!maquina) return;
-
             if (campo === 'nome') maquina.nome = valor;
             else if (campo === 'velProduto') maquina.velProduto = valor;
             else if (campo === 'velocidade') maquina.velocidade = Math.max(0, valor);
@@ -3079,15 +3097,11 @@
         };
 
         window.salvarMaquinas = async function() {
-            if (!isQualidade()) {
-                showToast('⛔ Apenas usuários de qualidade podem salvar alterações.', 'warning');
-                return;
-            }
             try {
                 for (let m of maquinas) {
-                    await atualizarMaquinaNoFirestore(m);
+                    await atualizarMaquinaNoFirestore(m, isAdmin());
                 }
-                showToast('✅ Todas as máquinas foram salvas com sucesso!');
+                showToast('✅ Máquinas salvas com sucesso!');
             } catch (e) {
                 showToast('❌ Erro ao salvar máquinas.', 'warning');
                 console.error(e);
@@ -3100,14 +3114,12 @@
                 machinesSummaryGrid.innerHTML = '';
                 return;
             }
-
-            machinesSummaryGrid.innerHTML = maquinas.map((m, i) => {
+            machinesSummaryGrid.innerHTML = maquinas.map((m) => {
                 let statusClass = '';
                 let dotColor = '';
                 let statusText = '';
                 let motivoHTML = '';
                 let timerHTML = '';
-
                 if (m.status === 'produzindo') {
                     statusClass = 'status-produzindo';
                     dotColor = 'green';
@@ -3135,52 +3147,28 @@
                             `<div class="ms-motivo-parada" style="color: #facc15;">📝 ${escapeHTML(m.motivoTeste)}</div>`;
                     }
                 }
-
                 return `
                     <div class="machine-summary-card ${statusClass}">
-                        <div class="ms-name">
-                            <span class="pulse-dot ${dotColor}"></span> ${escapeHTML(m.nome)}
-                        </div>
-                        <div class="ms-row">
-                            <span class="ms-label">📦 Prod</span>
-                            <span class="ms-value">${escapeHTML(m.velProduto || '—')}</span>
-                        </div>
-                        <div class="ms-row">
-                            <span class="ms-label">⚡ Ciclo</span>
-                            <span class="ms-value">${m.velocidade.toFixed(1)}</span>
-                        </div>
-                        <div class="ms-row">
-                            <span class="ms-label">👥 Pes.</span>
-                            <span class="ms-value">${m.pessoas}</span>
-                        </div>
-                        <div class="ms-row">
-                            <span class="ms-label">⚖️ Peso Méd</span>
-                            <span class="ms-value">${m.pesoMed.toFixed(2)} g</span>
-                        </div>
+                        <div class="ms-name"><span class="pulse-dot ${dotColor}"></span> ${escapeHTML(m.nome)}</div>
+                        <div class="ms-row"><span class="ms-label">📦 Prod</span><span class="ms-value">${escapeHTML(m.velProduto || '—')}</span></div>
+                        <div class="ms-row"><span class="ms-label">⚡ Ciclo</span><span class="ms-value">${m.velocidade.toFixed(1)}</span></div>
+                        <div class="ms-row"><span class="ms-label">👥 Pes.</span><span class="ms-value">${m.pessoas}</span></div>
+                        <div class="ms-row"><span class="ms-label">⚖️ Peso Méd</span><span class="ms-value">${m.pesoMed.toFixed(2)} g</span></div>
                         <div class="ms-status-text">${statusText}</div>
                         ${motivoHTML}
                         ${timerHTML}
-                    </div>
-                `;
+                    </div>`;
             }).join('');
-
             atualizarTimersNaTela();
         }
 
-        // ============ DASHBOARD DE PARADAS ============
+        // ============ DASHBOARD DE PARADAS (somente admin) ============
         function obterDataLimite(periodo) {
             const agora = new Date();
-            if (periodo === 'hoje') {
-                return new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
-            } else if (periodo === 'semana') {
-                const d = new Date(agora);
-                d.setDate(d.getDate() - 7);
-                return d;
-            } else if (periodo === 'mes') {
-                const d = new Date(agora);
-                d.setDate(d.getDate() - 30);
-                return d;
-            }
+            if (periodo === 'hoje') return new Date(agora.getFullYear(), agora.getMonth(), agora.getDate());
+            else if (periodo === 'semana') { const d = new Date(agora);
+                d.setDate(d.getDate() - 7); return d; } else if (periodo === 'mes') { const d = new Date(agora);
+                d.setDate(d.getDate() - 30); return d; }
             return null;
         }
 
@@ -3189,11 +3177,8 @@
             const dadosPorMotivo = {};
             let totalParadasCount = 0;
             let tempoTotalGeral = 0;
-
             const dataLimite = obterDataLimite(dashboardPeriodoAtual);
-
             const registrosCombinados = [];
-
             historicoParadas.forEach(h => {
                 const fimDate = new Date(h.fim);
                 if (dataLimite && fimDate < dataLimite) return;
@@ -3204,7 +3189,6 @@
                     origem: 'historico'
                 });
             });
-
             maquinas.forEach(m => {
                 if (m.status === 'parado' && m.paradaInicio) {
                     const inicio = new Date(m.paradaInicio);
@@ -3219,35 +3203,27 @@
                     });
                 }
             });
-
             registrosCombinados.forEach(r => {
-                if (!dadosPorMaquina[r.maquinaNome]) {
-                    dadosPorMaquina[r.maquinaNome] = { count: 0, tempoTotal: 0, motivos: {} };
-                }
+                if (!dadosPorMaquina[r.maquinaNome]) dadosPorMaquina[r.maquinaNome] = { count: 0, tempoTotal: 0,
+                    motivos: {} };
                 dadosPorMaquina[r.maquinaNome].count++;
                 dadosPorMaquina[r.maquinaNome].tempoTotal += r.duracaoSegundos;
-                if (!dadosPorMaquina[r.maquinaNome].motivos[r.motivo]) {
-                    dadosPorMaquina[r.maquinaNome].motivos[r.motivo] = { count: 0, tempo: 0 };
-                }
+                if (!dadosPorMaquina[r.maquinaNome].motivos[r.motivo]) dadosPorMaquina[r.maquinaNome].motivos[r
+                    .motivo] = { count: 0, tempo: 0 };
                 dadosPorMaquina[r.maquinaNome].motivos[r.motivo].count++;
                 dadosPorMaquina[r.maquinaNome].motivos[r.motivo].tempo += r.duracaoSegundos;
-
-                if (!dadosPorMotivo[r.motivo]) {
-                    dadosPorMotivo[r.motivo] = { count: 0, tempo: 0 };
-                }
+                if (!dadosPorMotivo[r.motivo]) dadosPorMotivo[r.motivo] = { count: 0, tempo: 0 };
                 dadosPorMotivo[r.motivo].count++;
                 dadosPorMotivo[r.motivo].tempo += r.duracaoSegundos;
-
                 totalParadasCount++;
                 tempoTotalGeral += r.duracaoSegundos;
             });
-
             return { dadosPorMaquina, dadosPorMotivo, totalParadasCount, tempoTotalGeral };
         }
 
         function renderizarDashboard() {
+            if (!isAdmin()) return;
             const { dadosPorMaquina, dadosPorMotivo, totalParadasCount, tempoTotalGeral } = processarDadosDashboard();
-
             renderizarMetricasDashboard(dadosPorMaquina, dadosPorMotivo, totalParadasCount, tempoTotalGeral);
             renderizarRankingBarras(dadosPorMaquina, tempoTotalGeral);
             renderizarDonutMotivos(dadosPorMotivo, tempoTotalGeral);
@@ -3257,209 +3233,100 @@
         function renderizarMetricasDashboard(dadosPorMaquina, dadosPorMotivo, totalParadasCount, tempoTotalGeral) {
             const container = document.getElementById('dashMetricsRow');
             if (!container) return;
-
             const nomesMaquinas = Object.keys(dadosPorMaquina);
-            let maquinaCampea = null;
-            let maxTempo = 0;
-            nomesMaquinas.forEach(nome => {
-                if (dadosPorMaquina[nome].tempoTotal > maxTempo) {
-                    maxTempo = dadosPorMaquina[nome].tempoTotal;
-                    maquinaCampea = nome;
-                }
-            });
-
+            let maquinaCampea = null,
+                maxTempo = 0;
+            nomesMaquinas.forEach(nome => { if (dadosPorMaquina[nome].tempoTotal > maxTempo) { maxTempo = dadosPorMaquina[
+                        nome].tempoTotal;
+                    maquinaCampea = nome; } });
             const nomesMotivos = Object.keys(dadosPorMotivo);
-            let motivoTop = null;
-            let maxCount = 0;
-            nomesMotivos.forEach(motivo => {
-                if (dadosPorMotivo[motivo].count > maxCount) {
-                    maxCount = dadosPorMotivo[motivo].count;
-                    motivoTop = motivo;
-                }
-            });
-
+            let motivoTop = null,
+                maxCount = 0;
+            nomesMotivos.forEach(motivo => { if (dadosPorMotivo[motivo].count > maxCount) { maxCount = dadosPorMotivo[
+                    motivo].count;
+                    motivoTop = motivo; } });
             container.innerHTML = `
-                <div class="dash-metric-card accent-red">
-                    <span class="dash-metric-icon">🔴</span>
-                    <div class="dash-metric-value">${totalParadasCount}</div>
-                    <div class="dash-metric-label">Total de Paradas</div>
-                    <div class="dash-metric-sub">Histórico + em andamento</div>
-                </div>
-                <div class="dash-metric-card accent-orange">
-                    <span class="dash-metric-icon">⏱️</span>
-                    <div class="dash-metric-value">${formatarDuracao(tempoTotalGeral)}</div>
-                    <div class="dash-metric-label">Tempo Total Parado</div>
-                    <div class="dash-metric-sub">Somando todas as máquinas</div>
-                </div>
-                <div class="dash-metric-card accent-blue">
-                    <span class="dash-metric-icon">🏭</span>
-                    <div class="dash-metric-value">${maquinaCampea ? escapeHTML(maquinaCampea) : '—'}</div>
-                    <div class="dash-metric-label">Máquina Mais Crítica</div>
-                    <div class="dash-metric-sub">${maquinaCampea ? formatarDuracao(maxTempo) + ' de parada' : 'Nenhuma parada'}</div>
-                </div>
-                <div class="dash-metric-card accent-primary">
-                    <span class="dash-metric-icon">⚠️</span>
-                    <div class="dash-metric-value" style="font-size:1.3em;">${motivoTop ? escapeHTML(motivoTop) : '—'}</div>
-                    <div class="dash-metric-label">Motivo Mais Frequente</div>
-                    <div class="dash-metric-sub">${motivoTop ? maxCount + ' ocorrência(s)' : 'Nenhum motivo'}</div>
-                </div>
-            `;
+                <div class="dash-metric-card accent-red"><span class="dash-metric-icon">🔴</span><div class="dash-metric-value">${totalParadasCount}</div><div class="dash-metric-label">Total de Paradas</div></div>
+                <div class="dash-metric-card accent-orange"><span class="dash-metric-icon">⏱️</span><div class="dash-metric-value">${formatarDuracao(tempoTotalGeral)}</div><div class="dash-metric-label">Tempo Total Parado</div></div>
+                <div class="dash-metric-card accent-blue"><span class="dash-metric-icon">🏭</span><div class="dash-metric-value" style="font-size:1.2em;">${maquinaCampea ? escapeHTML(maquinaCampea) : '—'}</div><div class="dash-metric-label">Máquina Mais Crítica</div></div>
+                <div class="dash-metric-card accent-primary"><span class="dash-metric-icon">⚠️</span><div class="dash-metric-value" style="font-size:1.3em;">${motivoTop ? escapeHTML(motivoTop) : '—'}</div><div class="dash-metric-label">Motivo Mais Frequente</div></div>`;
         }
 
         function renderizarRankingBarras(dadosPorMaquina, tempoTotalGeral) {
             const container = document.getElementById('dashRankingBars');
             if (!container) return;
-
-            const entries = Object.entries(dadosPorMaquina).sort((a, b) => b[1].tempoTotal - a[1].tempoTotal);
-            const topN = entries.slice(0, 8);
-
-            if (topN.length === 0) {
-                container.innerHTML = '<div class="empty-state">Nenhum dado de parada disponível</div>';
-                return;
-            }
-
-            const maxTempo = topN[0][1].tempoTotal || 1;
+            const entries = Object.entries(dadosPorMaquina).sort((a, b) => b[1].tempoTotal - a[1].tempoTotal).slice(0, 8);
+            if (entries.length === 0) { container.innerHTML =
+                    '<div class="empty-state">Nenhum dado de parada disponível</div>'; return; }
+            const maxTempo = entries[0][1].tempoTotal || 1;
             const gradientes = ['gradient-red', 'gradient-orange', 'gradient-yellow', 'gradient-blue', 'gradient-purple',
                 'gradient-green', 'gradient-primary', 'gradient-red'
             ];
-
-            container.innerHTML = topN.map((entry, i) => {
-                const nome = entry[0];
-                const dados = entry[1];
+            container.innerHTML = entries.map((entry, i) => {
+                const nome = entry[0],
+                    dados = entry[1];
                 const pct = Math.round((dados.tempoTotal / maxTempo) * 100);
-                const grad = gradientes[i % gradientes.length];
-                return `
-                    <div class="dash-bar-item">
-                        <div class="bar-label-row">
-                            <span class="bar-name">🏭 ${escapeHTML(nome)}</span>
-                            <span class="bar-value" style="color:#dc2626;">${formatarDuracao(dados.tempoTotal)}</span>
-                        </div>
-                        <div class="bar-track">
-                            <div class="bar-fill ${grad}" style="width: ${pct}%;"></div>
-                        </div>
-                        <div class="bar-label-row" style="font-size:0.65em;color:var(--text-muted);margin-top:2px;">
-                            <span>${dados.count} parada(s)</span>
-                            <span>${tempoTotalGeral > 0 ? Math.round((dados.tempoTotal / tempoTotalGeral) * 100) : 0}% do total</span>
-                        </div>
-                    </div>
-                `;
+                return `<div class="dash-bar-item"><div class="bar-label-row"><span class="bar-name">🏭 ${escapeHTML(nome)}</span><span class="bar-value" style="color:#dc2626;">${formatarDuracao(dados.tempoTotal)}</span></div><div class="bar-track"><div class="bar-fill ${gradientes[i%gradientes.length]}" style="width:${pct}%;"></div></div></div>`;
             }).join('');
         }
 
         function renderizarDonutMotivos(dadosPorMotivo, tempoTotalGeral) {
             const container = document.getElementById('dashDonutContainer');
             if (!container) return;
-
-            const entries = Object.entries(dadosPorMotivo).sort((a, b) => b[1].tempo - a[1].tempo);
-            const topN = entries.slice(0, 8);
-
-            if (topN.length === 0 || tempoTotalGeral === 0) {
-                container.innerHTML =
-                    '<div class="empty-state" style="width:100%;text-align:center;">Nenhum motivo registrado</div>';
-                return;
-            }
-
-            const coresDonut = [
-                '#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6',
-                '#8b5cf6', '#ec4899', '#14b8a6', '#6A0DAD', '#6366f1'
+            const entries = Object.entries(dadosPorMotivo).sort((a, b) => b[1].tempo - a[1].tempo).slice(0, 8);
+            if (entries.length === 0 || tempoTotalGeral === 0) { container.innerHTML =
+                    '<div class="empty-state" style="width:100%;text-align:center;">Nenhum motivo registrado</div>'; return; }
+            const coresDonut = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6',
+                '#6A0DAD', '#6366f1'
             ];
-
             let acumulado = 0;
-            const segmentos = topN.map((entry, i) => {
+            const segmentos = entries.map((entry, i) => {
                 const pct = (entry[1].tempo / tempoTotalGeral) * 100;
                 const inicio = acumulado;
                 acumulado += pct;
-                return {
-                    motivo: entry[0],
-                    tempo: entry[1].tempo,
-                    pct: pct,
-                    inicio: inicio,
-                    cor: coresDonut[i % coresDonut.length]
-                };
+                return { motivo: entry[0], tempo: entry[1].tempo, pct, inicio, cor: coresDonut[i % coresDonut
+                        .length] };
             });
-
-            const conicParts = segmentos.map(s => `${s.cor} ${s.inicio.toFixed(1)}% ${(s.inicio + s.pct).toFixed(1)}%`)
-                .join(', ');
+            const conicParts = segmentos.map(s =>
+                `${s.cor} ${s.inicio.toFixed(1)}% ${(s.inicio + s.pct).toFixed(1)}%`).join(', ');
             const donutStyle = `background: conic-gradient(${conicParts});`;
-
             const legendaHTML = segmentos.map(s => `
-                <div class="legend-item">
-                    <span class="legend-color" style="background:${s.cor};"></span>
-                    <span class="legend-text">${escapeHTML(s.motivo)}</span>
-                    <span class="legend-pct">${s.pct.toFixed(1)}%</span>
-                </div>
-            `).join('');
-
-            container.innerHTML = `
-                <div class="dash-donut" style="${donutStyle}">
-                    <div class="donut-center-text">
-                        ${formatarDuracao(tempoTotalGeral)}
-                        <small>tempo total</small>
-                    </div>
-                </div>
-                <div class="dash-legend">
-                    ${legendaHTML}
-                </div>
-            `;
+                <div class="legend-item"><span class="legend-color" style="background:${s.cor};"></span><span class="legend-text">${escapeHTML(s.motivo)}</span><span class="legend-pct">${s.pct.toFixed(1)}%</span></div>`).join(
+                '');
+            container.innerHTML =
+                `<div class="dash-donut" style="${donutStyle}"><div class="donut-center-text">${formatarDuracao(tempoTotalGeral)}<small>tempo total</small></div></div><div class="dash-legend">${legendaHTML}</div>`;
         }
 
         function renderizarTabelaDetalhes(dadosPorMaquina, tempoTotalGeral) {
             const tabela = document.getElementById('dashTabelaDetalhes');
             if (!tabela) return;
-
             const linhas = [];
-            const nomesMaquinas = Object.keys(dadosPorMaquina).sort();
-
-            nomesMaquinas.forEach(nome => {
-                const dadosMaq = dadosPorMaquina[nome];
-                const motivos = Object.entries(dadosMaq.motivos).sort((a, b) => b[1].tempo - a[1].tempo);
-                motivos.forEach((entry, idx) => {
-                    const motivo = entry[0];
-                    const dadosMotivo = entry[1];
-                    const pct = tempoTotalGeral > 0 ? ((dadosMotivo.tempo / tempoTotalGeral) * 100) : 0;
-                    const pctBarra = Math.min(100, Math.max(0, pct));
-                    linhas.push({
-                        maquina: nome,
-                        motivo: motivo,
-                        count: dadosMotivo.count,
-                        tempo: dadosMotivo.tempo,
-                        pct: pct,
-                        pctBarra: pctBarra,
-                        isFirst: idx === 0
+            Object.keys(dadosPorMaquina).sort().forEach(nome => {
+                Object.entries(dadosPorMaquina[nome].motivos).sort((a, b) => b[1].tempo - a[1].tempo).forEach(
+                    (entry) => {
+                        const motivo = entry[0],
+                            dadosMotivo = entry[1];
+                        const pct = tempoTotalGeral > 0 ? ((dadosMotivo.tempo / tempoTotalGeral) * 100) : 0;
+                        linhas.push({ maquina: nome, motivo, count: dadosMotivo.count, tempo: dadosMotivo.tempo,
+                            pct });
                     });
-                });
             });
-
             linhas.sort((a, b) => b.tempo - a.tempo);
-
-            if (linhas.length === 0) {
-                tabela.innerHTML = '<tr><td colspan="5" class="empty-state">Nenhum dado de parada disponível</td></tr>';
-                return;
-            }
-
+            if (linhas.length === 0) { tabela.innerHTML =
+                    '<tr><td colspan="5" class="empty-state">Nenhum dado de parada disponível</td></tr>'; return; }
             tabela.innerHTML = linhas.map(l => `
-                <tr>
-                    <td><strong>${escapeHTML(l.maquina)}</strong></td>
-                    <td>
-                        <span class="dash-mini-bar" style="width:${l.pctBarra * 0.8}px; background:#ef4444;"></span>
-                        ${escapeHTML(l.motivo)}
-                    </td>
-                    <td><span class="badge badge-yellow">${l.count}x</span></td>
-                    <td><span class="badge badge-red">⏱ ${formatarDuracao(l.tempo)}</span></td>
-                    <td><strong>${l.pct.toFixed(1)}%</strong></td>
-                </tr>
-            `).join('');
+                <tr><td><strong>${escapeHTML(l.maquina)}</strong></td><td>${escapeHTML(l.motivo)}</td><td><span class="badge badge-yellow">${l.count}x</span></td><td><span class="badge badge-red">⏱ ${formatarDuracao(l.tempo)}</span></td><td><strong>${l.pct.toFixed(1)}%</strong></td></tr>`
+                ).join('');
         }
 
         window.atualizarDashboard = function() {
-            if (!usuarioLogado) return;
-            carregarHistoricoParadas(false).then(() => {
-                renderizarDashboard();
-                showToast('📈 Dashboard atualizado!', 'info');
-            });
+            if (!isAdmin()) return;
+            carregarHistoricoParadas(false).then(() => { renderizarDashboard();
+                showToast('📈 Dashboard atualizado!', 'info'); });
         };
 
         window.filtrarDashboardPeriodo = function(periodo, btnEl) {
+            if (!isAdmin()) return;
             dashboardPeriodoAtual = periodo;
             const btns = document.querySelectorAll('#dashFilterPeriodo .btn-dash-sm');
             btns.forEach(b => b.classList.remove('active'));
@@ -3467,33 +3334,136 @@
             renderizarDashboard();
         };
 
-        // ============ NAVEGAÇÃO POR ABAS ============
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabPanels = document.querySelectorAll('.tab-panel');
+        // ============ GERENCIAMENTO DE USUÁRIOS (somente admin) ============
+        function renderizarTabelaUsuarios() {
+            if (!isAdmin()) return;
+            const tabela = document.getElementById('tabelaUsuarios');
+            if (!tabela) return;
+            const usuarios = Object.entries(USUARIOS_CACHE);
+            if (usuarios.length === 0) {
+                tabela.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum usuário cadastrado</td></tr>';
+                return;
+            }
+            tabela.innerHTML = usuarios.map(([username, data]) => {
+                const isSelf = usuarioLogado && usuarioLogado.username === username;
+                const roleBadge = data.role === 'admin' ?
+                    '<span class="badge badge-admin-role">👑 Admin</span>' :
+                    '<span class="badge badge-padrao-role">👤 Padrão</span>';
+                const acoes = isSelf ?
+                    '<span style="font-size:0.7em;color:var(--text-muted);">(você)</span>' :
+                    `<button class="btn-danger-sm" onclick="removerUsuario('${username}')" title="Remover usuário">🗑 Remover</button>`;
+                return `
+                    <tr>
+                        <td><strong>${escapeHTML(username)}</strong></td>
+                        <td>${escapeHTML(data.nome)}</td>
+                        <td>${roleBadge}</td>
+                        <td>${acoes}</td>
+                    </tr>`;
+            }).join('');
+        }
 
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.getAttribute('data-tab');
-                tabBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                tabPanels.forEach(panel => panel.classList.remove('active'));
-                const targetPanel = document.getElementById(targetId);
-                if (targetPanel) {
-                    targetPanel.classList.add('active');
-                    if (targetId === 'tab-maquinas') {
-                        carregarHistoricoParadas(false);
-                        renderizarResumoMaquinas();
-                        renderizarHistoricoParadas();
-                        atualizarTimersNaTela();
+        window.criarUsuario = async function() {
+            if (!isAdmin()) {
+                showToast('⛔ Apenas administradores podem criar usuários.', 'warning');
+                return;
+            }
+            const username = document.getElementById('novoUsername').value.trim().toLowerCase();
+            const nome = document.getElementById('novoNome').value.trim();
+            const senha = document.getElementById('novaSenha').value;
+            const role = document.getElementById('novoRole').value;
+            const msgEl = document.getElementById('criarUsuarioMsg');
+
+            if (!username || !nome || !senha) {
+                msgEl.textContent = '⚠️ Preencha todos os campos.';
+                msgEl.style.color = '#ef4444';
+                return;
+            }
+            if (username.length < 3) {
+                msgEl.textContent = '⚠️ Nome de usuário deve ter ao menos 3 caracteres.';
+                msgEl.style.color = '#ef4444';
+                return;
+            }
+            if (senha.length < 4) {
+                msgEl.textContent = '⚠️ A senha deve ter ao menos 4 caracteres.';
+                msgEl.style.color = '#ef4444';
+                return;
+            }
+            if (USUARIOS_CACHE[username]) {
+                msgEl.textContent = '⚠️ Este nome de usuário já existe.';
+                msgEl.style.color = '#ef4444';
+                return;
+            }
+            const dados = { senha, role, nome };
+            const sucesso = await salvarUsuarioNoFirestore(username, dados);
+            if (sucesso || USUARIOS_CACHE[username]) {
+                msgEl.textContent = '✅ Usuário criado com sucesso!';
+                msgEl.style.color = '#059669';
+                document.getElementById('novoUsername').value = '';
+                document.getElementById('novoNome').value = '';
+                document.getElementById('novaSenha').value = '';
+                document.getElementById('novoRole').value = 'padrao';
+                renderizarTabelaUsuarios();
+                showToast('✅ Usuário ' + escapeHTML(username) + ' criado!');
+            } else {
+                msgEl.textContent = '❌ Erro ao criar usuário. Tente novamente.';
+                msgEl.style.color = '#ef4444';
+            }
+        };
+
+        window.removerUsuario = async function(username) {
+            if (!isAdmin()) {
+                showToast('⛔ Apenas administradores podem remover usuários.', 'warning');
+                return;
+            }
+            if (usuarioLogado && usuarioLogado.username === username) {
+                showToast('⚠️ Você não pode remover seu próprio usuário.', 'warning');
+                return;
+            }
+            if (username === 'qualidade') {
+                showToast('⚠️ Não é permitido remover o admin principal.', 'warning');
+                return;
+            }
+            if (!confirm(`Tem certeza que deseja remover o usuário "${username}"?`)) return;
+            await deletarUsuarioDoFirestore(username);
+            renderizarTabelaUsuarios();
+            showToast('🗑 Usuário ' + escapeHTML(username) + ' removido.');
+        };
+
+        // ============ NAVEGAÇÃO POR ABAS ============
+        function setupTabNavigation() {
+            const tabBtns = document.querySelectorAll('#tabNav .tab-btn');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-tab');
+                    // Verifica permissão
+                    if ((targetId === 'tab-dashboard' || targetId === 'tab-usuarios') && !isAdmin()) {
+                        showToast('⛔ Acesso restrito ao administrador.', 'warning');
+                        return;
                     }
-                    if (targetId === 'tab-dashboard') {
-                        carregarHistoricoParadas(false).then(() => {
-                            renderizarDashboard();
-                        });
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    tabPanels.forEach(panel => panel.classList.remove('active'));
+                    const targetPanel = document.getElementById(targetId);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                        if (targetId === 'tab-maquinas') {
+                            carregarHistoricoParadas(false);
+                            renderizarResumoMaquinas();
+                            renderizarHistoricoParadas();
+                            atualizarTimersNaTela();
+                        }
+                        if (targetId === 'tab-dashboard' && isAdmin()) {
+                            carregarHistoricoParadas(false).then(() => renderizarDashboard());
+                        }
+                        if (targetId === 'tab-usuarios' && isAdmin()) {
+                            renderizarTabelaUsuarios();
+                        }
                     }
-                }
+                });
             });
-        });
+        }
+        setupTabNavigation();
 
         // ============ FILTRO HISTÓRICO ============
         if (filtroHistoricoInput) {
@@ -3528,16 +3498,14 @@
         window.excluirHistoricoParada = excluirHistoricoParada;
         window.atualizarDashboard = window.atualizarDashboard;
         window.filtrarDashboardPeriodo = window.filtrarDashboardPeriodo;
+        window.criarUsuario = window.criarUsuario;
+        window.removerUsuario = window.removerUsuario;
 
         console.log('👑 Dona Rita Produção - Sistema iniciado com Firebase!');
-        console.log('🔐 Autenticação ativa. Use: qualidade / consulta');
-        console.log('🏭 Status das máquinas: 🟢 Em Produção | 🔴 Parado (com timer) | 🟡 Em Teste');
-        console.log('⏱ Temporizador de parada: inicia ao colocar máquina como PARADO');
-        console.log('📋 Histórico: salvo automaticamente no Firebase ao retornar para produção/teste');
-        console.log('🗑 Exclusão de histórico: disponível para usuários de qualidade');
-        console.log('📈 Dashboard de Paradas: ranking de máquinas, distribuição de motivos, métricas em tempo real');
-        console.log('💾 Coleção "historicoParadas" criada automaticamente no Firestore');
-        console.log('🏭 Total de máquinas: 13 (Alpha a Ni)');
+        console.log('🔐 Admin padrão: qualidade / rita2024');
+        console.log('👥 Gerenciamento de usuários: Admin pode criar outros Admins ou Usuários Padrão');
+        console.log('🔒 Usuário Padrão: consulta produtos, edita status/ciclo/pes/prod nas máquinas');
+        console.log('🚫 Usuário Padrão NÃO vê: cadastro de produtos, edição de nome/pesos, histórico, dashboard');
     </script>
 </body>
 </html>
